@@ -11,7 +11,7 @@
 
 Il progetto nasce con uno scopo preciso: creare un **hub centrale** che raccolga e presenti tutte le competenze e i lavori prodotti nel quinquennio scolastico, da consegnare alla commissione d'esame tramite la piattaforma ministeriale *Unica*.
 
-Il vincolo principale era la **scadenza del 25 maggio**: Unica chiude le submission in quella data, ma i progetti sottostanti (videogioco, guida Vue) non sarebbero stati pronti. La soluzione architettuale adottata è stata la **separazione tra contenitore e contenuto**:
+Il vincolo principale era la **scadenza di maggio**: Unica chiude le submission in quella data, ma i progetti sottostanti (videogioco, guida Vue) non sarebbero stati pronti. La soluzione architettuale adottata è stata la **separazione tra contenitore e contenuto**:
 
 - su Unica viene caricato esclusivamente il link statico al portfolio (GitHub Pages)
 - il portfolio è aggiornabile senza limiti di tempo, anche dopo maggio
