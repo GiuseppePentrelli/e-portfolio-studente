@@ -3,7 +3,7 @@
     <div class="max-w-330 h-full mx-auto px-4 sm:px-7 flex items-center justify-between gap-4 font-mono text-xs">
 
       <!-- Brand -->
-      <a href="#top" class="flex items-center gap-2.5 text-text font-semibold shrink-0" :aria-label="me.name">
+      <a href="#/" @click.prevent="scrollToTop" class="flex items-center gap-2.5 text-text font-semibold shrink-0" :aria-label="me.name">
         <span class="w-7 h-7 rounded-btn bg-surface-2 border border-border-2 grid place-items-center font-black text-xs text-gold"
               style="box-shadow: inset 0 0 14px rgba(245,200,66,.12)" aria-hidden="true">
           GP
@@ -83,6 +83,10 @@ const { locale, setLocale, t, SUPPORTED_LOCALES } = useLocale()
 const localeOptions = computed(() =>
   SUPPORTED_LOCALES.map(loc => ({ value: loc, label: loc.toUpperCase() }))
 )
+
+function scrollToTop() {
+  window.scrollTo({ top: 0, behavior: 'smooth' })
+}
 
 const themeOptions = computed(() => [
   { value: 'dark',  label: t('nav.theme_dark') },

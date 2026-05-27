@@ -3,8 +3,8 @@
 
     <!-- Cover image -->
     <div v-if="project.coverImage" class="cover-wrap">
-      <img :src="project.coverImage" aria-hidden="true" class="cover-blur-bg" />
-      <img :src="project.coverImage" :alt="project.title" class="cover-img" loading="lazy" />
+      <img :src="assetUrl(project.coverImage)" aria-hidden="true" class="cover-blur-bg" />
+      <img :src="assetUrl(project.coverImage)" :alt="project.title" class="cover-img" loading="lazy" />
     </div>
     <div v-else class="cover-placeholder"></div>
 
@@ -46,6 +46,7 @@
 
 <script setup>
 import { useLocale } from '@/composables/useLocale'
+import { assetUrl } from '@/utils/assets'
 
 defineProps({
   project: {

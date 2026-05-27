@@ -14,13 +14,13 @@ describe('useLocale', () => {
 
   it('t() restituisce la traduzione italiana corretta', () => {
     const { t } = useLocale()
-    expect(t('hero.chapter')).toBe('capitolo 01')
+    expect(t('hero.chapter')).toBe('E-Portfolio dello Studente')
   })
 
   it('t() cambia valore dopo setLocale("en")', () => {
     const { t, setLocale } = useLocale()
     setLocale('en')
-    expect(t('hero.chapter')).toBe('chapter 01')
+    expect(t('hero.chapter')).toBe('Student E-Portfolio')
   })
 
   it('t() con chiave inesistente restituisce la chiave stessa', () => {

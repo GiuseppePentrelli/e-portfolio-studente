@@ -11,9 +11,9 @@
       <div class="cert-glow" :style="glowStyle" aria-hidden="true" />
 
       <template v-if="cert.image">
-        <img :src="cert.image" aria-hidden="true" class="cert-blur-bg" />
+        <img :src="assetUrl(cert.image)" aria-hidden="true" class="cert-blur-bg" />
         <div class="cert-img-wrap" :style="imgStyle">
-          <img :src="cert.image" :alt="cert.title" class="cert-img" loading="lazy" />
+          <img :src="assetUrl(cert.image)" :alt="cert.title" class="cert-img" loading="lazy" />
         </div>
       </template>
       <div v-else class="cert-placeholder">
@@ -28,7 +28,7 @@
       <!-- Badge logo ente (es. Cisco) -->
       <img
         v-if="cert.badge"
-        :src="cert.badge"
+        :src="assetUrl(cert.badge)"
         alt=""
         aria-hidden="true"
         class="cert-issuer-badge"
@@ -59,6 +59,7 @@
 <script setup>
 import { ref, computed } from 'vue'
 import { useLocale } from '@/composables/useLocale'
+import { assetUrl } from '@/utils/assets'
 
 const props = defineProps({
   cert: { type: Object, required: true },

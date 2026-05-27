@@ -5,7 +5,7 @@
       <div v-if="component.preview" class="comp-iframe-wrap"
         :style="{ width: '800px', height: bodyH + 'px', transform: `scale(${scale})` }">
         <iframe
-          :src="component.preview"
+          :src="assetUrl(component.preview)"
           scrolling="no"
           frameborder="0"
           :title="`Preview ${component.name}`"
@@ -41,6 +41,7 @@
 <script setup>
 import { computed } from 'vue'
 import { useLocale } from '@/composables/useLocale'
+import { assetUrl } from '@/utils/assets'
 
 const props = defineProps({
   component: { type: Object, required: true },
