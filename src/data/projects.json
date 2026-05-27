@@ -1,0 +1,32 @@
+[
+  {
+    "id": "novenix",
+    "title": "Novenix",
+    "description": "Il mio primo sito web pubblico. Portfolio a tema spaziale costruito da zero con HTML, CSS e JavaScript — «preparati ad un viaggio interstellare».",
+    "category": "web",
+    "tags": ["HTML", "CSS", "JavaScript", "Bootstrap"],
+    "featured": true,
+    "externalUrl": "https://novenix.altervista.org/",
+    "coverImage": "/images/covers/novenix.png"
+  },
+  {
+    "id": "videogioco",
+    "title": "Videogioco in Kaplay JS",
+    "description": "Gioco 2D sviluppato con il motore Kaplay JS. Progettazione delle meccaniche, degli sprite e della logica di gioco.",
+    "category": "game",
+    "tags": ["Kaplay JS", "JavaScript", "Game Dev"],
+    "featured": true,
+    "externalUrl": "https://github.com/",
+    "coverImage": null
+  },
+  {
+    "id": "guida-vue",
+    "title": "Guida Interattiva a Vue.js",
+    "description": "Documentazione interattiva e progressiva del framework Vue.js, scritta durante il percorso di apprendimento.",
+    "category": "guide",
+    "tags": ["Vue.js", "Documentazione", "Tutorial"],
+    "featured": true,
+    "externalUrl": "https://github.com/",
+    "coverImage": null
+  }
+]

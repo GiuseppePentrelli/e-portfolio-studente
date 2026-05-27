@@ -1,0 +1,209 @@
+@import "tailwindcss";
+
+
+@theme {
+  /* === SFONDI (dark default) === */
+  --color-bg:        #0d1117;
+  --color-surface:   #121821;
+  --color-surface-2: #1a2230;
+  --color-surface-3: #232c3d;
+  --color-border:    #1f2937;
+  --color-border-2:  #2a3445;
+
+  /* === TESTO === */
+  --color-text:      #e6edf3;
+  --color-text-1:    #c9d1d9;
+  --color-text-2:    #8b949e;
+  --color-text-3:    #7f8a99;
+
+  /* === ACCENTI === */
+  --color-gold:      #f5c842;
+  --color-blue:      #58a6ff;
+  --color-purple:    #bc8cff;
+  --color-green:     #3fb950;
+  --color-coral:     #ff7e5e;
+  --color-pink:      #f778ba;
+
+  /* === TIPOGRAFIA === */
+  --font-family-sans: 'Inter Variable', system-ui, -apple-system, sans-serif;
+  --font-family-mono: 'JetBrains Mono Variable', ui-monospace, 'SFMono-Regular', monospace;
+
+  /* === BORDER RADIUS === */
+  --radius-card:    0.75rem;
+  --radius-btn:     0.4375rem;
+  --radius-tag:     0.375rem;
+  --radius-pill:    9999px;
+
+  /* === SHADOW === */
+  --shadow-card: 0 20px 50px -20px rgba(0, 0, 0, 0.6);
+}
+
+/* === BASE ============================================================= */
+
+*, *::before, *::after { box-sizing: border-box; }
+
+html, body { margin: 0; padding: 0; }
+html { overflow-x: clip; }
+body { overflow-x: hidden; }
+
+body {
+  font-family: var(--font-family-sans);
+  background: var(--color-bg);
+  color: var(--color-text-1);
+  line-height: 1.55;
+  -webkit-font-smoothing: antialiased;
+  overflow-x: hidden;
+  min-height: 100vh;
+}
+
+a { color: inherit; text-decoration: none; }
+button { font-family: inherit; cursor: pointer; }
+
+::selection { background: rgba(88, 166, 255, .35); color: #fff; }
+
+/* === SCROLLBAR ========================================================= */
+
+/* Firefox */
+* {
+  scrollbar-width: thin;
+  scrollbar-color: var(--color-gold) transparent;
+}
+
+/* Webkit (Chrome, Edge, Safari) */
+::-webkit-scrollbar {
+  width: 6px;
+}
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+::-webkit-scrollbar-thumb {
+  background: var(--color-gold);
+  border-radius: 99px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: color-mix(in srgb, var(--color-gold) 80%, white);
+}
+
+/* === NO SCROLLBAR ====================================================== */
+
+.no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+.no-scrollbar::-webkit-scrollbar { display: none; }
+
+/* === SKIP LINK ========================================================= */
+
+.skip-link {
+  position: absolute;
+  top: -100%;
+  left: 1rem;
+  z-index: 9999;
+  padding: 0.5rem 1rem;
+  background: var(--color-gold);
+  color: var(--color-bg);
+  font-family: var(--font-family-mono);
+  font-size: 0.8rem;
+  font-weight: 700;
+  border-radius: 0 0 var(--radius-btn) var(--radius-btn);
+  text-decoration: none;
+  transition: top 0.2s;
+}
+.skip-link:focus { top: 0; }
+
+/* === FOCUS VISIBILE (globale) ========================================== */
+
+:focus-visible {
+  outline: 2px solid var(--color-gold);
+  outline-offset: 3px;
+  border-radius: 3px;
+}
+
+/* Rimuove outline solo quando non si usa la tastiera */
+:focus:not(:focus-visible) { outline: none; }
+
+/* === PREFERS REDUCED MOTION ============================================ */
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+
+  .caret { animation: none; opacity: 1; }
+}
+
+/* === LIGHT MODE (GitHub Light) ======================================== */
+
+[data-theme="light"] {
+  --color-bg:        #e4e6f0;
+  --color-surface:   #eceef8;
+  --color-surface-2: #d8dbed;
+  --color-surface-3: #cacde3;
+  --color-border:    #b8bcd8;
+  --color-border-2:  #a4a8cc;
+
+  --color-text:      #12132a;
+  --color-text-1:    #1e2040;
+  --color-text-2:    #4a4e72;
+  --color-text-3:    #555882;
+
+  --color-gold:      #7a5200;
+  --color-blue:      #1a3fa0;
+  --color-purple:    #5c2db8;
+  --color-green:     #0f5c28;
+  --color-coral:     #a8200e;
+  --color-pink:      #8c1548;
+}
+
+[data-theme="light"] ::selection {
+  background: rgba(9, 105, 218, .2);
+  color: #1f2328;
+}
+
+/* === SYNTAX HIGHLIGHT (AppWindow) ===================================== */
+
+.t-kw { color: var(--color-pink);   font-weight: 500; }
+.t-fn { color: var(--color-purple); }
+.t-st { color: var(--color-green);  }
+.t-nm { color: var(--color-blue);   }
+.t-cm { color: var(--color-text-3); font-style: italic; }
+.t-bk { color: var(--color-text-2); }
+
+.caret {
+  display: inline-block;
+  width: 8px; height: 14px;
+  background: var(--color-coral);
+  vertical-align: -2px;
+  margin-left: 2px;
+  animation: blink 1s steps(2) infinite;
+}
+@keyframes blink { 50% { opacity: 0; } }
+
+/* === GRID BACKGROUND ("quadratoni") =================================== */
+
+:root {
+  --grid-line:   rgba(255, 255, 255, 0.03);
+  --grid-line-2: rgba(255, 255, 255, 0.05);
+}
+
+[data-theme="light"] {
+  --grid-line:   rgba(20, 16, 10, 0.05);
+  --grid-line-2: rgba(20, 16, 10, 0.08);
+}
+
+body::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  z-index: -1;
+  pointer-events: none;
+  background-image:
+    linear-gradient(var(--grid-line)   1px, transparent 1px),
+    linear-gradient(90deg, var(--grid-line)   1px, transparent 1px),
+    linear-gradient(var(--grid-line-2) 1px, transparent 1px),
+    linear-gradient(90deg, var(--grid-line-2) 1px, transparent 1px);
+  background-size:
+    16px 16px,
+    16px 16px,
+    96px 96px,
+    96px 96px;
+}

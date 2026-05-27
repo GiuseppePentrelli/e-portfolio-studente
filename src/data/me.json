@@ -1,0 +1,25 @@
+{
+  "name":     "Giuseppe Pentrelli",
+  "role":     "Junior Full Stack Web Developer",
+  "status":   "Tirocinante @ Aulab",
+
+  "school": {
+    "name":   "IISS G.Marconi - M.Hack",
+    "city":   "Bari",
+    "class":  "4RI",
+    "year":   "2024-2025"
+  },
+
+  "contact": {
+    "email_school":    "giuseppe.pentrelli@marconibari.edu.it",
+    "email_personal":  "giuseppe.pentrelli.dev@gmail.com",
+    "github_personal": "https://github.com/Giuseppe-Pentrelli",
+    "github_school":   "https://github.com/PlacheHolder",
+    "linkedin":        "https://it.linkedin.com/in/giuseppe-pentrelli-dev"
+  },
+
+  "portfolio": {
+    "version": "v0.1",
+    "label":   "v0.1 · prima versione"
+  }
+}

@@ -1,0 +1,159 @@
+{
+  "nav": {
+    "school_year_prefix": "a.s.",
+    "github":             "github",
+    "theme_dark":         "Tema scuro",
+    "theme_light":        "Tema chiaro",
+    "theme_group":        "Seleziona tema",
+    "locale_group":       "Seleziona lingua"
+  },
+
+  "hero": {
+    "chapter":         "E-Portfolio dello Studente",
+    "doc_label":       "Capolavoro Scolastico",
+    "greeting_pre":    "Ciao, sono",
+    "building_pre":    "Costruisco cose con",
+    "building_post":   "e troppi caffè.",
+    "lede":            "Questo è il mio capolavoro scolastico — un E-Portfolio presentato all'IISS G. Marconi. Progetti, certificazioni e",
+    "lede_highlight":  "qualche capolavoro",
+    "lede_post":       "nel mezzo.",
+    "meta_class":      "// classe",
+    "meta_year":       "// anno scolastico",
+    "meta_school":     "// scuola",
+    "meta_status":     "// status",
+    "status_value":    "Tirocinante @ Aulab"
+  },
+
+  "bio": {
+    "about_comment":   "// chi sono — leggere attentamente",
+    "stack_comment":   "// tutto quello che so fare",
+    "stats_comment":   "// numeri che non mentono",
+    "ship_comment":    "// ✓ ogni giorno",
+    "learning":        "// in corso",
+    "compiling":       "// compilazione in corso...",
+    "passion":         "costruire cose con il codice",
+    "infinity":        "Infiniti",
+    "stats_counting":  "// e contando",
+    "stats_typo":      "// \"fix: typo\"",
+    "stats_fav_key":   "// ovviamente",
+    "stats_tabs":      "// fine della discussione"
+  },
+
+  "marquee": {
+    "items": [
+      "fix: typo",
+      "feat: caffè",
+      "refactor: tutto",
+      "fix: fix della fix",
+      "chore: esistere",
+      "feat: sonno",
+      "fix: non funziona ancora",
+      "chore: caffè++",
+      "feat: tabs > spaces",
+      "fix: rimosso TODO",
+      "chore: git push --force",
+      "feat: aggiunto // TODO",
+      "fix: colori in produzione",
+      "chore: merge conflict (mio vs mio)",
+      "fix: rimosso console.log",
+      "feat: dark mode alle 2 di notte"
+    ]
+  },
+
+  "featured": {
+    "label":    "i preferiti",
+    "title":    "I miei",
+    "title_em": "capolavori"
+  },
+
+  "projects": {
+    "label":    "tutti i lavori",
+    "title_1":  "Tutti i",
+    "title_em": "Progetti",
+    "filters": {
+      "all":   "Tutti",
+      "web":   "Web",
+      "game":  "Game Dev",
+      "guide": "Guide",
+      "other": "Altro"
+    },
+    "empty":   "Nessun progetto in questa categoria.",
+    "explore": "Esplora Progetto"
+  },
+
+  "components": {
+    "label":    "ui fatti a mano",
+    "title_1":  "Componenti",
+    "title_em": "Custom",
+    "filters": {
+      "all":    "Tutti",
+      "card":   "Card",
+      "button": "Bottone",
+      "nav":    "Nav",
+      "form":   "Form"
+    },
+    "empty":    "Nessun componente in questa categoria.",
+    "code":     "Vedi codice",
+    "download": "Download"
+  },
+
+  "timeline": {
+    "label":    "il mio percorso",
+    "title_1":  "La mia",
+    "title_em": "Storia",
+    "pivot":    "la svolta"
+  },
+
+  "skills": {
+    "label":    "cosa so fare",
+    "title_1":  "Il mio",
+    "title_em": "Stack",
+    "categories": {
+      "frontend": "frontend",
+      "backend":  "backend & tools",
+      "gamedev":  "game dev"
+    }
+  },
+
+  "certifications": {
+    "label":    "i miei attestati",
+    "title_1":  "Le mie",
+    "title_em": "Certificazioni",
+    "filters": {
+      "all":        "Tutti",
+      "basic":      "Base",
+      "intermedio": "Intermedio",
+      "avanzato":   "Avanzato"
+    },
+    "levels": {
+      "basic":      "base",
+      "intermedio": "intermedio",
+      "avanzato":   "avanzato"
+    },
+    "empty":   "Nessuna certificazione in questo livello.",
+    "verify":  "Verifica attestato",
+    "view_pdf": "Vedi PDF"
+  },
+
+  "not_found": {
+    "message": "Pagina non trovata.",
+    "back":    "← Torna al portfolio"
+  },
+
+  "footer": {
+    "eof":           "EOF",
+    "cta_title":     "Hai un'idea?",
+    "cta_sub":       "Scriviamo del codice.",
+    "where":         "// dove trovarmi",
+    "docs":          "// documentazione",
+    "cv_it":         "CV — italiano",
+    "cv_en":         "CV — english",
+    "thesis":        "Tesina · PDF",
+    "school":        "// scuola",
+    "shortcuts":     "// scorciatoie",
+    "scroll_top":    "↑ torna in cima",
+    "goto_featured": "→ capolavori",
+    "goto_projects": "→ progetti",
+    "built_with":    "costruito con Vue.js + caffè"
+  }
+}

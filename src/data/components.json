@@ -1,0 +1,24 @@
+[
+  {
+    "id":       "cars-card",
+    "name":     "Cars Card",
+    "category": "card",
+    "desc_it":  "Card 3D con effetto pop-out in CSS puro. Niente JavaScript — solo transform e perspective.",
+    "desc_en":  "3D pop-out card built with pure CSS. No JavaScript — just transform and perspective.",
+    "tech":     ["HTML", "CSS"],
+    "color":    "#e63946",
+    "repo":     "https://github.com/GiuseppePentrelli/CustomComponents/tree/main/CardComponents/CarsCard",
+    "preview":  "/previews/cars-card/index.html"
+  },
+  {
+    "id":       "magnetic-button",
+    "name":     "Magnetic Button",
+    "category": "button",
+    "desc_it":  "Bottone magnetico che segue il cursore con effetto calamita, spotlight luminoso e bordo gradient animato.",
+    "desc_en":  "Magnetic button that follows the cursor with a spring effect, moving light spotlight and animated gradient border.",
+    "tech":     ["HTML", "CSS", "JS"],
+    "color":    "#6366f1",
+    "repo":     "https://github.com/GiuseppePentrelli/CustomComponents",
+    "preview":  "/previews/magnetic-button/index.html"
+  }
+]

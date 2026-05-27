@@ -1,0 +1,159 @@
+{
+  "nav": {
+    "school_year_prefix": "s.y.",
+    "github":             "github",
+    "theme_dark":         "Dark theme",
+    "theme_light":        "Light theme",
+    "theme_group":        "Select theme",
+    "locale_group":       "Select language"
+  },
+
+  "hero": {
+    "chapter":         "Student E-Portfolio",
+    "doc_label":       "School Capstone",
+    "greeting_pre":    "Hi, I'm",
+    "building_pre":    "I build things with",
+    "building_post":   "and way too much coffee.",
+    "lede":            "This is my school capstone — a Student E-Portfolio presented at IISS G. Marconi. Projects, certifications and",
+    "lede_highlight":  "a few masterpieces",
+    "lede_post":       "in between.",
+    "meta_class":      "// class",
+    "meta_year":       "// school year",
+    "meta_school":     "// school",
+    "meta_status":     "// status",
+    "status_value":    "Trainee @ Aulab"
+  },
+
+  "bio": {
+    "about_comment":   "// who am I — read carefully",
+    "stack_comment":   "// everything I can do",
+    "stats_comment":   "// numbers don't lie",
+    "ship_comment":    "// ✓ daily",
+    "learning":        "// in progress",
+    "compiling":       "// still compiling...",
+    "passion":         "building things with code",
+    "infinity":        "Infinity",
+    "stats_counting":  "// and counting",
+    "stats_typo":      "// \"fix: typo\"",
+    "stats_fav_key":   "// obviously",
+    "stats_tabs":      "// end of discussion"
+  },
+
+  "marquee": {
+    "items": [
+      "fix: typo",
+      "feat: coffee",
+      "refactor: everything",
+      "fix: fix of the fix",
+      "chore: existing",
+      "feat: sleep",
+      "fix: still doesn't work",
+      "chore: coffee++",
+      "feat: tabs > spaces",
+      "fix: removed TODO",
+      "chore: git push --force",
+      "feat: added // TODO",
+      "fix: colors in production",
+      "chore: merge conflict (mine vs mine)",
+      "fix: removed console.log",
+      "feat: dark mode at 2am"
+    ]
+  },
+
+  "featured": {
+    "label":    "the best ones",
+    "title":    "My",
+    "title_em": "featured work"
+  },
+
+  "projects": {
+    "label":    "all my work",
+    "title_1":  "All",
+    "title_em": "Projects",
+    "filters": {
+      "all":   "All",
+      "web":   "Web",
+      "game":  "Game Dev",
+      "guide": "Guides",
+      "other": "Other"
+    },
+    "empty":   "No projects in this category.",
+    "explore": "Explore Project"
+  },
+
+  "components": {
+    "label":    "handcrafted ui",
+    "title_1":  "Custom",
+    "title_em": "Components",
+    "filters": {
+      "all":    "All",
+      "card":   "Card",
+      "button": "Button",
+      "nav":    "Nav",
+      "form":   "Form"
+    },
+    "empty":    "No components in this category.",
+    "code":     "View code",
+    "download": "Download"
+  },
+
+  "timeline": {
+    "label":    "my journey",
+    "title_1":  "My",
+    "title_em": "Story",
+    "pivot":    "the turning point"
+  },
+
+  "skills": {
+    "label":    "what I know",
+    "title_1":  "My",
+    "title_em": "Stack",
+    "categories": {
+      "frontend": "frontend",
+      "backend":  "backend & tools",
+      "gamedev":  "game dev"
+    }
+  },
+
+  "certifications": {
+    "label":    "my certificates",
+    "title_1":  "My",
+    "title_em": "Certifications",
+    "filters": {
+      "all":        "All",
+      "basic":      "Basic",
+      "intermedio": "Intermediate",
+      "avanzato":   "Advanced"
+    },
+    "levels": {
+      "basic":      "basic",
+      "intermedio": "intermediate",
+      "avanzato":   "advanced"
+    },
+    "empty":   "No certifications at this level.",
+    "verify":  "Verify certificate",
+    "view_pdf": "View PDF"
+  },
+
+  "not_found": {
+    "message": "Page not found.",
+    "back":    "← Back to portfolio"
+  },
+
+  "footer": {
+    "eof":           "EOF",
+    "cta_title":     "Got an idea?",
+    "cta_sub":       "Let's write some code.",
+    "where":         "// where to find me",
+    "docs":          "// docs",
+    "cv_it":         "CV — italiano",
+    "cv_en":         "CV — english",
+    "thesis":        "Thesis · PDF",
+    "school":        "// school",
+    "shortcuts":     "// shortcuts",
+    "scroll_top":    "↑ back to top",
+    "goto_featured": "→ featured",
+    "goto_projects": "→ projects",
+    "built_with":    "built with Vue.js + coffee"
+  }
+}

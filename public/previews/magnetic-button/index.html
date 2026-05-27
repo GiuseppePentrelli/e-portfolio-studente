@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@500;600;700&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  html, body {
+    width: 800px;
+    height: 460px;
+    overflow: hidden;
+    background-color: #0d1117;
+    background-image: repeating-linear-gradient(
+      45deg,
+      rgba(99,102,241,0.13) 0px,
+      rgba(99,102,241,0.13) 1px,
+      transparent 1px,
+      transparent 18px
+    );
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-family: 'Inter', sans-serif;
+  }
+
+  /* --- Wrapper: gestisce il movimento magnetico --- */
+  .magnet-wrap {
+    display: inline-block;
+    transition: filter 0.4s ease;
+  }
+  .magnet-wrap.active {
+    filter: drop-shadow(0 12px 36px rgba(99,102,241,0.45));
+  }
+
+  /* --- Bottone --- */
+  .magnet-btn {
+    position: relative;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 38px 90px;
+    border: none;
+    border-radius: 100px;
+    background: transparent;
+    cursor: pointer;
+    outline: none;
+    overflow: hidden;
+  }
+
+  /* bordo gradient via mask */
+  .magnet-btn::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    border-radius: 100px;
+    padding: 1.5px;
+    background: linear-gradient(135deg, #6366f1, #a855f7, #ec4899);
+    -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+    -webkit-mask-composite: xor;
+    mask-composite: exclude;
+    opacity: 0.45;
+    transition: opacity 0.35s;
+  }
+  .magnet-btn:hover::before { opacity: 1; }
+
+  /* spotlight che segue il cursore */
+  .magnet-btn::after {
+    content: '';
+    position: absolute;
+    width: 180px;
+    height: 180px;
+    border-radius: 50%;
+    background: radial-gradient(circle, rgba(99,102,241,0.28) 0%, transparent 70%);
+    left: var(--gx, 50%);
+    top:  var(--gy, 50%);
+    transform: translate(-50%, -50%);
+    pointer-events: none;
+    opacity: 0;
+    transition: opacity 0.3s;
+  }
+  .magnet-btn:hover::after { opacity: 1; }
+
+  /* sfondo interno */
+  .btn-bg {
+    position: absolute;
+    inset: 0;
+    border-radius: 100px;
+    background: linear-gradient(135deg, rgba(99,102,241,0.07), rgba(168,85,247,0.07));
+    transition: background 0.35s;
+  }
+  .magnet-btn:hover .btn-bg {
+    background: linear-gradient(135deg, rgba(99,102,241,0.16), rgba(168,85,247,0.13));
+  }
+
+  /* testo */
+  .btn-text {
+    position: relative;
+    z-index: 1;
+    display: inline-flex;
+    align-items: center;
+    gap: 12px;
+    font-size: 26px;
+    font-weight: 600;
+    color: rgba(255,255,255,0.80);
+    letter-spacing: 0.015em;
+    transition: color 0.3s;
+  }
+  .magnet-btn:hover .btn-text { color: #fff; }
+
+  .btn-arrow {
+    display: inline-flex;
+    font-style: normal;
+    transition: transform 0.4s cubic-bezier(0.23, 1, 0.32, 1);
+  }
+  .magnet-btn:hover .btn-arrow { transform: translate(4px, -1px); }
+</style>
+</head>
+<body>
+
+<div class="magnet-wrap" id="wrap">
+  <button class="magnet-btn" id="btn">
+    <div class="btn-bg"></div>
+    <span class="btn-text" id="label">
+      Get started
+      <em class="btn-arrow">→</em>
+    </span>
+  </button>
+</div>
+
+<script>
+  const wrap  = document.getElementById('wrap');
+  const btn   = document.getElementById('btn');
+  const label = document.getElementById('label');
+
+  let raf = null;
+  let tX = 0, tY = 0;
+  let cX = 0, cY = 0;
+  let leaving = false;
+
+  function lerp(a, b, t) { return a + (b - a) * t; }
+
+  function tick() {
+    cX = lerp(cX, tX, 0.10);
+    cY = lerp(cY, tY, 0.10);
+    wrap.style.transform  = `translate(${cX}px, ${cY}px)`;
+    label.style.transform = `translate(${cX * 0.45}px, ${cY * 0.45}px)`;
+
+    if (leaving && Math.abs(cX) < 0.05 && Math.abs(cY) < 0.05) {
+      cancelAnimationFrame(raf);
+      raf = null;
+      wrap.style.transform  = '';
+      label.style.transform = '';
+      return;
+    }
+    raf = requestAnimationFrame(tick);
+  }
+
+  btn.addEventListener('mouseenter', () => {
+    leaving = false;
+    wrap.classList.add('active');
+    if (!raf) raf = requestAnimationFrame(tick);
+  });
+
+  btn.addEventListener('mousemove', (e) => {
+    const r  = btn.getBoundingClientRect();
+    tX = (e.clientX - (r.left + r.width  / 2)) * 0.38;
+    tY = (e.clientY - (r.top  + r.height / 2)) * 0.38;
+    btn.style.setProperty('--gx', (e.clientX - r.left) + 'px');
+    btn.style.setProperty('--gy', (e.clientY - r.top)  + 'px');
+  });
+
+  btn.addEventListener('mouseleave', () => {
+    tX = 0; tY = 0;
+    leaving = true;
+    wrap.classList.remove('active');
+    if (!raf) raf = requestAnimationFrame(tick);
+  });
+</script>
+</body>
+</html>

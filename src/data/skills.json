@@ -1,0 +1,28 @@
+[
+  {
+    "id": "frontend",
+    "skills": [
+      { "name": "HTML",        "icon": "logos:html-5" },
+      { "name": "CSS",         "icon": "logos:css-3" },
+      { "name": "JavaScript",  "icon": "logos:javascript" },
+      { "name": "Vue.js",      "icon": "logos:vue" },
+      { "name": "Bootstrap",   "icon": "logos:bootstrap" },
+      { "name": "Tailwind CSS","icon": "logos:tailwindcss-icon" }
+    ]
+  },
+  {
+    "id": "backend",
+    "skills": [
+      { "name": "PHP",    "icon": "logos:php" },
+      { "name": "Laravel","icon": "logos:laravel" },
+      { "name": "SQL",    "icon": "logos:mysql" },
+      { "name": "GitHub", "icon": "mdi:github", "mono": true }
+    ]
+  },
+  {
+    "id": "gamedev",
+    "skills": [
+      { "name": "Kaplay.js", "icon": "logos:javascript" }
+    ]
+  }
+]

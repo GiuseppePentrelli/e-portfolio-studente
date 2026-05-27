@@ -1,0 +1,55 @@
+[
+  {
+    "id": "atelier",
+    "num": "01",
+    "cat": "WEB",
+    "title": "Atelier",
+    "desc": "Portfolio editoriale costruito in Vue 3 con animazioni fluide al cambio di rotta, griglia fotografica responsive e CMS in Markdown. Il progetto su cui ho imparato a pensare in componenti.",
+    "stack": [
+      { "label": "Vue 3",  "color": "green"  },
+      { "label": "Vite",   "color": "gold"   },
+      { "label": "GSAP",   "color": "purple" },
+      { "label": "Pinia",  "color": "green"  }
+    ],
+    "art": "coral",
+    "iconColor": "purple",
+    "iconName": "vue",
+    "repo": "https://github.com/giuseppepentrelli/atelier",
+    "path": "~/projects/atelier"
+  },
+  {
+    "id": "pixeldrift",
+    "num": "02",
+    "cat": "GAME DEV",
+    "title": "Pixel Drift",
+    "desc": "Platformer retro con fisica custom, livelli generati a tile-map, parallax a 4 livelli e una colonna sonora chiptune. Scritto in vanilla JS sul motore Kaplay.",
+    "stack": [
+      { "label": "Kaplay JS",  "color": "pink"  },
+      { "label": "Canvas 2D",  "color": "blue"  },
+      { "label": "Web Audio",  "color": "coral" },
+      { "label": "Aseprite",   "color": "gold"  }
+    ],
+    "art": "purple",
+    "iconColor": "coral",
+    "iconName": "game",
+    "repo": "https://github.com/giuseppepentrelli/pixel-drift",
+    "path": "~/projects/pixel-drift"
+  },
+  {
+    "id": "vuecompass",
+    "num": "03",
+    "cat": "GUIDE",
+    "title": "Vue Compass",
+    "desc": "Guida interattiva al framework Vue, pensata per i miei compagni di classe. Esempi live editabili, ricerca full-text e progressione a capitoli con quiz di verifica.",
+    "stack": [
+      { "label": "Vue 3",      "color": "green"  },
+      { "label": "VitePress",  "color": "blue"   },
+      { "label": "Shiki",      "color": "purple" }
+    ],
+    "art": "blue",
+    "iconColor": "blue",
+    "iconName": "book",
+    "repo": "https://github.com/giuseppepentrelli/vue-compass",
+    "path": "~/projects/vue-compass"
+  }
+]
