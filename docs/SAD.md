@@ -64,6 +64,7 @@ Il vantaggio decisivo in questo progetto è che **Vitest si configura nello stes
 ```js
 // vite.config.js
 export default defineConfig({
+  base: '/e-portfolio-studente/',   // Project Page GitHub Pages
   plugins: [vue(), tailwindcss()],
   resolve: { alias: { '@': './src' } },
   test: {
@@ -113,11 +114,11 @@ Pinia è la soluzione ufficiale di state management per Vue 3, raccomandata dal 
 
 **Perché non usare semplicemente `ref` globali nei composable:**
 
-`useLocale` e `useTheme` usano `ref` globali nei composable perché gestiscono stato singleton semplice (lingua attiva, tema attivo). Pinia viene usato per `projectsStore` perché questo stato ha bisogno di:
+`useLocale` e `useTheme` usano `ref` globali nei composable perché gestiscono stato singleton semplice (lingua attiva, tema attivo). Pinia viene usato per `projectsStore` e `certificationsStore` perché questi stati hanno bisogno di:
 
-- essere testato in isolamento (Pinia si può resettare tra un test e l'altro con `setActivePinia(createPinia())`)
-- esporre getter derivati (`filteredProjects`, `featuredProjects`)
-- essere potenzialmente condiviso tra più componenti/viste in futuro
+- essere testati in isolamento (Pinia si può resettare tra un test e l'altro con `setActivePinia(createPinia())`)
+- esporre getter derivati (`filteredProjects`, `featuredProjects`, `filteredCertifications`)
+- essere potenzialmente condivisi tra più componenti/viste in futuro
 
 ```js
 // projectsStore.js — setup store, stessa sintassi dei composable Vue
@@ -126,6 +127,14 @@ export const useProjectsStore = defineStore('projects', () => {
   const filteredProjects = computed(/* ... */)
   function setFilter(id) { activeFilter.value = id }
   return { activeFilter, filteredProjects, setFilter }
+})
+
+// certificationsStore.js — stesso pattern, filtra per livello (basic/intermedio/avanzato)
+export const useCertificationsStore = defineStore('certifications', () => {
+  const activeFilter = ref('all')
+  const filteredCertifications = computed(/* ... */)
+  function setFilter(levelId) { activeFilter.value = levelId }
+  return { certifications, activeFilter, filters, filteredCertifications, setFilter }
 })
 ```
 
@@ -166,10 +175,12 @@ Un font variable contiene tutti i pesi (100-900) in un singolo file `.woff2`. Ri
 
 Il deploy è automatizzato tramite un workflow che si attiva su ogni `push` al branch `main`:
 
-1. `npm install`
+1. `npm ci`
 2. `npm run build`
-3. deploy della cartella `dist/` sul branch `gh-pages`
-4. GitHub Pages serve il contenuto del branch `gh-pages`
+3. `actions/upload-pages-artifact` carica la cartella `dist/` come artifact
+4. `actions/deploy-pages` pubblica l'artifact direttamente tramite la Pages API di GitHub
+
+Non viene creato nessun branch `gh-pages`. GitHub Pages è configurato in modalità `workflow` e serve l'artifact prodotto dall'Action.
 
 Il link caricato su Unica punta sempre all'ultima versione del portfolio, aggiornata ad ogni push.
 
@@ -181,21 +192,26 @@ Il link caricato su Unica punta sempre all'ultima versione del portfolio, aggior
 
 ```
 App.vue
+├── AppIntro.vue           schermata di intro animata (terminale + warp + flash), solo al primo caricamento della sessione
 ├── AppNavbar.vue          navbar sticky — brand, toggle lingua, toggle tema
-├── AppSidebar.vue         sidebar fissa — link esterni (GitHub, LinkedIn, email)
 ├── views/HomeView.vue
 │   ├── HeroSection.vue    presentazione personale + metadati scolastici
 │   │   └── BioWindow.vue  finestra IDE con 3 tab (about/stack/stats)
 │   │       ├── AppWindow.vue     shell grafica della finestra con tab
 │   │       └── WinLine.vue       singola riga di codice con reveal animation
-│   ├── MarqueeStrip.vue   striscia scorrevole con skill/tecnologie
+│   ├── TechStrip.vue      striscia tech con icone tecnologie (@iconify/vue)
 │   ├── FeaturedSection.vue
 │   │   └── FeaturedCard.vue  card progetto capolavoro (3 varianti grafiche)
+│   ├── SectionLabel.vue      label sezione riutilizzabile (// testo)
 │   ├── ProjectFilters.vue    bottoni filtro categoria (legge/scrive store)
 │   ├── ProjectGrid.vue       griglia progetti (legge store.filteredProjects)
 │   │   └── ProjectCard.vue   card progetto singolo (riceve solo prop `project`)
-│   └── ComponentSection.vue  showcase componenti UI con filtri e paginazione
-│       └── ComponentCard.vue
+│   ├── MarqueeStrip.vue   striscia scorrevole con skill/tecnologie (testo)
+│   ├── ComponentSection.vue  showcase componenti UI con filtri e paginazione
+│   │   └── ComponentCard.vue
+│   └── CertificationSection.vue  griglia certificazioni con filtro per livello
+│       ├── CertificationFilters.vue  filtri basic/intermedio/avanzato
+│       └── CertificationCard.vue     card singola certificazione
 └── AppFooter.vue          CTA contatti, link, "git status · clean · main"
 ```
 
@@ -224,9 +240,23 @@ ProjectGrid.vue
      │  :project="p" (prop)
      ▼
 ProjectCard.vue
+
+
+certifications.json
+     │
+     ▼
+certificationsStore.js  ←── setFilter()  ◄── CertificationFilters.vue (input utente)
+     │
+     │  store.filteredCertifications (computed)
+     ▼
+CertificationSection.vue
+     │
+     │  :cert="c" (prop)
+     ▼
+CertificationCard.vue
 ```
 
-`filteredProjects` è un getter `computed` di Pinia: si aggiorna automaticamente ogni volta che `activeFilter` cambia, senza bisogno di chiamate esplicite. Vue re-renderizza solo i componenti che dipendono da questo valore.
+I getter `computed` di Pinia si aggiornano automaticamente ogni volta che `activeFilter` cambia, senza bisogno di chiamate esplicite. Vue re-renderizza solo i componenti che dipendono da questi valori.
 
 ---
 
@@ -340,15 +370,18 @@ push su main
      │
      ▼
 GitHub Actions (.github/workflows/deploy.yml)
-     │  npm install && npm run build
+     │  npm ci && npm run build
      ▼
-dist/ → branch gh-pages
+dist/ → upload-pages-artifact
      │
      ▼
-GitHub Pages  →  URL caricato su Unica
+deploy-pages (Pages API)
+     │
+     ▼
+GitHub Pages  →  https://giuseppepentrelli.github.io/e-portfolio-studente/
 ```
 
-L'URL su Unica è fisso e non cambia mai. Ogni aggiornamento al portfolio viene pubblicato automaticamente entro pochi minuti dal push, senza interazione manuale.
+Non viene usato un branch `gh-pages`. La cartella `dist/` viene caricata come artifact e pubblicata direttamente tramite la Pages API. L'URL su Unica è fisso e non cambia mai.
 
 ---
 
@@ -384,7 +417,10 @@ L'URL su Unica è fisso e non cambia mai. Ogni aggiornamento al portfolio viene 
 | ProjectGrid con filtri | ✅ completato |
 | ComponentSection con paginazione | ✅ completato |
 | Footer con contatti | ✅ completato |
-| Suite di test (26/26) | ✅ completato |
+| Suite di test (26 totali, 2 falliti — vedi Testing.md) | ⚠️ test da aggiornare |
 | Deploy su GitHub Pages | ✅ completato |
+| Schermata intro animata (AppIntro) | ✅ completato |
+| Sezione certificazioni con filtri | ✅ completato |
+| Striscia tech con icone (TechStrip) | ✅ completato |
 | Videogioco Kaplay JS | 🔄 in sviluppo (post-maggio) |
 | Guida interattiva Vue.js | 🔄 in sviluppo (post-maggio) |

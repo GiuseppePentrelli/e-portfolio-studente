@@ -1,6 +1,6 @@
 # Animazioni del progetto
 
-Panoramica di tutte le animazioni e transizioni riutilizzabili presenti nel codebase. In totale: **9 animazioni** distinte.
+Panoramica di tutte le animazioni e transizioni riutilizzabili presenti nel codebase. In totale: **12 animazioni** distinte.
 
 ---
 
@@ -176,6 +176,75 @@ class="sticky top-0 z-50 h-14 bg-bg/80 backdrop-blur-md backdrop-saturate-150 bo
 ```
 
 **Come funziona:** sfondo semi-trasparente (80% opacità) con `backdrop-blur-md` e `backdrop-saturate-150`. Non è un'animazione, ma è un effetto visivo che cambia dinamicamente allo scroll (il contenuto sottostante diventa visibile attraverso la navbar).
+
+---
+
+## 10. `AppIntro` — schermata di intro (4 effetti coordinati)
+
+**Definita in:** `src/components/AppIntro.vue`  
+**Usata da:** `App.vue` (solo al primo caricamento della sessione, poi rimossa via `sessionStorage`)
+
+L'intro si compone di 4 effetti in sequenza:
+
+**a) `fadeSlide` — righe terminale che appaiono**
+```css
+@keyframes fadeSlide {
+  from { opacity: 0; transform: translateX(-8px); }
+  to   { opacity: 1; transform: none; }
+}
+```
+Ogni riga ha un `animationDelay` di `i × 40ms` — appaiono in cascata da sinistra.
+
+**b) Warp — terminale che si allontana**
+```css
+.terminal.warp {
+  transform: perspective(600px) translateZ(400px) scale(0.1);
+  opacity: 0;
+  transition: transform .7s cubic-bezier(0.55, 0, 1, 0.45), opacity .4s ease;
+}
+```
+CSS transition (non keyframe): il terminale sembra sparire verso un punto di fuga 3D in 700ms.
+
+**c) Flash dot — esplosione che riempie lo schermo**
+```css
+.flash-dot.explode {
+  opacity: 1;
+  transform: scale(400);
+  transition: transform .55s cubic-bezier(0.2, 0, 0.4, 1), opacity .55s ease;
+}
+```
+Un punto bianco di 6px si scala di 400× coprendo l'intero viewport in 550ms.
+
+**d) `intro` — Vue Transition di uscita**
+```css
+.intro-leave-active { transition: opacity .01s; }
+.intro-leave-to     { opacity: 0; }
+```
+Scomparsa istantanea dopo il flash.
+
+---
+
+## 11. `TechStrip` — striscia tech con icone
+
+**Definita in:** `src/components/home/TechStrip.vue`  
+**Usata da:** `HomeView.vue`
+
+Stesso meccanismo del `MarqueeStrip` (item duplicati ×2 per loop seamless), ma con icone `@iconify/vue` invece di testo. La velocità e il keyframe `marquee` sono identici — la striscia usa una classe CSS specifica del componente.
+
+---
+
+## 12. `cert-fade` — transizione griglia certificazioni
+
+**Definita in:** `src/components/certifications/CertificationSection.vue`  
+**Usata da:** `CertificationSection.vue`
+
+```css
+/* generato da Vue Transition name="cert-fade" */
+.cert-fade-enter-active, .cert-fade-leave-active { transition: opacity .2s ease; }
+.cert-fade-enter-from,   .cert-fade-leave-to     { opacity: 0; }
+```
+
+Vue `<Transition name="cert-fade" mode="out-in">` applicata all'intera griglia: quando cambia il filtro attivo, la griglia fa fade-out e poi fade-in con i nuovi risultati. `:key="store.activeFilter"` forza Vue a trattare ogni filtro come un elemento nuovo, attivando la transizione.
 
 ---
 

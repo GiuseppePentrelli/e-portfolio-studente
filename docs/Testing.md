@@ -2,9 +2,20 @@
 
 ## Panoramica
 
-**26 test, 26 passati.** Nessun test fallito.
+**26 test totali: 24 passati, 2 falliti.**
 
 La strategia di test si concentra sulla **logica di business** (composable, store, file di dati) e non sui componenti Vue, che non hanno logica significativa da isolare — sono presentational.
+
+### Test falliti (da correggere)
+
+Entrambi i fallimenti sono in `useLocale.test.js` e riguardano la chiave `hero.chapter`:
+
+| Test | Atteso | Ricevuto |
+|---|---|---|
+| `t('hero.chapter')` in IT | `"capitolo 01"` | valore diverso |
+| `t('hero.chapter')` in EN | `"chapter 01"` | `"Student E-Portfolio"` |
+
+Il locale `en.json` (e probabilmente `it.json`) è stato aggiornato e la chiave `hero.chapter` è stata rinominata o rimossa. I test vanno aggiornati per rispecchiare i valori attuali dei file locale.
 
 ---
 
@@ -113,6 +124,7 @@ L'ultimo test è il più importante: verifica che il cambio tema si rifletta eff
 | Rendering HTML/CSS | Richiederebbe test end-to-end (Playwright/Cypress) — fuori scope per questo progetto. |
 | Router | Una sola route + 404. Nessuna guardia o logica condizionale da testare. |
 | `useLineReveal` | Logica basata su `setInterval` — testabile ma richiederebbe fake timer. Non prioritario. |
+| `certificationsStore` | Aggiunto dopo la suite iniziale. Il pattern è identico a `projectsStore` — sarebbe utile aggiungere i test. |
 
 ---
 
