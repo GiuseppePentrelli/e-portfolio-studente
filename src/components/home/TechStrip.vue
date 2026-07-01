@@ -32,6 +32,11 @@ const allSkills = skillsData.flatMap(group => group.skills)
   background: var(--color-surface);
   mask-image: linear-gradient(90deg, transparent, #000 8%, #000 92%, transparent);
 }
+[data-theme="light"] .tech-strip {
+  border-top: 2px solid var(--color-ink);
+  border-bottom: 2px solid var(--color-ink);
+  mask-image: none;
+}
 
 .tech-track {
   display: flex;

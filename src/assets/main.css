@@ -1,5 +1,6 @@
 @import "tailwindcss";
 
+@custom-variant light (&:where([data-theme="light"], [data-theme="light"] *));
 
 @theme {
   /* === SFONDI (dark default) === */
@@ -24,18 +25,34 @@
   --color-coral:     #ff7e5e;
   --color-pink:      #f778ba;
 
-  /* === TIPOGRAFIA === */
-  --font-family-sans: 'Inter Variable', system-ui, -apple-system, sans-serif;
-  --font-family-mono: 'JetBrains Mono Variable', ui-monospace, 'SFMono-Regular', monospace;
+  /* === INK / PAPER / FILL (solo light "brutal-giocoso") === */
+  --color-ink:         #111111;
+  --color-paper:       #fffaf0;
+  --color-fill-gold:   #ffd84d;
+  --color-fill-blue:   #8ecbff;
+  --color-fill-purple: #c9b2ff;
+  --color-fill-green:  #8ee6a8;
+  --color-fill-coral:  #ffab95;
+  --color-fill-pink:   #ffa3d1;
 
-  /* === BORDER RADIUS === */
+  /* === TIPOGRAFIA === */
+  --font-family-sans:    'Inter Variable', system-ui, -apple-system, sans-serif;
+  --font-family-display: 'Space Grotesk Variable', 'Inter Variable', system-ui, sans-serif;
+  --font-family-mono:    'JetBrains Mono Variable', ui-monospace, 'SFMono-Regular', monospace;
+
+  /* === BORDER RADIUS (dark default) === */
   --radius-card:    0.75rem;
   --radius-btn:     0.4375rem;
   --radius-tag:     0.375rem;
   --radius-pill:    9999px;
 
-  /* === SHADOW === */
-  --shadow-card: 0 20px 50px -20px rgba(0, 0, 0, 0.6);
+  /* === SHADOW (dark default: soffusa) === */
+  --shadow-card:    0 20px 50px -20px rgba(0, 0, 0, 0.6);
+  --shadow-card-sm: 4px 4px 0 0 var(--color-ink);
+  --shadow-btn:     3px 3px 0 0 var(--color-ink);
+  --shadow-press:   0px 0px 0 0 var(--color-ink);
+
+  --border-w: 2px;
 }
 
 /* === BASE ============================================================= */
@@ -60,6 +77,7 @@ a { color: inherit; text-decoration: none; }
 button { font-family: inherit; cursor: pointer; }
 
 ::selection { background: rgba(88, 166, 255, .35); color: #fff; }
+[data-theme="light"] ::selection { background: var(--color-fill-pink); color: #111; }
 
 /* === SCROLLBAR ========================================================= */
 
@@ -67,6 +85,9 @@ button { font-family: inherit; cursor: pointer; }
 * {
   scrollbar-width: thin;
   scrollbar-color: var(--color-gold) transparent;
+}
+[data-theme="light"] * {
+  scrollbar-color: var(--color-fill-gold) transparent;
 }
 
 /* Webkit (Chrome, Edge, Safari) */
@@ -82,6 +103,17 @@ button { font-family: inherit; cursor: pointer; }
 }
 ::-webkit-scrollbar-thumb:hover {
   background: color-mix(in srgb, var(--color-gold) 80%, white);
+}
+[data-theme="light"] ::-webkit-scrollbar {
+  width: 10px;
+}
+[data-theme="light"] ::-webkit-scrollbar-thumb {
+  background: var(--color-fill-gold);
+  border: 2px solid var(--color-ink);
+  border-radius: 0;
+}
+[data-theme="light"] ::-webkit-scrollbar-thumb:hover {
+  background: color-mix(in srgb, var(--color-fill-gold) 80%, white);
 }
 
 /* === NO SCROLLBAR ====================================================== */
@@ -108,12 +140,25 @@ button { font-family: inherit; cursor: pointer; }
 }
 .skip-link:focus { top: 0; }
 
+[data-theme="light"] .skip-link {
+  background: var(--color-fill-gold);
+  color: #111;
+  border: 2px solid var(--color-ink);
+  border-radius: 0;
+  box-shadow: var(--shadow-btn);
+}
+
 /* === FOCUS VISIBILE (globale) ========================================== */
 
 :focus-visible {
   outline: 2px solid var(--color-gold);
   outline-offset: 3px;
   border-radius: 3px;
+}
+[data-theme="light"] :focus-visible {
+  outline: 3px solid var(--color-ink);
+  outline-offset: 2px;
+  border-radius: 0;
 }
 
 /* Rimuove outline solo quando non si usa la tastiera */
@@ -131,32 +176,34 @@ button { font-family: inherit; cursor: pointer; }
   .caret { animation: none; opacity: 1; }
 }
 
-/* === LIGHT MODE (GitHub Light) ======================================== */
+/* === LIGHT MODE (crema, ink nero, brutal-giocoso) ====================== */
 
 [data-theme="light"] {
-  --color-bg:        #e4e6f0;
-  --color-surface:   #eceef8;
-  --color-surface-2: #d8dbed;
-  --color-surface-3: #cacde3;
-  --color-border:    #b8bcd8;
-  --color-border-2:  #a4a8cc;
+  --color-bg:        #f6f1e5;
+  --color-surface:   #fffaf0;
+  --color-surface-2: #f3ecdd;
+  --color-surface-3: #eadfc8;
+  --color-border:    #111111;
+  --color-border-2:  #111111;
 
-  --color-text:      #12132a;
-  --color-text-1:    #1e2040;
-  --color-text-2:    #4a4e72;
-  --color-text-3:    #555882;
+  --color-text:      #111111;
+  --color-text-1:    #1c1a16;
+  --color-text-2:    #4a463c;
+  --color-text-3:    #6e6a5e;
 
-  --color-gold:      #7a5200;
-  --color-blue:      #1a3fa0;
-  --color-purple:    #5c2db8;
-  --color-green:     #0f5c28;
-  --color-coral:     #a8200e;
-  --color-pink:      #8c1548;
-}
+  --color-gold:      #946300;
+  --color-blue:      #0b5cc4;
+  --color-purple:    #6d28d9;
+  --color-green:     #15803d;
+  --color-coral:     #d63b1f;
+  --color-pink:      #d6246e;
 
-[data-theme="light"] ::selection {
-  background: rgba(9, 105, 218, .2);
-  color: #1f2328;
+  --radius-card: 0.375rem;
+  --radius-btn:  0.25rem;
+  --radius-tag:  0.1875rem;
+
+  --shadow-card:    6px 6px 0 0 var(--color-ink);
+  --shadow-card-sm: 4px 4px 0 0 var(--color-ink);
 }
 
 /* === SYNTAX HIGHLIGHT (AppWindow) ===================================== */
@@ -178,16 +225,18 @@ button { font-family: inherit; cursor: pointer; }
 }
 @keyframes blink { 50% { opacity: 0; } }
 
-/* === GRID BACKGROUND ("quadratoni") =================================== */
+/* === GRID BACKGROUND ("quadratoni" / "foglio quadrettato") ============ */
 
 :root {
   --grid-line:   rgba(255, 255, 255, 0.03);
   --grid-line-2: rgba(255, 255, 255, 0.05);
+  --grid-size:   16px;
 }
 
 [data-theme="light"] {
-  --grid-line:   rgba(20, 16, 10, 0.05);
-  --grid-line-2: rgba(20, 16, 10, 0.08);
+  --grid-line:   rgba(17, 17, 17, 0.07);
+  --grid-line-2: rgba(17, 17, 17, 0.12);
+  --grid-size:   32px;
 }
 
 body::before {
@@ -202,8 +251,8 @@ body::before {
     linear-gradient(var(--grid-line-2) 1px, transparent 1px),
     linear-gradient(90deg, var(--grid-line-2) 1px, transparent 1px);
   background-size:
-    16px 16px,
-    16px 16px,
+    var(--grid-size) var(--grid-size),
+    var(--grid-size) var(--grid-size),
     96px 96px,
     96px 96px;
 }

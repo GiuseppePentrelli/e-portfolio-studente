@@ -3,10 +3,10 @@
     <SectionLabel :label="t('certifications.label')" class="mb-3" />
     <h2
       id="certifications-title"
-      class="font-sans font-bold text-[clamp(24px,3vw,36px)] leading-tight tracking-tight text-text mb-8"
+      class="font-sans font-bold text-[clamp(24px,3vw,36px)] leading-tight tracking-tight text-text mb-8 light:font-[family-name:var(--font-family-display)]"
     >
       {{ t('certifications.title_1') }}
-      <em class="italic font-medium text-coral">{{ t('certifications.title_em') }}</em>
+      <em class="italic font-medium text-coral light:not-italic light:font-bold light:bg-fill-coral light:text-[#111] light:px-1">{{ t('certifications.title_em') }}</em>
     </h2>
 
     <CertificationFilters class="mb-8" />

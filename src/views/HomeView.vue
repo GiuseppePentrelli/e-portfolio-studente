@@ -8,8 +8,8 @@
 
     <section id="projects" aria-labelledby="projects-title" class="mt-16">
       <SectionLabel :label="t('projects.label')" class="mb-3" />
-      <h2 id="projects-title" class="font-sans font-bold text-[clamp(24px,3vw,36px)] leading-tight tracking-tight text-text mb-8">
-        {{ t('projects.title_1') }} <em class="italic font-medium text-coral">{{ t('projects.title_em') }}</em>
+      <h2 id="projects-title" class="font-sans font-bold text-[clamp(24px,3vw,36px)] leading-tight tracking-tight text-text mb-8 light:font-[family-name:var(--font-family-display)]">
+        {{ t('projects.title_1') }} <em class="italic font-medium text-coral light:not-italic light:font-bold light:bg-fill-coral light:text-[#111] light:px-1">{{ t('projects.title_em') }}</em>
       </h2>
 
       <ProjectFilters class="mb-8" />

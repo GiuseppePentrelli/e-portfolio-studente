@@ -10,7 +10,7 @@
       role="tab"
       :aria-selected="store.activeFilter === filter.id"
       :variant="store.activeFilter === filter.id ? 'outline' : 'ghost'"
-      :class="store.activeFilter === filter.id ? 'border-gold text-gold' : ''"
+      :class="store.activeFilter === filter.id ? 'border-gold text-gold light:bg-fill-gold light:text-[#111]' : ''"
       @click="store.setFilter(filter.id)"
     >
       [ {{ t('projects.filters.' + filter.id) }} ]

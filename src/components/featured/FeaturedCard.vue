@@ -283,4 +283,85 @@ const icons = { vue: VueIcon, game: GameIcon, book: BookIcon }
   transition: gap .2s;
 }
 .feat:hover .feat-open { gap: 10px; }
+
+/* === LIGHT MODE (brutal-giocoso) ====================================== */
+
+[data-theme="light"] .feat {
+  border: 2px solid var(--color-ink);
+  border-radius: var(--radius-card);
+  box-shadow: var(--shadow-card);
+  transition: transform .15s ease, box-shadow .15s ease;
+  transform: rotate(var(--tilt, 0deg));
+}
+[data-theme="light"] .feat:nth-child(3n+1) { --tilt: -1deg; }
+[data-theme="light"] .feat:nth-child(3n+2) { --tilt: 0.75deg; }
+[data-theme="light"] .feat:nth-child(3n)   { --tilt: -0.5deg; }
+[data-theme="light"] .feat:hover {
+  transform: translate(3px, 3px) rotate(var(--tilt, 0deg));
+  box-shadow: var(--shadow-btn);
+}
+@media (max-width: 768px) {
+  [data-theme="light"] .feat { --tilt: 0deg; }
+}
+
+[data-theme="light"] .feat-top { border-bottom: 2px solid var(--color-ink); }
+[data-theme="light"] .feat-cat {
+  border-radius: var(--radius-tag);
+  border: 1px solid var(--color-ink);
+}
+
+[data-theme="light"] .feat-art { border-bottom: 2px solid var(--color-ink); }
+[data-theme="light"] .art-coral  { background: var(--color-fill-coral); }
+[data-theme="light"] .art-purple { background: var(--color-fill-purple); }
+[data-theme="light"] .art-blue   { background: var(--color-fill-blue); }
+
+[data-theme="light"] .feat-art-grid {
+  background-image:
+    linear-gradient(rgba(17,17,17,.12) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(17,17,17,.12) 1px, transparent 1px);
+  mask-image: none;
+}
+
+[data-theme="light"] .feat-tag {
+  font-weight: 700;
+  border-radius: var(--radius-tag);
+  background: var(--color-ink);
+  border: none;
+  color: var(--color-bg);
+  backdrop-filter: none;
+}
+[data-theme="light"] .star { color: var(--color-fill-gold); }
+
+[data-theme="light"] .feat-icon {
+  border-radius: var(--radius-card);
+  background: var(--color-surface);
+  border: 2px solid var(--color-ink);
+  backdrop-filter: none;
+  box-shadow: 4px 4px 0 0 var(--color-ink);
+}
+
+[data-theme="light"] .feat-body h3 { font-family: var(--font-family-display); }
+[data-theme="light"] .feat-body h3 em {
+  font-style: normal;
+  background: var(--color-fill-coral);
+  color: #111;
+  padding: 0 .2em;
+  font-weight: 700;
+}
+
+[data-theme="light"] .chip {
+  font-weight: 600;
+  border-radius: var(--radius-tag);
+  border: 1.5px solid var(--color-ink);
+}
+[data-theme="light"] .chip-dot { border-radius: 1px; }
+
+[data-theme="light"] .chip-blue   { background: color-mix(in srgb, var(--color-fill-blue) 30%, var(--color-surface)); }
+[data-theme="light"] .chip-purple { background: color-mix(in srgb, var(--color-fill-purple) 30%, var(--color-surface)); }
+[data-theme="light"] .chip-green  { background: color-mix(in srgb, var(--color-fill-green) 30%, var(--color-surface)); }
+[data-theme="light"] .chip-gold   { background: color-mix(in srgb, var(--color-fill-gold) 30%, var(--color-surface)); }
+[data-theme="light"] .chip-coral  { background: color-mix(in srgb, var(--color-fill-coral) 30%, var(--color-surface)); }
+[data-theme="light"] .chip-pink   { background: color-mix(in srgb, var(--color-fill-pink) 30%, var(--color-surface)); }
+
+[data-theme="light"] .feat-foot { border-top: 2px solid var(--color-ink); }
 </style>

@@ -4,7 +4,7 @@
       :src="alienSrc"
       alt=""
       aria-hidden="true"
-      class="absolute -top-16 right-2 w-16 z-10 drop-shadow-md select-none pointer-events-none"
+      class="absolute -top-16 right-2 w-16 z-10 drop-shadow-md select-none pointer-events-none light:drop-shadow-none"
     />
 
   <AppWindow

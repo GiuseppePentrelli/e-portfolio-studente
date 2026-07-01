@@ -1,16 +1,16 @@
 <template>
-  <footer class="mt-20 pt-14 pb-10 border-t border-border bg-surface"
-    style="background-image: linear-gradient(180deg, transparent, rgba(245,200,66,.02))" id="contatti">
+  <footer class="mt-20 pt-14 pb-10 border-t border-border bg-surface light:border-t-2 light:border-ink"
+    id="contatti">
     <div class="max-w-330 mx-auto px-7">
 
       <!-- Eyebrow -->
       <SectionLabel :label="t('footer.eof')" class="mb-[18px]" />
 
       <!-- Titolo CTA -->
-      <h2 class="font-sans font-bold leading-[1.05] tracking-[-0.02em] text-[clamp(36px,5vw,64px)] text-text mb-9"
+      <h2 class="font-sans font-bold leading-[1.05] tracking-[-0.02em] text-[clamp(36px,5vw,64px)] text-text mb-9 light:font-[family-name:var(--font-family-display)]"
         style="text-wrap: pretty">
         {{ t('footer.cta_title') }}<br>
-        <span class="italic font-medium text-coral">{{ t('footer.cta_sub') }}</span>
+        <span class="italic font-medium text-coral light:not-italic light:font-bold light:bg-fill-coral light:text-[#111] light:px-2">{{ t('footer.cta_sub') }}</span>
 
       </h2>
 
@@ -111,6 +111,13 @@ function scrollTo(id) {
 </script>
 
 <style scoped>
+footer {
+  background-image: linear-gradient(180deg, transparent, rgba(245, 200, 66, .02));
+}
+[data-theme="light"] footer {
+  background-image: none;
+}
+
 .foot-grid {
   display: grid;
   grid-template-columns: 1.4fr 1fr 1fr 1fr;
@@ -180,6 +187,22 @@ function scrollTo(id) {
   transform: translateY(-2px);
 }
 
+[data-theme="light"] .foot-mailto {
+  color: #111;
+  font-weight: 700;
+  border: 2px solid var(--color-ink);
+  border-radius: var(--radius-btn);
+  background: var(--color-fill-gold);
+  box-shadow: var(--shadow-btn);
+  transition: transform .15s ease, box-shadow .15s ease;
+}
+[data-theme="light"] .foot-mailto:hover {
+  background: var(--color-fill-gold);
+  color: #111;
+  transform: translate(2px, 2px);
+  box-shadow: 1px 1px 0 0 var(--color-ink);
+}
+
 /* Pulsing green dot */
 .pulse-dot {
   display: inline-block;
@@ -189,6 +212,10 @@ function scrollTo(id) {
   background: var(--color-green);
   box-shadow: 0 0 8px var(--color-green);
   animation: pulse 2.2s infinite;
+}
+[data-theme="light"] .pulse-dot {
+  border: 1.5px solid var(--color-ink);
+  box-shadow: none;
 }
 
 @keyframes pulse {

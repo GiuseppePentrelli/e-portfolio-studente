@@ -216,4 +216,95 @@ const bodyH = computed(() => props.component.previewBodyH  ?? 680)
   color: var(--color-text);
   border-color: var(--color-text-2);
 }
+
+/* === LIGHT MODE (brutal-giocoso) ====================================== */
+
+[data-theme="light"] .comp-card {
+  border: 2px solid var(--color-ink);
+  border-radius: var(--radius-card);
+  box-shadow: var(--shadow-card);
+  transition: transform .15s ease, box-shadow .15s ease;
+  transform: rotate(var(--tilt, 0deg));
+}
+[data-theme="light"] .comp-card:nth-child(3n+1) { --tilt: -0.75deg; }
+[data-theme="light"] .comp-card:nth-child(3n+2) { --tilt: 0.5deg; }
+[data-theme="light"] .comp-card:nth-child(3n)   { --tilt: -0.5deg; }
+[data-theme="light"] .comp-card:hover {
+  border-color: var(--color-ink);
+  transform: translate(3px, 3px) rotate(var(--tilt, 0deg));
+  box-shadow: var(--shadow-btn);
+}
+@media (max-width: 768px) {
+  [data-theme="light"] .comp-card { --tilt: 0deg; }
+}
+
+[data-theme="light"] .comp-preview-fallback {
+  background: color-mix(in srgb, var(--accent, var(--color-gold)) 20%, var(--color-bg));
+}
+[data-theme="light"] .comp-preview-fallback::before {
+  background-image: radial-gradient(circle, color-mix(in srgb, var(--accent, var(--color-gold)) 50%, transparent) 1.5px, transparent 1.5px);
+}
+[data-theme="light"] .comp-preview-fallback[data-cat="button"]::before {
+  background-image: repeating-linear-gradient(
+    45deg,
+    color-mix(in srgb, var(--accent) 40%, transparent) 0px,
+    color-mix(in srgb, var(--accent) 40%, transparent) 1px,
+    transparent 1px,
+    transparent 18px
+  );
+}
+[data-theme="light"] .comp-preview-fallback[data-cat="nav"]::before {
+  background-image:
+    linear-gradient(color-mix(in srgb, var(--accent) 35%, transparent) 1px, transparent 1px),
+    linear-gradient(90deg, color-mix(in srgb, var(--accent) 35%, transparent) 1px, transparent 1px);
+}
+[data-theme="light"] .comp-preview-fallback[data-cat="form"]::before {
+  background-image:
+    linear-gradient(45deg, color-mix(in srgb, var(--accent) 35%, transparent) 1px, transparent 1px),
+    linear-gradient(-45deg, color-mix(in srgb, var(--accent) 35%, transparent) 1px, transparent 1px);
+}
+[data-theme="light"] .comp-cat-tag {
+  font-weight: 700;
+  color: #111;
+  border: 2px solid var(--color-ink);
+  border-radius: var(--radius-tag);
+  background: var(--color-fill-gold);
+  box-shadow: 2px 2px 0 0 var(--color-ink);
+}
+
+[data-theme="light"] .chip {
+  color: var(--color-text-2);
+  border: 1.5px solid var(--color-ink);
+  border-radius: var(--radius-tag);
+}
+
+[data-theme="light"] .comp-foot { border-top: 2px solid var(--color-ink); }
+[data-theme="light"] .comp-btn {
+  font-weight: 700;
+  text-transform: uppercase;
+  border: 2px solid var(--color-ink);
+  border-radius: var(--radius-btn);
+  box-shadow: 2px 2px 0 0 var(--color-ink);
+  transition: transform .15s ease, box-shadow .15s ease;
+}
+[data-theme="light"] .comp-btn:hover {
+  transform: translate(1px, 1px);
+  box-shadow: 1px 1px 0 0 var(--color-ink);
+}
+[data-theme="light"] .comp-btn-code {
+  color: #111;
+  background: var(--color-fill-gold);
+}
+[data-theme="light"] .comp-btn-code:hover {
+  background: var(--color-fill-gold);
+  color: #111;
+}
+[data-theme="light"] .comp-btn-dl {
+  color: var(--color-text-1);
+  background: var(--color-surface-2);
+}
+[data-theme="light"] .comp-btn-dl:hover {
+  color: var(--color-text-1);
+  border-color: var(--color-ink);
+}
 </style>

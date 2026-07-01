@@ -11,7 +11,7 @@
         <span class="doc-badge-line main">{{ t('hero.doc_label') }}</span>
       </div>
 
-      <h1 class="font-sans text-[clamp(28px,3.6vw,42px)] font-semibold leading-[1.15] tracking-tight text-text mb-4">
+      <h1 class="font-sans text-[clamp(28px,3.6vw,42px)] font-semibold leading-[1.15] tracking-tight text-text mb-4 light:font-[family-name:var(--font-family-display)] light:font-bold">
         {{ t('hero.greeting_pre') }} <span class="text-coral italic font-medium">{{ me.name.split(' ')[0] }}</span>.<br/>
         {{ t('hero.building_pre') }}
         <span class="font-mono text-blue font-medium text-[.85em]">&lt;template&gt;</span>,<br/>
@@ -55,6 +55,11 @@ const { t } = useLocale()
   border-radius: var(--radius-btn);
   padding: 8px 14px;
   background: var(--color-surface);
+}
+[data-theme="light"] .doc-badge {
+  border: 2px solid var(--color-ink);
+  box-shadow: var(--shadow-btn);
+  rotate: -1deg;
 }
 .doc-badge-line {
   font-family: var(--font-family-mono);

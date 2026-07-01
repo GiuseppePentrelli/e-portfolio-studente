@@ -1,17 +1,17 @@
 <template>
-  <header class="fixed top-0 inset-x-0 z-50 h-14 bg-bg/80 backdrop-blur-md backdrop-saturate-150 border-b border-border">
+  <header class="fixed top-0 inset-x-0 z-50 h-14 bg-bg/80 backdrop-blur-md backdrop-saturate-150 border-b border-border light:bg-bg light:backdrop-blur-none light:backdrop-saturate-100 light:border-b-2 light:border-ink">
     <div class="max-w-330 h-full mx-auto px-4 sm:px-7 flex items-center justify-between gap-4 font-mono text-xs">
 
       <!-- Brand -->
       <a href="#/" @click.prevent="scrollToTop" class="flex items-center gap-2.5 text-text font-semibold shrink-0" :aria-label="me.name">
-        <span class="w-7 h-7 rounded-btn bg-surface-2 border border-border-2 grid place-items-center font-black text-xs text-gold"
-              style="box-shadow: inset 0 0 14px rgba(245,200,66,.12)" aria-hidden="true">
+        <span class="w-7 h-7 rounded-btn bg-surface-2 border border-border-2 grid place-items-center font-black text-xs text-gold light:bg-fill-gold light:border-2 light:border-ink light:text-[#111]"
+              :style="theme === 'light' ? { boxShadow: '2px 2px 0 0 var(--color-ink)' } : { boxShadow: 'inset 0 0 14px rgba(245,200,66,.12)' }" aria-hidden="true">
           GP
         </span>
         <span class="hidden sm:inline">
           {{ me.name }}
-          <span class="inline-block w-1.5 h-1.5 rounded-full bg-green mx-1 align-middle"
-                style="box-shadow: 0 0 6px var(--color-green)" aria-hidden="true"></span>
+          <span class="inline-block w-1.5 h-1.5 rounded-full bg-green mx-1 align-middle light:border light:border-ink"
+                :style="theme === 'light' ? {} : { boxShadow: '0 0 6px var(--color-green)' }" aria-hidden="true"></span>
         </span>
       </a>
 

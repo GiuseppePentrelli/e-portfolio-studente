@@ -1,8 +1,9 @@
 <template>
-  <article class="bg-surface border border-border rounded-card overflow-hidden flex flex-col gap-4 hover:border-blue transition-all duration-300 hover:-translate-y-1">
+  <article class="cert-card bg-surface border border-border rounded-card overflow-hidden flex flex-col gap-4 hover:border-blue transition-all duration-300 hover:-translate-y-1">
 
-    <!-- Cover con tilt 3D solo sull'immagine -->
+    <!-- Cover: dark = tilt 3D + glow al mouse (originale main); light = statica (brutal-giocoso) -->
     <div
+      v-if="theme !== 'light'"
       class="cert-cover"
       @mousemove="onMove"
       @mouseleave="onLeave"
@@ -13,6 +14,30 @@
       <template v-if="cert.image">
         <img :src="assetUrl(cert.image)" aria-hidden="true" class="cert-blur-bg" />
         <div class="cert-img-wrap" :style="imgStyle">
+          <img :src="assetUrl(cert.image)" :alt="cert.title" class="cert-img" loading="lazy" />
+        </div>
+      </template>
+      <div v-else class="cert-placeholder">
+        <span aria-hidden="true" class="cert-placeholder-icon">🎓</span>
+      </div>
+
+      <!-- Badge livello -->
+      <span class="cert-badge" :class="badgeClass">
+        {{ t('certifications.levels.' + cert.level) }}
+      </span>
+
+      <!-- Badge logo ente (es. Cisco) -->
+      <img
+        v-if="cert.badge"
+        :src="assetUrl(cert.badge)"
+        alt=""
+        aria-hidden="true"
+        class="cert-issuer-badge"
+      />
+    </div>
+    <div v-else class="cert-cover" :class="coverClass">
+      <template v-if="cert.image">
+        <div class="cert-img-wrap">
           <img :src="assetUrl(cert.image)" :alt="cert.title" class="cert-img" loading="lazy" />
         </div>
       </template>
@@ -59,6 +84,7 @@
 <script setup>
 import { ref, computed } from 'vue'
 import { useLocale } from '@/composables/useLocale'
+import { useTheme } from '@/composables/useTheme'
 import { assetUrl } from '@/utils/assets'
 
 const props = defineProps({
@@ -66,6 +92,7 @@ const props = defineProps({
 })
 
 const { t } = useLocale()
+const { theme } = useTheme()
 
 const tiltX = ref(0)
 const tiltY = ref(0)
@@ -113,6 +140,12 @@ const badgeClass = computed(() => ({
   intermedio: 'badge-intermedio',
   avanzato:   'badge-avanzato',
 }[props.cert.level] ?? 'badge-basic'))
+
+const coverClass = computed(() => ({
+  basic:      'cover-basic',
+  intermedio: 'cover-intermedio',
+  avanzato:   'cover-avanzato',
+}[props.cert.level] ?? 'cover-basic'))
 </script>
 
 <style scoped>
@@ -220,4 +253,50 @@ const badgeClass = computed(() => ({
   object-fit: contain;
   filter: drop-shadow(0 2px 6px rgba(0,0,0,0.4));
 }
+
+/* === LIGHT MODE (brutal-giocoso) ====================================== */
+
+[data-theme="light"] .cert-card {
+  border: 2px solid var(--color-ink);
+  box-shadow: var(--shadow-card);
+  transition: transform .15s ease, box-shadow .15s ease;
+  transform: rotate(var(--tilt, 0deg));
+}
+[data-theme="light"] .cert-card:nth-child(3n+1) { --tilt: -0.75deg; }
+[data-theme="light"] .cert-card:nth-child(3n+2) { --tilt: 0.5deg; }
+[data-theme="light"] .cert-card:nth-child(3n)   { --tilt: -0.5deg; }
+[data-theme="light"] .cert-card:hover {
+  transform: translate(3px, 3px) rotate(var(--tilt, 0deg));
+  box-shadow: var(--shadow-btn);
+}
+@media (max-width: 768px) {
+  [data-theme="light"] .cert-card { --tilt: 0deg; }
+}
+
+[data-theme="light"] .cert-cover { border-bottom: 2px solid var(--color-ink); }
+[data-theme="light"] .cover-basic      { background: color-mix(in srgb, var(--color-fill-green) 25%, var(--color-surface)); }
+[data-theme="light"] .cover-intermedio { background: color-mix(in srgb, var(--color-fill-blue) 25%, var(--color-surface)); }
+[data-theme="light"] .cover-avanzato   { background: color-mix(in srgb, var(--color-fill-gold) 25%, var(--color-surface)); }
+
+[data-theme="light"] .cert-img {
+  filter: none;
+  transition: transform .2s ease;
+}
+[data-theme="light"] article:hover .cert-img {
+  transform: scale(1.05) rotate(1deg);
+}
+
+[data-theme="light"] .cert-placeholder { background: none; }
+
+[data-theme="light"] .cert-badge {
+  font-weight: 700;
+  border-radius: var(--radius-tag);
+  border: 1.5px solid var(--color-ink);
+  color: #111;
+}
+[data-theme="light"] .badge-basic      { background: var(--color-fill-green); }
+[data-theme="light"] .badge-intermedio { background: var(--color-fill-blue); }
+[data-theme="light"] .badge-avanzato   { background: var(--color-fill-gold); }
+
+[data-theme="light"] .cert-issuer-badge { filter: none; }
 </style>

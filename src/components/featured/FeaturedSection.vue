@@ -3,8 +3,8 @@
     <div class="flex items-end justify-between mb-8 gap-4">
       <div>
         <SectionLabel :label="t('featured.label')" class="mb-3" />
-        <h2 id="capolavori-title" class="font-sans font-bold text-[clamp(24px,3vw,36px)] leading-tight tracking-tight text-text">
-          {{ t('featured.title') }} <em class="italic font-medium text-coral not-italic">{{ t('featured.title_em') }}</em>
+        <h2 id="capolavori-title" class="font-sans font-bold text-[clamp(24px,3vw,36px)] leading-tight tracking-tight text-text light:font-[family-name:var(--font-family-display)]">
+          {{ t('featured.title') }} <em class="italic font-medium text-coral not-italic light:font-bold light:bg-fill-coral light:text-[#111] light:px-1">{{ t('featured.title_em') }}</em>
         </h2>
       </div>
       <span class="font-mono text-xs text-text-3 shrink-0">

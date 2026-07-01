@@ -3,8 +3,8 @@
     <div class="flex items-end justify-between mb-8 gap-4">
       <div>
         <SectionLabel :label="t('components.label')" class="mb-3" />
-        <h2 id="components-title" class="font-sans font-bold text-[clamp(24px,3vw,36px)] leading-tight tracking-tight text-text">
-          {{ t('components.title_1') }} <em class="italic font-medium text-coral">{{ t('components.title_em') }}</em>
+        <h2 id="components-title" class="font-sans font-bold text-[clamp(24px,3vw,36px)] leading-tight tracking-tight text-text light:font-[family-name:var(--font-family-display)]">
+          {{ t('components.title_1') }} <em class="italic font-medium text-coral light:not-italic light:font-bold light:bg-fill-coral light:text-[#111] light:px-1">{{ t('components.title_em') }}</em>
         </h2>
       </div>
       <span class="font-mono text-xs text-text-3 shrink-0">
@@ -210,5 +210,61 @@ watch(active, () => { page.value = 1 })
   border-color: var(--color-gold);
   color: var(--color-gold);
   background: rgba(245, 200, 66, 0.08);
+}
+
+/* === LIGHT MODE (brutal-giocoso) ====================================== */
+
+[data-theme="light"] .filter-btn {
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: .04em;
+  border-radius: var(--radius-btn);
+  border: 2px solid transparent;
+  transition: all .15s ease;
+}
+[data-theme="light"] .filter-btn:hover {
+  border-color: var(--color-ink);
+  color: var(--color-text);
+}
+[data-theme="light"] .filter-btn.active {
+  border-color: var(--color-ink);
+  color: #111;
+  background: var(--color-fill-gold);
+  box-shadow: 2px 2px 0 0 var(--color-ink);
+}
+
+[data-theme="light"] .page-btn {
+  background: var(--color-surface);
+  border: 2px solid var(--color-ink);
+  border-radius: var(--radius-btn);
+  box-shadow: 2px 2px 0 0 var(--color-ink);
+  transition: all .15s ease;
+}
+[data-theme="light"] .page-btn:hover:not(:disabled) {
+  color: var(--color-text);
+  border-color: var(--color-ink);
+  transform: translate(1px, 1px);
+  box-shadow: 1px 1px 0 0 var(--color-ink);
+}
+[data-theme="light"] .page-btn:disabled {
+  box-shadow: none;
+}
+
+[data-theme="light"] .page-dot {
+  font-weight: 700;
+  border-radius: var(--radius-btn);
+  border: 2px solid var(--color-ink);
+  background: var(--color-surface);
+  transition: all .15s ease;
+}
+[data-theme="light"] .page-dot:hover {
+  border-color: var(--color-ink);
+  color: var(--color-text);
+}
+[data-theme="light"] .page-dot.active {
+  border-color: var(--color-ink);
+  color: #111;
+  background: var(--color-fill-gold);
+  box-shadow: 2px 2px 0 0 var(--color-ink);
 }
 </style>

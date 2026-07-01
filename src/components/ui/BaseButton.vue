@@ -45,6 +45,7 @@ const base = [
   'font-mono font-medium',
   'rounded-btn transition-all duration-200',
   'cursor-pointer select-none',
+  'light:font-bold light:uppercase light:tracking-wide light:duration-150',
 ]
 
 const sizes = {
@@ -56,14 +57,23 @@ const variants = {
   outline: [
     'border border-border-2 bg-surface text-text-1',
     'hover:border-gold hover:text-text hover:bg-surface-2',
+    'light:border-2 light:border-ink light:shadow-[3px_3px_0_0_var(--color-ink)]',
+    'light:hover:border-ink light:hover:text-text-1 light:hover:bg-surface',
+    'light:hover:translate-x-[2px] light:hover:translate-y-[2px] light:hover:shadow-[1px_1px_0_0_var(--color-ink)]',
+    'light:active:translate-x-[3px] light:active:translate-y-[3px] light:active:shadow-none',
   ],
   ghost: [
     'border border-transparent bg-transparent text-text-2',
     'hover:text-text hover:bg-surface-2',
+    'light:border-2 light:hover:border-ink light:hover:bg-transparent light:hover:text-text',
   ],
   solid: [
     'border border-gold bg-gold/10 text-gold',
     'hover:bg-gold hover:text-bg',
+    'light:border-2 light:border-ink light:bg-fill-gold light:text-[#111] light:shadow-[3px_3px_0_0_var(--color-ink)]',
+    'light:hover:bg-fill-gold light:hover:text-[#111]',
+    'light:hover:translate-x-[2px] light:hover:translate-y-[2px] light:hover:shadow-[1px_1px_0_0_var(--color-ink)]',
+    'light:active:translate-x-[3px] light:active:translate-y-[3px] light:active:shadow-none',
   ],
 }
 

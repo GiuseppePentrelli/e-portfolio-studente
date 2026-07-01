@@ -3,10 +3,10 @@
     <SectionLabel :label="t('skills.label')" class="mb-3" />
     <h2
       id="skills-title"
-      class="font-sans font-bold text-[clamp(24px,3vw,36px)] leading-tight tracking-tight text-text mb-10"
+      class="font-sans font-bold text-[clamp(24px,3vw,36px)] leading-tight tracking-tight text-text mb-10 light:font-[family-name:var(--font-family-display)]"
     >
       {{ t('skills.title_1') }}
-      <em class="italic font-medium text-coral">{{ t('skills.title_em') }}</em>
+      <em class="italic font-medium text-coral light:not-italic light:font-bold light:bg-fill-coral light:text-[#111] light:px-1">{{ t('skills.title_em') }}</em>
     </h2>
 
     <div class="flex flex-col gap-7">
@@ -93,5 +93,25 @@ const { t } = useLocale()
   width: 17px;
   height: 17px;
   flex-shrink: 0;
+}
+
+/* === LIGHT MODE (brutal-giocoso) ====================================== */
+
+[data-theme="light"] .skill-row-line {
+  height: 3px;
+  background: var(--color-ink);
+}
+
+[data-theme="light"] .skill-chip {
+  border: 2px solid var(--color-ink);
+  box-shadow: 2px 2px 0 0 var(--color-ink);
+  transition: transform 0.15s ease, box-shadow 0.15s ease, color 0.2s, background 0.2s;
+}
+[data-theme="light"] .skill-chip:hover {
+  border-color: var(--color-ink);
+  color: var(--color-text);
+  background: var(--color-surface-2);
+  transform: translate(1px, 1px);
+  box-shadow: 1px 1px 0 0 var(--color-ink);
 }
 </style>

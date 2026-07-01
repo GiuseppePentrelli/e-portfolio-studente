@@ -29,6 +29,15 @@ const items = computed(() => t('marquee.items'))
   background: var(--color-surface);
   mask-image: linear-gradient(90deg, transparent, #000 8%, #000 92%, transparent);
 }
+[data-theme="light"] .marquee {
+  border-top: 3px solid var(--color-ink);
+  border-bottom: 3px solid var(--color-ink);
+  background: var(--color-fill-gold);
+  mask-image: none;
+  transform: rotate(-0.7deg);
+  margin-inline: -8px;
+  width: calc(100% + 16px);
+}
 
 .marquee-track {
   display: flex;
@@ -50,10 +59,19 @@ const items = computed(() => t('marquee.items'))
   white-space: nowrap;
   padding: 0 6px;
 }
+[data-theme="light"] .marquee-item {
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: .08em;
+  color: #111;
+}
 
 .sep {
   color: var(--color-gold);
   font-size: 10px;
+}
+[data-theme="light"] .sep {
+  color: #111;
 }
 
 @keyframes marquee {
