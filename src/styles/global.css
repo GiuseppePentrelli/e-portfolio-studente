@@ -1,0 +1,97 @@
+body {
+  --hl-giallo: 255, 213, 0;
+  --hl-verde: 140, 233, 154;
+  --hl-rosa: 255, 146, 195;
+  --hl-azzurro: 116, 192, 252;
+  --hl-arancio: 255, 169, 77;
+  --hl-viola: 208, 191, 255;
+  --hl-rosso: 255, 135, 135;
+  --hl: var(--hl-giallo);
+  --hl-forza: 1;
+  background: var(--surface-canvas);
+  color: var(--ink);
+  font-family: var(--font-body);
+  line-height: 1.6;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+}
+
+a {
+  color: inherit;
+}
+
+button {
+  color: inherit;
+}
+
+mark {
+  color: inherit;
+  margin: 0 -0.15em;
+  padding: 0.1em 0.3em;
+  border-radius: 0.8em 0.3em 0.9em 0.25em;
+  -webkit-box-decoration-break: clone;
+  box-decoration-break: clone;
+  background:
+    radial-gradient(ellipse at 5% 58%,
+      rgba(var(--hl), calc(0.3 * var(--hl-forza))) 0%,
+      rgba(var(--hl), calc(0.16 * var(--hl-forza))) 13%,
+      rgba(var(--hl), 0) 34%),
+    radial-gradient(ellipse at 95% 46%,
+      rgba(var(--hl), calc(0.26 * var(--hl-forza))) 0%,
+      rgba(var(--hl), calc(0.12 * var(--hl-forza))) 16%,
+      rgba(var(--hl), 0) 36%),
+    linear-gradient(104deg,
+      rgba(var(--hl), 0) 0.9%,
+      rgba(var(--hl), calc(0.95 * var(--hl-forza))) 2.4%,
+      rgba(var(--hl), calc(0.5 * var(--hl-forza))) 5.8%,
+      rgba(var(--hl), calc(0.35 * var(--hl-forza))) 50%,
+      rgba(var(--hl), calc(0.45 * var(--hl-forza))) 93%,
+      rgba(var(--hl), calc(0.8 * var(--hl-forza))) 96%,
+      rgba(var(--hl), 0) 98%),
+    linear-gradient(183deg,
+      rgba(var(--hl), 0) 0%,
+      rgba(var(--hl), calc(0.3 * var(--hl-forza))) 7.9%,
+      rgba(var(--hl), calc(0.08 * var(--hl-forza))) 42%,
+      rgba(var(--hl), calc(0.16 * var(--hl-forza))) 68%,
+      rgba(var(--hl), 0) 100%);
+}
+
+.desk-surface {
+  background:
+    linear-gradient(
+      90deg,
+      transparent 0 18%,
+      rgb(79 56 30 / 7%) 18% calc(18% + 0.125rem),
+      transparent calc(18% + 0.125rem) 68%,
+      rgb(79 56 30 / 6%) 68% calc(68% + 0.125rem),
+      transparent calc(68% + 0.125rem)
+    ),
+    var(--surface-desk);
+}
+
+:focus-visible {
+  outline: 0.2rem solid var(--focus);
+  outline-offset: 0.22rem;
+}
+
+.skip-link {
+  position: fixed;
+  top: var(--space-3);
+  left: var(--space-3);
+  z-index: 100;
+  translate: 0 -250%;
+  padding: var(--space-2) var(--space-4);
+  background: var(--paper);
+  border: 0.125rem solid var(--ink-strong);
+  border-radius: var(--radius-small);
+  font-weight: 700;
+}
+
+.skip-link:focus {
+  translate: 0;
+}
+
+::selection {
+  background: var(--highlight-blue);
+  color: var(--ink-strong);
+}

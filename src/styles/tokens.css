@@ -1,0 +1,131 @@
+:root {
+  color-scheme: light;
+
+  /* Tavolozza condivisa: i componenti consumano ruoli semantici, non valori isolati. */
+  --pen-black: #24303a;
+  --pen-blue: #155c83;
+  --pen-red: #a1443d;
+  --pen-green: #2f6f3e;
+  --ink-strong: var(--pen-black);
+  --ink: #35434d;
+  --ink-soft: #66727a;
+  --graphite: #4a4d50;
+  --paper: #fffdf4;
+  --paper-warm: #faf4df;
+  --paper-edge: #d8cdb3;
+  --desk: #cfc0a3;
+  --desk-dark: #75634d;
+  --line-blue: rgb(90 145 185 / 24%);
+  --margin-red: rgb(205 92 82 / 52%);
+  --highlight-yellow: #ffd500;
+  --highlight-blue: #a9dcf5;
+  --highlight-pink: #f3b7cf;
+  --focus: #075e8d;
+
+  /* Linguette della navbar: materiali, non inchiostri. */
+  --tab-yellow: #fbe38a;
+  --tab-blue: #a9d6ef;
+  --tab-pink: #ebb6c8;
+  --tab-green: #cfe8c9;
+
+  /* Copertina e retro del quaderno. */
+  --cover-board: #c9b48f;
+  --cover-board-edge: #b39d76;
+  --cover-label: #fffdf8;
+  --cover-label-ink: #6b5a35;
+  --cover-label-rule: #c9c1b0;
+  --cover-inside: #e4dac5;
+
+  /* Superfici e profondità condivise dello Style Lab. */
+  --surface-canvas: #f1ece3;
+  --surface-control: #fffdf5;
+  --surface-control-translucent: rgb(255 253 244 / 88%);
+  --surface-control-paper: rgb(255 253 244 / 74%);
+  --surface-border: #d7cdb9;
+  --surface-border-strong: #807769;
+  --surface-desk: #cbbb9d;
+  --surface-illustrated: #bcd9d3;
+  --surface-illustrated-accent: #f3b7cf;
+  --ink-kicker: #8f3e39;
+  --ink-description: #4d5960;
+  --paper-photo: #f5edd8;
+  --shadow-soft: rgb(76 59 38 / 7%);
+  --shadow-medium: rgb(68 52 34 / 14%);
+  --shadow-paper: rgb(57 45 29 / 18%);
+  --paper-stain-warm: rgb(141 119 79 / 7%);
+  --paper-stain-cool: rgb(94 80 59 / 5%);
+  --paper-inset-shadow: rgb(117 89 48 / 8%);
+  --paper-tape-fiber: rgb(99 75 47 / 7%);
+  --paper-tape: rgb(238 218 171 / 76%);
+
+  --font-body: "Nunito Local", "Segoe UI", system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
+  --font-hand: "Excalifont Local", "Segoe Print", "Bradley Hand", "Comic Sans MS", cursive;
+  --font-code: "Comic Shanns Local", "Cascadia Code", "SFMono-Regular", Consolas, monospace;
+  --font-cursive: "Allura Local", "Segoe Script", "Bradley Hand", cursive;
+
+  --space-1: 0.25rem;
+  --space-2: 0.5rem;
+  --space-3: 0.75rem;
+  --space-4: 1rem;
+  --space-5: 1.5rem;
+  --space-6: 2rem;
+  --space-7: 3rem;
+  --space-8: 4.5rem;
+
+  --radius-small: 0.35rem;
+  --radius-medium: 0.75rem;
+  --content-width: 76rem;
+  --navbar-height: 3.625rem;
+  --notebook-width: 36rem;
+  /* Spostamento del quaderno aperto: da 75rem in su la pagina occupa la metà destra. */
+  --notebook-shift: 0%;
+  /* Larghezza del quaderno, e della pagina che ne viene strappata: proporzione 3:4 che entra per intero nella scena. */
+  --notebook-size: min(
+    var(--notebook-width),
+    calc((100svh - var(--navbar-height) - 0.125rem - var(--space-7) * 2) * 0.75)
+  );
+  /* Pannello della scrivania: a tutta larghezza sugli schermi piccoli, con le misure dello Style Lab da 64rem. */
+  --desk-width: calc(var(--content-width) + 4rem);
+  --desk-gutter: 0px;
+  --desk-radius: 0px;
+  /* Di quanto il contenuto di Chi sono sale sopra la propria sezione: la distanza che lo porta
+     sul foglio posato in Copertina (altezza della scena meno il margine sopra il foglio). */
+  --notebook-page-rise: calc(100svh - var(--navbar-height) - 0.125rem - var(--space-7));
+  /* Punto di arrivo delle ancore verso Chi sono: la scena della Copertina è quasi conclusa. */
+  --notebook-anchor-offset: calc(100svh - 2rem);
+  --paper-line-height: 1.75rem;
+  --duration-micro: 120ms;
+  --duration-fast: 160ms;
+  --duration-short: 240ms;
+  --ease-out: cubic-bezier(0.16, 1, 0.3, 1);
+  --ease-in: cubic-bezier(0.7, 0, 0.84, 0);
+  --ease-in-out: cubic-bezier(0.65, 0, 0.35, 1);
+  --ease-drawer: cubic-bezier(0.32, 0.72, 0, 1);
+  --transition-fast: var(--duration-fast) var(--ease-out);
+}
+
+@media (max-width: 40rem) {
+  :root {
+    --navbar-height: 3.5rem;
+  }
+}
+
+@media (min-width: 64rem) {
+  :root {
+    --desk-gutter: clamp(1rem, 3vw, 2.5rem);
+    --desk-radius: var(--radius-medium);
+  }
+}
+
+@media (min-width: 75rem) {
+  :root {
+    --notebook-shift: 50%;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  :root {
+    --notebook-page-rise: 0px;
+    --notebook-anchor-offset: 0px;
+  }
+}
