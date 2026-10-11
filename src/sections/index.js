@@ -1,5 +1,6 @@
 import AboutSection from './AboutSection.vue'
 import CoverSection from './CoverSection.vue'
+import JourneySection from './JourneySection.vue'
 
 // Fonte unica delle sezioni della home: l'ordine dell'elenco è l'ordine di lettura.
 // Una sezione senza `tabColor` non ha linguetta nella navbar.
@@ -13,4 +14,5 @@ export const sections = [
     tabColor: 'var(--tab-yellow)',
     scrollOffset: 'var(--notebook-anchor-offset)',
   },
+  { id: 'percorso', label: 'Percorso', component: JourneySection, tabColor: 'var(--tab-blue)' },
 ]

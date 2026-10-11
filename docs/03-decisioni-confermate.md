@@ -60,7 +60,9 @@ Questo documento raccoglie soltanto decisioni già approvate. Le alternative non
 ## Struttura del sito
 
 - La home narrativa è composta da otto sezioni, in quest'ordine: Copertina, Chi sono, Percorso, Capolavori, Componenti, Competenze, Certificazioni, Documenti. I contatti restano nel footer.
-- I progetti compaiono in due sezioni con forme diverse: nel Percorso tutti, per anno, come voci compatte; in Capolavori soltanto quelli in evidenza, con card ricche. Il dato è unico: ogni progetto è un solo elemento con un indicatore di capolavoro, ed entrambe le sezioni portano alla stessa pagina di approfondimento.
+- Il Percorso racconta la persona, non i progetti: le tappe di Giuseppe (il salone, il primo codice, il ritorno a scuola, il quinto anno) su foglietti fissati con lo scotch e uniti da un filo a matita tracciato sul banco. I progetti entrano nelle sezioni successive.
+- Dalla scena di Chi sono al Percorso si passa spostando lo sguardo più in basso sulla stessa scrivania: il piano prosegue senza stacchi, i due fogli escono in alto e i foglietti del percorso sono già appoggiati più sotto. Scorrendo, il filo viene tracciato e ogni foglietto viene scritto a penna.
+- I progetti compaiono in Capolavori, quelli in evidenza con card ricche; dove elencarli tutti è da ridefinire, non più nel Percorso. Il dato è unico: ogni progetto è un solo elemento con un indicatore di capolavoro, ed entrambe le sezioni portano alla stessa pagina di approfondimento.
 - La Copertina si raggiunge dal marchio "Giuseppe." della navbar e non ha una linguetta propria.
 - Regola di movimento del sito: nulla compare dal nulla e nulla sparisce nel nulla. Ogni elemento entra ed esce in modo fisico e credibile (scivola, si apre, viene posato, passa sotto o dietro qualcos'altro); dissolvenze e comparse improvvise non sono ammesse come unico mezzo.
 - La Copertina è il fronte del quaderno chiuso, speculare al footer che ne è il retro: cartoncino, dorso, etichetta scolastica con titolo e autore. All'apertura il titolo viene scritto a penna e poi evidenziato, una sola volta; con movimento ridotto compare già scritto. I testi dell'etichetta sono provvisori.

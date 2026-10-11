@@ -395,6 +395,19 @@ onBeforeUnmount(() => {
   inset-block: var(--desk-top);
 }
 
+/* Con le animazioni la scrivania prosegue senza stacchi in quella del Percorso, subito sotto. */
+@media (prefers-reduced-motion: no-preference) {
+  .cover__surface {
+    margin-bottom: 0;
+    border-bottom-right-radius: 0;
+    border-bottom-left-radius: 0;
+  }
+
+  .cover__desk > .cover__props {
+    bottom: 0;
+  }
+}
+
 /* Penna e cappuccio stanno nella striscia libera sopra i fogli, quasi dritti, invece di finirci sotto. */
 .cover__props :deep(.desk-props__pen) {
   top: 0.9%;

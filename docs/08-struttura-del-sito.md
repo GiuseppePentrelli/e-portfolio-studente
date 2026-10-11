@@ -16,7 +16,7 @@ Elenco e ordine confermati (DEC-040).
 | --- | --- | --- | --- |
 | 1 | Copertina | Il portfolio come capolavoro, poi Giuseppe come autore. I dieci secondi di stupore. | testo breve |
 | 2 | Chi sono | Presentazione personale, ritratto, tono spontaneo. | testo breve |
-| 3 | Percorso | Due capitoli: secondo-quarto anno (retrospettiva) e quinto anno (presente). | derivato dai progetti + testo |
+| 3 | Percorso | Le tappe di Giuseppe, dal lavoro precedente al quinto anno: racconta la persona, non i progetti (DEC-064). | testo breve |
 | 4 | Capolavori | Selezione dei lavori in evidenza, con Second Brain come primo candidato. | collezione progetti |
 | 5 | Componenti | Componenti custom provabili sul posto. | collezione componenti |
 | 6 | Competenze | Competenze per stato, ciascuna collegata alle prove. | collezione competenze |

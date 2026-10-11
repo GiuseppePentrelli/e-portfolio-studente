@@ -67,6 +67,7 @@ Il registro riassume le decisioni che cambiano la direzione del prodotto. Le fut
 | DEC-061 | 2026-10-11 | La scena di Copertina e Chi sono si adatta allo spazio misurato invece che a soglie di larghezza, e fogli e quaderno sono dimensionati in proporzione; sui due fogli entra una prima bozza della presentazione, da approvare. | Confermata; testi in bozza |
 | DEC-062 | 2026-10-11 | Regola di movimento: nel sito nulla compare o sparisce dal nulla; ogni elemento entra ed esce in modo fisico. La scrivania, che appariva in dissolvenza, ora entra dal basso scivolando sotto il quaderno con i suoi oggetti sopra. | Confermata |
 | DEC-063 | 2026-10-11 | In Copertina l'illustrazione doppia viene sostituita da Giuseppe davanti all'ingresso della scuola; "Dalle forbici al codice" resta solo sul foglio di Chi sono. | Confermata |
+| DEC-064 | 2026-10-11 | Il Percorso racconta la persona e non elenca i progetti, che passano alle sezioni successive (sostituisce la parte di DEC-041 sul Percorso). È costruito come prosecuzione della scrivania, con le tappe su foglietti; testi in bozza. | Confermata; testi in bozza |
 
 ## Modello per una nuova decisione
 
