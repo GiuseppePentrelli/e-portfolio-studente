@@ -77,22 +77,48 @@
   --content-width: 76rem;
   --navbar-height: 3.625rem;
   --notebook-width: 36rem;
-  /* Spostamento del quaderno aperto: da 75rem in su la pagina occupa la metà destra. */
+  /* Spostamento del quaderno aperto: quando le due metà entrano nella scrivania, la pagina occupa
+     la metà destra. Lo decide la Copertina misurando lo spazio (classe notebook-spread-fits). */
   --notebook-shift: 0%;
-  /* Larghezza del quaderno, e della pagina che ne viene strappata: proporzione 3:4 che entra per intero nella scena. */
+  --stage-height: calc(100svh - var(--navbar-height) - 0.125rem);
+  /* Larghezza del quaderno, e delle pagine che ne vengono strappate: proporzione 3:4 che entra per
+     intero nella scena. --notebook-cap la riduce quando serve posto per due fogli affiancati. */
   --notebook-size: min(
     var(--notebook-width),
-    calc((100svh - var(--navbar-height) - 0.125rem - var(--space-7) * 2) * 0.75)
+    calc(100vw - var(--space-4) * 2 - var(--desk-gutter) * 2),
+    calc((var(--stage-height) - var(--space-7) * 2) * 0.75),
+    var(--notebook-cap, 100vw)
   );
+  /* Un centesimo della larghezza del foglio: su quaderno e fogli ogni misura è un suo multiplo,
+     così a qualsiasi schermo è lo stesso disegno in scala e ci sta lo stesso testo. */
+  --u: calc(var(--notebook-size) / 100);
+  --page-line-height: calc(var(--u) * 5.8);
+  --page-margin: calc(var(--u) * 13.3);
+  --page-padding: calc(var(--u) * 5);
+  --page-gutter: calc(var(--u) * 4.5);
+  --page-tear: calc(var(--u) * 2.5);
   /* Pannello della scrivania: a tutta larghezza sugli schermi piccoli, con le misure dello Style Lab da 64rem. */
   --desk-width: calc(var(--content-width) + 4rem);
   --desk-gutter: 0px;
   --desk-radius: 0px;
+  /* Ombra della scrivania: un alone leggero tutto intorno, più quella lunga verso il basso. */
+  --desk-shadow:
+    0 0 0 0.0625rem rgb(68 52 34 / 7%), 0 0.125rem 0.75rem rgb(68 52 34 / 20%),
+    0 1rem 2.5rem var(--shadow-medium);
   /* Di quanto il contenuto di Chi sono sale sopra la propria sezione: la distanza che lo porta
-     sul foglio posato in Copertina (altezza della scena meno il margine sopra il foglio). */
-  --notebook-page-rise: calc(100svh - var(--navbar-height) - 0.125rem - var(--space-7));
+     sui fogli posati in Copertina, che sono centrati in altezza nella scena. */
+  --notebook-page-rise: calc((var(--stage-height) + var(--notebook-size) * 4 / 3) / 2);
   /* Punto di arrivo delle ancore verso Chi sono: la scena della Copertina è quasi conclusa. */
-  --notebook-anchor-offset: calc(100svh - 2rem);
+  --notebook-anchor-offset: calc(100svh - 2rem + var(--cover-swap-scroll));
+  /* I due fogli strappati: dove affiancarli non entrano, restano impilati e il primo lascia il posto
+     al secondo con un tratto di scorrimento in più. Quando c'è posto si posano uno accanto
+     all'altro: lo decide la Copertina misurando lo spazio (classe sheets-side-by-side). */
+  --sheet-gap: 1.5rem;
+  --sheet-one-x: calc(var(--notebook-shift) * -1);
+  --sheet-two-x: calc(var(--notebook-shift) * -1);
+  --sheet-two-rest: 1.6deg;
+  --sheet-two-peek: 0.3rem;
+  --cover-swap-scroll: 55svh;
   --paper-line-height: 1.75rem;
   --duration-micro: 120ms;
   --duration-fast: 160ms;
@@ -117,15 +143,22 @@
   }
 }
 
-@media (min-width: 75rem) {
-  :root {
-    --notebook-shift: 50%;
-  }
+:root.notebook-spread-fits {
+  --notebook-shift: 50%;
+}
+
+:root.sheets-side-by-side {
+  --sheet-one-x: calc(-100% - var(--sheet-gap) / 2);
+  --sheet-two-x: calc(var(--sheet-gap) / 2);
+  --sheet-two-rest: 0deg;
+  --sheet-two-peek: 0rem;
+  --cover-swap-scroll: 0svh;
 }
 
 @media (prefers-reduced-motion: reduce) {
   :root {
     --notebook-page-rise: 0px;
     --notebook-anchor-offset: 0px;
+    --cover-swap-scroll: 0svh;
   }
 }

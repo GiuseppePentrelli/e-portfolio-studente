@@ -63,6 +63,10 @@ Il registro riassume le decisioni che cambiano la direzione del prodotto. Le fut
 | DEC-057 | 2026-10-11 | Il movimento della foto fissata con lo scotch diventa il componente condiviso `TapedPhoto`; la copertina è dimensionata interamente in proporzione al quaderno. Adesivi e seconda immagine in copertina restano in prova. | Confermata |
 | DEC-058 | 2026-10-11 | La pagina che resta nel quaderno dopo lo strappo è una pagina di appunti decorativa con testi veri dalla DevBase (nota Vue 3 — Composition API), diagrammi e scarabocchi disegnati a mano. | Confermata |
 | DEC-059 | 2026-10-11 | L'interno della copertina diventa una "Tavola delle scorciatoie" stampata, sul modello delle tabelline dei quaderni di scuola, con righello e annotazioni a mano; non ripete più nome e cognome. | Confermata, in prova |
+| DEC-060 | 2026-10-11 | I fogli strappati diventano due: affiancati sulla scrivania su schermi larghi, impilati e scambiati con lo scorrimento sugli altri. Il testo del secondo foglio è riempitivo. | Confermata, in prova |
+| DEC-061 | 2026-10-11 | La scena di Copertina e Chi sono si adatta allo spazio misurato invece che a soglie di larghezza, e fogli e quaderno sono dimensionati in proporzione; sui due fogli entra una prima bozza della presentazione, da approvare. | Confermata; testi in bozza |
+| DEC-062 | 2026-10-11 | Regola di movimento: nel sito nulla compare o sparisce dal nulla; ogni elemento entra ed esce in modo fisico. La scrivania, che appariva in dissolvenza, ora entra dal basso scivolando sotto il quaderno con i suoi oggetti sopra. | Confermata |
+| DEC-063 | 2026-10-11 | In Copertina l'illustrazione doppia viene sostituita da Giuseppe davanti all'ingresso della scuola; "Dalle forbici al codice" resta solo sul foglio di Chi sono. | Confermata |
 
 ## Modello per una nuova decisione
 

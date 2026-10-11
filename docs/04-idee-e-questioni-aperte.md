@@ -54,7 +54,8 @@ Lo Style Lab deve permettere confronti a parità di contenuto e includere almeno
 
 - Fotografia personale da trasformare in ritratto.
 - Che cosa succede scorrendo dopo la scena di Copertina e Chi sono: nuova sezione e relative animazioni, ancora da definire.
-- Testo vero dell'apertura di Chi sono: la didascalia attuale in `src/sections/AboutOpening.vue` è provvisoria.
+- Testi di Chi sono: le frasi in `src/sections/AboutOpening.vue` sono una bozza scritta a partire dal profilo nella DevBase; Giuseppe deve confermare i fatti (Modugno, tirocinio, Istituto Marconi, quinto anno) e approvare o riscrivere le parole. Manca la versione inglese.
+- Su schermi molto grandi quaderno e fogli restano piccoli rispetto allo schermo, perché la scrivania è larga al massimo 80rem: valutare se allargarla.
 - Illustrazione "Dalle forbici al codice": i libri disegnati citano React e Next.js, mentre il portfolio è in Vue; le scritte sui biglietti sono dentro l'immagine e restano in italiano anche nella versione inglese.
 - Valutare nello Style Lab il trattamento della fotografia strappata già disponibile: parrucchiere da una parte e web developer dall'altra.
 - Inventario completo dei repository GitHub esistenti.

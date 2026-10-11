@@ -9,7 +9,9 @@
     }"
   >
     <div ref="stage" class="cover__stage">
-      <span class="cover__surface desk-surface" aria-hidden="true"></span>
+      <div class="cover__surface desk-surface" aria-hidden="true">
+        <DeskScribbles />
+      </div>
 
       <div ref="desk" class="cover__desk">
         <DeskProps class="cover__props" />
@@ -43,13 +45,13 @@
               </p>
             </div>
 
-            <!-- In prova: la stessa illustrazione che sta sul foglio di Chi sono. -->
+            <!-- Giuseppe davanti all'ingresso della scuola: in copertina niente riferimenti alla storia di Chi sono. -->
             <TapedPhoto class="sketch" :tilt="-3" :tape-at="40" :tape-tilt="5" :drive="leafVelocity" :nudge-on-mount="150">
               <img
-                src="@/assets/images/dalle-forbici-al-codice.webp"
-                alt="Illustrazione a matita: Giuseppe parrucchiere si guarda in uno specchio che lo riflette da sviluppatore."
-                width="720"
-                height="658"
+                src="@/assets/images/giuseppe-ingresso-scuola.webp"
+                alt="Illustrazione a matita: Giuseppe in piedi davanti all'ingresso della sua scuola, l'IISS Marconi-Hack, con lo zaino in spalla e un quaderno rosso in mano."
+                width="440"
+                height="550"
                 decoding="async"
               />
             </TapedPhoto>
@@ -76,10 +78,18 @@
             </div>
           </div>
 
-          <!-- La prima pagina: compare a copertina aperta, viene scritta, poi viene strappata e si posa sulla scrivania. -->
-          <div class="notebook__sheet notebook__sheet-box" aria-hidden="true">
+          <!-- Le prime due pagine: compaiono a copertina aperta, vengono strappate insieme e si posano
+               sulla scrivania. La prima porta la presentazione, la seconda il disegno, e sta sotto
+               la prima finché non si separano. -->
+          <div class="notebook__sheet notebook__sheet--two notebook__sheet-box" aria-hidden="true">
             <span class="notebook__sheet-shadow"></span>
-            <NotebookPage class="notebook__sheet-paper" torn-left>
+            <NotebookPage class="notebook__sheet-paper" torn-left worn="flipped">
+              <AboutDrawing decorative />
+            </NotebookPage>
+          </div>
+          <div class="notebook__sheet notebook__sheet--one notebook__sheet-box" aria-hidden="true">
+            <span class="notebook__sheet-shadow"></span>
+            <NotebookPage class="notebook__sheet-paper" torn-left worn>
               <AboutOpening decorative />
             </NotebookPage>
           </div>
@@ -92,11 +102,13 @@
 <script setup>
 import { onBeforeUnmount, onMounted, ref } from 'vue'
 import DeskProps from '@/components/foundations/DeskProps.vue'
+import DeskScribbles from '@/components/foundations/DeskScribbles.vue'
 import NotebookElastic from '@/components/foundations/NotebookElastic.vue'
 import NotebookNotes from '@/components/foundations/NotebookNotes.vue'
 import NotebookPage from '@/components/foundations/NotebookPage.vue'
 import TapedPhoto from '@/components/primitives/TapedPhoto.vue'
 import AboutOpening from './AboutOpening.vue'
+import AboutDrawing from './AboutDrawing.vue'
 import CoverInside from './CoverInside.vue'
 import CoverStickers from './CoverStickers.vue'
 
@@ -104,16 +116,29 @@ defineProps({
   headingId: { type: String, required: true },
 })
 
-// Fasi lungo lo scorrimento della sezione, da 0 a 1:
+// Fasi lungo lo scorrimento della sezione. 1 è la fine del tratto di base; oltre c'è soltanto lo
+// scambio tra i due fogli, dove restano impilati (vedi --cover-swap-scroll).
 // l'elastico passa dietro, la copertina si apre, la prima pagina esce e si posa sulla scrivania.
 const BAND_END = 0.1
 const OPEN = [0.06, 0.4]
-const DESK = [0.03, 0.3]
+// Il sottomano scivola sotto il quaderno mentre questo è sollevato per aprirsi.
+const DESK = [0.03, 0.27]
 const SHEET = [0.46, 0.82]
+// Il secondo foglio segue il primo con un attimo di ritardo.
+const SHEET_TWO = [0.5, 0.88]
+const SWAP = [1.06, 1.36]
+// Il disegno sul secondo foglio compare quando il foglio si scopre: mentre si posa accanto al
+// primo, oppure durante lo scambio dove restano impilati.
+const DRAW_BESIDE = [0.6, 0.94]
+const DRAW_STACKED = [1.12, 1.42]
+const BASE_SCROLL = 140
+// Due fogli affiancati: spazio da lasciare ai lati per gli oggetti della scrivania (in rem) e
+// di quanto, al massimo, si può rimpicciolire il quaderno per farceli stare.
+const SIDE_MARGIN = 8.5
+const MIN_SIDE_SCALE = 0.8
 // Il quaderno si richiude ed esce a sinistra, poi rientra sotto la scrivania.
 const DEPART = [0.44, 0.9]
 const DEPART_TURN = 0.55
-const PROPS = [0.52, 0.94]
 // La prima pagina viene scritta mentre la copertina finisce di aprirsi.
 const WRITE = [0.25, 0.45]
 // Tempo, in millisecondi, con cui l'animazione insegue lo scorrimento: ammorbidisce gli scatti della rotella.
@@ -130,6 +155,9 @@ const bandPull = ref(0)
 const sheetOn = ref(false)
 const tucking = ref(false)
 let stickyTop = 0
+let baseShare = 1
+let sheetsBeside = false
+const written = {}
 let departOut = 0
 let departEnd = 0
 let target = 0
@@ -148,7 +176,15 @@ function readProgress() {
   const distance = track.value.offsetHeight - stage.value.offsetHeight
   if (distance <= 0) return 0
   const scrolled = stickyTop - track.value.getBoundingClientRect().top
-  return Math.min(1, Math.max(0, scrolled / distance))
+  return Math.min(1, Math.max(0, scrolled / distance)) / baseShare
+}
+
+// Scrive una proprietà soltanto quando cambia: ogni scrittura fa ricalcolare gli stili dell'intera scena.
+function setVar(name, value) {
+  const text = typeof value === 'number' ? value.toFixed(4) : value
+  if (written[name] === text) return
+  written[name] = text
+  track.value.style.setProperty(name, text)
 }
 
 function apply(progress) {
@@ -157,24 +193,28 @@ function apply(progress) {
   const open = ramp(progress, OPEN)
   const sheet = ramp(progress, SHEET)
 
-  const { style } = track.value
-  style.setProperty('--band-out', bandOut)
-  style.setProperty('--open', open)
-  style.setProperty('--lift', Math.sin(Math.PI * open))
-  style.setProperty('--desk', ramp(progress, DESK))
-  style.setProperty('--sheet', sheet)
-  style.setProperty('--sheet-arc', Math.sin(Math.PI * sheet))
+  setVar('--band-out', bandOut)
+  setVar('--open', open)
+  setVar('--lift', Math.sin(Math.PI * open))
+  // Arrivo deciso e frenata morbida, come un foglio spinto sul tavolo.
+  setVar('--desk', 1 - (1 - ramp(progress, DESK)) ** 2)
+  setVar('--sheet', sheet)
+  setVar('--sheet-arc', Math.sin(Math.PI * sheet))
+  const sheetTwo = ramp(progress, SHEET_TWO)
+  setVar('--sheet-two', sheetTwo)
+  setVar('--sheet-two-arc', Math.sin(Math.PI * sheetTwo))
+  setVar('--swap', ramp(progress, SWAP))
+  setVar('--draw', ramp(progress, sheetsBeside ? DRAW_BESIDE : DRAW_STACKED))
   // Lo strappo: la pagina si stacca dall'alto ruotando sull'angolo in basso, poi cede.
-  style.setProperty('--tear', Math.sin(Math.PI * ramp(sheet, [0, 0.3])))
-  style.setProperty('--torn', ramp(sheet, [0.02, 0.12]))
-  style.setProperty('--desk-props-in', ramp(progress, PROPS))
-  style.setProperty('--write', Math.min(1, Math.max(0, (progress - WRITE[0]) / (WRITE[1] - WRITE[0]))))
+  setVar('--tear', Math.sin(Math.PI * ramp(sheet, [0, 0.3])))
+  setVar('--torn', ramp(sheet, [0.02, 0.12]))
+  setVar('--write', Math.min(1, Math.max(0, (progress - WRITE[0]) / (WRITE[1] - WRITE[0]))))
 
   const depart = Math.min(1, Math.max(0, (progress - DEPART[0]) / (DEPART[1] - DEPART[0])))
   const leaving = ramp(depart, [0, DEPART_TURN])
   const returning = ramp(depart, [DEPART_TURN, 1])
-  style.setProperty('--close', leaving)
-  style.setProperty('--depart-x', `${departOut * leaving + (departEnd - departOut) * returning}px`)
+  setVar('--close', leaving)
+  setVar('--depart-x', `${departOut * leaving + (departEnd - departOut) * returning}px`)
 
   bandPull.value = bandOut * 16
   bandBehind.value = band >= 0.5
@@ -217,19 +257,44 @@ function follow() {
   if (target !== current) wake()
 }
 
-// Misure per l'uscita del quaderno oltre il bordo della scrivania.
+// Decide come disporre quaderno e fogli nello spazio disponibile e misura l'uscita del quaderno.
 function measure() {
+  const root = document.documentElement
+  // Si riparte dalla misura naturale del quaderno, senza le scelte della misurazione precedente.
+  root.classList.remove('notebook-spread-fits', 'sheets-side-by-side')
+  root.style.removeProperty('--notebook-cap')
+
   stickyTop = Number.parseFloat(window.getComputedStyle(stage.value).top) || 0
-  const rootStyle = window.getComputedStyle(document.documentElement)
-  const shift = Number.parseFloat(rootStyle.getPropertyValue('--notebook-shift')) / 100 || 0
-  const notebookWidth = Number.parseFloat(window.getComputedStyle(notebook.value).width)
-  const deskWidth = Number.parseFloat(window.getComputedStyle(desk.value).width)
+  const rootStyle = window.getComputedStyle(root)
+  const rem = Number.parseFloat(rootStyle.fontSize)
+  const deskStyle = window.getComputedStyle(desk.value)
+  const deskWidth = Number.parseFloat(deskStyle.width)
+  const available =
+    deskWidth - Number.parseFloat(deskStyle.paddingLeft) - Number.parseFloat(deskStyle.paddingRight)
+  const natural = Number.parseFloat(window.getComputedStyle(notebook.value).width)
+  const gap = Number.parseFloat(rootStyle.getPropertyValue('--sheet-gap')) * rem
+
+  // Due fogli affiancati entrano, lasciando posto agli oggetti, se il quaderno non deve rimpicciolire troppo.
+  const besideWidth = (available - gap - SIDE_MARGIN * rem * 2) / 2
+  const sideBySide = besideWidth >= natural * MIN_SIDE_SCALE
+  const spreadFits = sideBySide || natural * 2 <= available
+  if (sideBySide && besideWidth < natural) {
+    root.style.setProperty('--notebook-cap', `${Math.floor(besideWidth)}px`)
+  }
+  root.classList.toggle('notebook-spread-fits', spreadFits)
+  root.classList.toggle('sheets-side-by-side', sideBySide)
+  sheetsBeside = sideBySide
+
+  // Quota dello scorrimento totale occupata dal tratto di base: il resto è lo scambio dei fogli.
+  const swapScroll = Number.parseFloat(rootStyle.getPropertyValue('--cover-swap-scroll')) || 0
+  baseShare = BASE_SCROLL / (BASE_SCROLL + swapScroll)
 
   // Il pannello della scrivania coincide con `desk`: il suo bordo sinistro è l'origine.
-  const edgeOffset = (deskWidth - notebookWidth) / 2 + shift * notebookWidth
+  const notebookWidth = Number.parseFloat(window.getComputedStyle(notebook.value).width)
+  const edgeOffset = (deskWidth - notebookWidth) / 2 + (spreadFits ? notebookWidth / 2 : 0)
   departOut = -(edgeOffset + notebookWidth + 24)
   departEnd = -edgeOffset + 12
-  track.value.style.setProperty('--edge-offset', `${edgeOffset}px`)
+  setVar('--edge-offset', `${edgeOffset}px`)
 }
 
 function handleResize() {
@@ -254,6 +319,8 @@ onBeforeUnmount(() => {
   window.removeEventListener('scroll', follow)
   window.removeEventListener('resize', handleResize)
   document.documentElement.style.removeProperty('--cover-settle')
+  document.documentElement.style.removeProperty('--notebook-cap')
+  document.documentElement.classList.remove('notebook-spread-fits', 'sheets-side-by-side')
 })
 </script>
 
@@ -265,17 +332,19 @@ onBeforeUnmount(() => {
   --desk: 0;
   --sheet: 0;
   --sheet-arc: 0;
+  --sheet-two: 0;
+  --sheet-two-arc: 0;
+  --swap: 0;
+  --draw: 0;
   --tear: 0;
   --torn: 0;
   --close: 0;
   --depart-x: 0px;
-  --desk-props-in: 0;
   --desk-top: var(--space-4);
   --stage-top: calc(var(--navbar-height) + 0.125rem);
-  --stage-height: calc(100svh - var(--stage-top));
 
   /* Lo scorrimento in più oltre l'altezza della scena è la durata dell'intera sequenza. */
-  height: calc(var(--stage-height) + 140svh);
+  height: calc(var(--stage-height) + 140svh + var(--cover-swap-scroll));
 }
 
 .cover__stage {
@@ -285,7 +354,10 @@ onBeforeUnmount(() => {
   grid-template-columns: minmax(0, 1fr);
   justify-items: center;
   height: var(--stage-height);
-  overflow: clip;
+
+  /* Si ritaglia soltanto in orizzontale: in verticale l'ombra della scrivania deve poter uscire
+     dalla scena, altrimenti resta tagliata di netto quando la scena scorre via. */
+  overflow-x: clip;
 }
 
 /* Il pannello della scrivania e l'area che ne ritaglia il contenuto occupano lo stesso riquadro. */
@@ -296,10 +368,17 @@ onBeforeUnmount(() => {
 }
 
 .cover__surface {
+  position: relative;
   margin-block: var(--desk-top);
   border-radius: var(--desk-radius);
-  box-shadow: 0 1rem 2.5rem var(--shadow-medium);
-  opacity: var(--desk);
+  box-shadow: var(--desk-shadow);
+}
+
+/* La scrivania non compare dal nulla: è un sottomano che entra dal basso e scivola sotto il
+   quaderno, portando con sé gli oggetti che ha sopra. */
+.cover__surface,
+.cover__desk > .cover__props {
+  translate: 0 calc((1 - var(--desk)) * var(--stage-height));
 }
 
 .cover__desk {
@@ -307,13 +386,24 @@ onBeforeUnmount(() => {
   isolation: isolate;
   display: grid;
   grid-template-columns: minmax(0, 1fr);
-  align-items: start;
+  align-items: center;
   justify-items: center;
-  padding: var(--space-7) var(--space-4) 0;
+  padding: var(--space-7) var(--space-4);
 }
 
 .cover__desk > .cover__props {
   inset-block: var(--desk-top);
+}
+
+/* Penna e cappuccio stanno nella striscia libera sopra i fogli, quasi dritti, invece di finirci sotto. */
+.cover__props :deep(.desk-props__pen) {
+  top: 0.9%;
+  rotate: -2deg;
+}
+
+.cover__props :deep(.desk-props__pen-cap) {
+  top: 0.4%;
+  rotate: -5deg;
 }
 
 .notebook {
@@ -366,14 +456,39 @@ onBeforeUnmount(() => {
   inset: 0;
 }
 
-/* Strappata dal quaderno, la pagina si stacca dall'alto ruotando sull'angolo in basso,
-   poi si solleva e va a posarsi al centro della scrivania, grande com'era. */
+/* Strappate dal quaderno, le pagine si staccano dall'alto ruotando sull'angolo in basso, poi si
+   sollevano e vanno a posarsi sulla scrivania, grandi com'erano. */
 .notebook__sheet {
   visibility: hidden;
-  transform: translate(calc(var(--sheet) * var(--notebook-shift) * -1), calc(var(--sheet-arc) * -1.25rem))
-    scale(calc(1 + var(--sheet-arc) * 0.04)) rotate(calc(var(--sheet-arc) * -1.5deg)) translate(0, 100%)
-    rotate(calc(var(--tear) * 3.5deg)) translate(0, -100%);
   transform-origin: 0 0;
+}
+
+/* Dove i fogli restano impilati, il primo alla fine scivola via e scopre il secondo. */
+.notebook__sheet--one {
+  transform: translate(
+      calc(var(--sheet) * var(--sheet-one-x) + var(--swap) * -135%),
+      calc(var(--sheet-arc) * -1.25rem)
+    )
+    scale(calc(1 + var(--sheet-arc) * 0.04))
+    rotate(calc(var(--sheet-arc) * -1.5deg + var(--swap) * -10deg)) translate(0, 100%)
+    rotate(calc(var(--tear) * 3.5deg)) translate(0, -100%);
+}
+
+/* Sotto il primo sporge appena, storto; quando resta solo si raddrizza. */
+.notebook__sheet--two {
+  --peek: calc(var(--sheet-two) * (1 - var(--swap)));
+  transform: translate(
+      calc(var(--sheet-two) * var(--sheet-two-x) + var(--peek) * var(--sheet-two-peek)),
+      calc(var(--sheet-two-arc) * -0.75rem)
+    )
+    scale(calc(1 + var(--sheet-two-arc) * 0.03))
+    rotate(calc(var(--sheet-two-arc) * 1.2deg + var(--peek) * var(--sheet-two-rest))) translate(0, 100%)
+    rotate(calc(var(--tear) * 3.5deg)) translate(0, -100%);
+}
+
+.notebook__sheet--two .notebook__sheet-shadow {
+  opacity: calc(var(--sheet-two-arc) * 0.8 + var(--sheet-two) * 0.2);
+  translate: 0 calc(0.5rem + var(--sheet-two-arc) * 1.5rem);
 }
 
 .cover--sheet-on .notebook__sheet {
@@ -396,11 +511,11 @@ onBeforeUnmount(() => {
 .notebook__stub {
   position: absolute;
   inset: 0 auto 0 0;
-  width: 0.75rem;
+  width: var(--page-tear);
   background: var(--paper-warm);
   filter: drop-shadow(0.0625rem 0 0.0625rem rgb(57 45 29 / 40%));
   mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 12 64' preserveAspectRatio='none'%3E%3Cpath d='M0 0h4l3 5-5 4 4 5-5 6 4 5-2 6 5 5-6 6 4 5-5 6 4 5-1 6H0z'/%3E%3C/svg%3E")
-    left top / 0.75rem calc(var(--paper-line-height) * 2) repeat-y;
+    left top / var(--page-tear) calc(var(--page-line-height) * 2) repeat-y;
   opacity: var(--torn);
 }
 
@@ -601,8 +716,8 @@ h1,
 .sketch {
   --taped-photo-padding: 1cqw;
   justify-self: start;
-  width: 47%;
-  margin-top: 6cqw;
+  width: 45%;
+  margin: 0.5cqw 0 0 0.5cqw;
 }
 
 .photo {
