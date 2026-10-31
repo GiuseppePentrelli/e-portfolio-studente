@@ -46,7 +46,7 @@
             </div>
 
             <!-- Giuseppe davanti all'ingresso della scuola: in copertina niente riferimenti alla storia di Chi sono. -->
-            <TapedPhoto class="sketch" :tilt="-3" :tape-at="40" :tape-tilt="5" :drive="leafVelocity" :nudge-on-mount="150">
+            <TapedPhoto class="sketch" :tilt="-3" :tape-at="40" :tape-tilt="5" :drive="motion.leafVelocity" :nudge-on-mount="150">
               <img
                 src="@/assets/images/giuseppe-ingresso-scuola.webp"
                 alt="Illustrazione a matita: Giuseppe in piedi davanti all'ingresso della sua scuola, l'IISS Marconi-Hack, con lo zaino in spalla e un quaderno rosso in mano."
@@ -56,7 +56,7 @@
               />
             </TapedPhoto>
 
-            <TapedPhoto class="photo" :tilt="4" :tape-at="38" :drive="leafVelocity" :nudge-on-mount="200">
+            <TapedPhoto class="photo" :tilt="4" :tape-at="38" :drive="motion.leafVelocity" :nudge-on-mount="200">
               <img
                 src="@/assets/images/giuseppe-ritratto-zaino.webp"
                 alt="Ritratto a matita di Giuseppe seduto all'aperto, con lo zaino in spalla e un quaderno stretto al petto."
@@ -69,12 +69,12 @@
           </div>
 
           <div class="notebook__inside" aria-hidden="true">
-              <CoverInside :drive="leafVelocity" />
+              <CoverInside :drive="motion.leafVelocity" />
             </div>
         </div>
 
             <div class="notebook__band">
-              <NotebookElastic :nudge-delay="2300" :pull="bandPull" />
+              <NotebookElastic :nudge-delay="2300" :pull="motion.bandPull" />
             </div>
           </div>
 
@@ -152,10 +152,16 @@ const notebook = ref(null)
 const leafVelocity = ref(0)
 const bandBehind = ref(false)
 const bandPull = ref(0)
+// Cambiano a ogni fotogramma: passano ai figli come ref, senza essere letti qui, così la Copertina
+// non si ridisegna per valori che servono solo a foto ed elastico.
+const motion = { leafVelocity, bandPull }
 const sheetOn = ref(false)
 const tucking = ref(false)
 let stickyTop = 0
+let trackTop = 0
+let scrollDistance = 0
 let baseShare = 1
+let pageObserver = null
 let sheetsBeside = false
 const written = {}
 let departOut = 0
@@ -172,19 +178,53 @@ function ramp(value, [from, to]) {
   return t * t * (3 - 2 * t)
 }
 
+// Durante lo scorrimento basta leggere scrollY: la geometria del binario è misurata a parte, così
+// nessuna lettura costringe il browser a ricalcolare stili e impaginazione a metà fotogramma.
 function readProgress() {
-  const distance = track.value.offsetHeight - stage.value.offsetHeight
-  if (distance <= 0) return 0
-  const scrolled = stickyTop - track.value.getBoundingClientRect().top
-  return Math.min(1, Math.max(0, scrolled / distance)) / baseShare
+  if (scrollDistance <= 0) return 0
+  const scrolled = window.scrollY + stickyTop - trackTop
+  return Math.min(1, Math.max(0, scrolled / scrollDistance)) / baseShare
 }
 
-// Scrive una proprietà soltanto quando cambia: ogni scrittura fa ricalcolare gli stili dell'intera scena.
+function measureTrack() {
+  trackTop = track.value.getBoundingClientRect().top + window.scrollY
+  scrollDistance = track.value.offsetHeight - stage.value.offsetHeight
+}
+
+// Chi usa ogni variabile. Le variabili non si ereditano (vedi @property nello stile): vanno scritte
+// proprio su questi elementi, e cambiarle fa ricalcolare loro soltanto, non tutta la scena.
+const CONSUMERS = {
+  '--band-out': ['.notebook__band'],
+  '--open': ['.notebook', '.notebook__leaf'],
+  '--lift': ['.notebook', '.notebook__shade'],
+  '--close': ['.notebook__leaf'],
+  '--desk-in': ['.cover__surface', '.cover__desk > .cover__props'],
+  '--sheet': ['.notebook__sheet--one', '.notebook__sheet--one > .notebook__sheet-shadow'],
+  '--sheet-arc': ['.notebook__sheet--one', '.notebook__sheet--one > .notebook__sheet-shadow'],
+  '--sheet-two': ['.notebook__sheet--two', '.notebook__sheet--two > .notebook__sheet-shadow'],
+  '--sheet-two-arc': ['.notebook__sheet--two', '.notebook__sheet--two > .notebook__sheet-shadow'],
+  '--swap': ['.notebook__sheet--one', '.notebook__sheet--two'],
+  '--tear': ['.notebook__sheet--one', '.notebook__sheet--two'],
+  '--torn': ['.notebook__stub'],
+  '--depart-x': ['.notebook__body'],
+  '--edge-offset': ['.notebook__body'],
+  '--draw': ['.notebook__sheet--two .drawing'],
+  '--write': ['.notebook__sheet--one .opening'],
+}
+const targets = {}
+
+function collectTargets() {
+  for (const [name, selectors] of Object.entries(CONSUMERS)) {
+    targets[name] = selectors.flatMap((selector) => [...track.value.querySelectorAll(selector)])
+  }
+}
+
+// Scrive una proprietà soltanto quando cambia, e solo sugli elementi che la usano.
 function setVar(name, value) {
   const text = typeof value === 'number' ? value.toFixed(4) : value
   if (written[name] === text) return
   written[name] = text
-  track.value.style.setProperty(name, text)
+  for (const element of targets[name]) element.style.setProperty(name, text)
 }
 
 function apply(progress) {
@@ -197,7 +237,7 @@ function apply(progress) {
   setVar('--open', open)
   setVar('--lift', Math.sin(Math.PI * open))
   // Arrivo deciso e frenata morbida, come un foglio spinto sul tavolo.
-  setVar('--desk', 1 - (1 - ramp(progress, DESK)) ** 2)
+  setVar('--desk-in', 1 - (1 - ramp(progress, DESK)) ** 2)
   setVar('--sheet', sheet)
   setVar('--sheet-arc', Math.sin(Math.PI * sheet))
   const sheetTwo = ramp(progress, SHEET_TWO)
@@ -295,6 +335,7 @@ function measure() {
   departOut = -(edgeOffset + notebookWidth + 24)
   departEnd = -edgeOffset + 12
   setVar('--edge-offset', `${edgeOffset}px`)
+  measureTrack()
 }
 
 function handleResize() {
@@ -303,6 +344,7 @@ function handleResize() {
 }
 
 onMounted(() => {
+  collectTargets()
   measure()
   // L'apertura di Chi sono si vede sul foglio animato: la copia vera, nella sezione, resta trasparente.
   if (!reducedMotion.matches) document.documentElement.style.setProperty('--cover-settle', '0')
@@ -312,10 +354,17 @@ onMounted(() => {
   lastOpen = leafOpening(current)
   window.addEventListener('scroll', follow, { passive: true })
   window.addEventListener('resize', handleResize, { passive: true })
+  // Se cambia l'altezza della pagina (font, immagini) il binario può spostarsi: si rimisura.
+  pageObserver = new ResizeObserver(() => {
+    measureTrack()
+    follow()
+  })
+  pageObserver.observe(document.body)
 })
 
 onBeforeUnmount(() => {
   running = false
+  pageObserver?.disconnect()
   window.removeEventListener('scroll', follow)
   window.removeEventListener('resize', handleResize)
   document.documentElement.style.removeProperty('--cover-settle')
@@ -325,21 +374,28 @@ onBeforeUnmount(() => {
 </script>
 
 <style scoped>
+/* Le variabili dello scorrimento sono registrate come non ereditate e lo script le scrive soltanto
+   sugli elementi che le usano: quando cambiano, il browser ricalcola quegli elementi e non l'intera
+   scena. --write e --draw partono da 1 perché fuori dalla Copertina testo e disegno sono completi. */
+@property --band-out { syntax: "<number>"; inherits: false; initial-value: 0; }
+@property --open { syntax: "<number>"; inherits: false; initial-value: 0; }
+@property --lift { syntax: "<number>"; inherits: false; initial-value: 0; }
+@property --close { syntax: "<number>"; inherits: false; initial-value: 0; }
+@property --desk-in { syntax: "<number>"; inherits: false; initial-value: 0; }
+@property --sheet { syntax: "<number>"; inherits: false; initial-value: 0; }
+@property --sheet-arc { syntax: "<number>"; inherits: false; initial-value: 0; }
+@property --sheet-two { syntax: "<number>"; inherits: false; initial-value: 0; }
+@property --sheet-two-arc { syntax: "<number>"; inherits: false; initial-value: 0; }
+@property --swap { syntax: "<number>"; inherits: false; initial-value: 0; }
+@property --peek { syntax: "<number>"; inherits: false; initial-value: 0; }
+@property --tear { syntax: "<number>"; inherits: false; initial-value: 0; }
+@property --torn { syntax: "<number>"; inherits: false; initial-value: 0; }
+@property --depart-x { syntax: "<length>"; inherits: false; initial-value: 0px; }
+@property --edge-offset { syntax: "<length>"; inherits: false; initial-value: 0px; }
+@property --write { syntax: "<number>"; inherits: false; initial-value: 1; }
+@property --draw { syntax: "<number>"; inherits: false; initial-value: 1; }
+
 .cover {
-  --band-out: 0;
-  --open: 0;
-  --lift: 0;
-  --desk: 0;
-  --sheet: 0;
-  --sheet-arc: 0;
-  --sheet-two: 0;
-  --sheet-two-arc: 0;
-  --swap: 0;
-  --draw: 0;
-  --tear: 0;
-  --torn: 0;
-  --close: 0;
-  --depart-x: 0px;
   --desk-top: var(--space-4);
   --stage-top: calc(var(--navbar-height) + 0.125rem);
 
@@ -378,7 +434,7 @@ onBeforeUnmount(() => {
    quaderno, portando con sé gli oggetti che ha sopra. */
 .cover__surface,
 .cover__desk > .cover__props {
-  translate: 0 calc((1 - var(--desk)) * var(--stage-height));
+  translate: 0 calc((1 - var(--desk-in)) * var(--stage-height));
 }
 
 .cover__desk {
@@ -405,6 +461,24 @@ onBeforeUnmount(() => {
 
   .cover__desk > .cover__props {
     bottom: 0;
+  }
+
+  /* Questi elementi cambiano posizione o trasparenza a ogni fotogramma dello scorrimento. Con un
+     livello proprio il browser li sposta senza ridipingerli, insieme ai filtri e alle maschere che
+     contengono (la grana della carta, gli appunti, il disegno). */
+  .cover__surface,
+  .cover__desk > .cover__props,
+  .notebook,
+  .notebook__body,
+  .notebook__sheet,
+  .notebook__sheet-shadow,
+  .notebook__band {
+    will-change: transform;
+  }
+
+  .notebook__shade,
+  .notebook__stub {
+    will-change: opacity;
   }
 }
 

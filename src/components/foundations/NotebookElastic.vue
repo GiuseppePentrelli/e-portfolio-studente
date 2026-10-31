@@ -22,13 +22,13 @@
 </template>
 
 <script setup>
-import { computed, onBeforeUnmount, onMounted, ref } from 'vue'
+import { computed, onBeforeUnmount, onMounted, ref, toValue } from 'vue'
 
 const props = defineProps({
   // Millisecondi dopo i quali l'elastico vibra una volta; null per non farlo vibrare.
   nudgeDelay: { type: Number, default: null },
-  // Tensione aggiunta dall'esterno, nelle stesse unità della curvatura.
-  pull: { type: Number, default: 0 },
+  // Tensione aggiunta dall'esterno, nelle stesse unità della curvatura. Numero, ref o funzione.
+  pull: { type: [Number, Object, Function], default: 0 },
 })
 
 const WIDTH = 150
@@ -43,7 +43,7 @@ const dragging = ref(false)
 
 const path = computed(
   () =>
-    `M${REST_X} 0 Q ${REST_X + (bend.value + props.pull) * 2} ${bendY.value} ${REST_X} ${height.value}`,
+    `M${REST_X} 0 Q ${REST_X + (bend.value + toValue(props.pull)) * 2} ${bendY.value} ${REST_X} ${height.value}`,
 )
 
 const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)')

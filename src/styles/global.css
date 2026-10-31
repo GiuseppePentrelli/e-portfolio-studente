@@ -1,3 +1,9 @@
+/* Le molle della carta (usePaperSpring) scrivono --flap e --swing a ogni fotogramma e il CSS le
+   legge solo sull'elemento stesso, anche per --lifted. Non ereditate, non fanno ricalcolare i figli. */
+@property --flap { syntax: "<number>"; inherits: false; initial-value: 0; }
+@property --swing { syntax: "<number>"; inherits: false; initial-value: 0; }
+@property --lifted { syntax: "<number>"; inherits: false; initial-value: 0; }
+
 body {
   --hl-giallo: 255, 213, 0;
   --hl-verde: 140, 233, 154;

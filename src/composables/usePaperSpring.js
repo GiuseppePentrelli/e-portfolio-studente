@@ -7,7 +7,8 @@ const HOVER_LIFT = 9
 
 // Il movimento di un pezzo di carta fissato da un solo lato: due molle poco smorzate, una per
 // quanto si solleva (flap) e una per quanto oscilla (swing). Scrive sull'elemento le proprietà
-// `--flap` (0–24) e `--swing` (circa ±6): è il CSS dell'elemento a decidere come mostrarle.
+// `--flap` (0–24) e `--swing` (circa ±6): è il CSS dell'elemento a decidere come mostrarle. Sono
+// registrate come non ereditate (global.css): vanno lette sull'elemento stesso, non sui figli.
 // Reagisce al puntatore, alla velocità del supporto (`drive`) e ai colpetti dati con `nudge()`,
 // poi torna fermo da solo. Con il movimento ridotto non fa nulla.
 export function usePaperSpring(element, { drive = 0, nudgeOnMount = 0 } = {}) {

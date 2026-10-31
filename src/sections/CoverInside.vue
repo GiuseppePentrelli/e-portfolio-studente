@@ -136,18 +136,18 @@
 </template>
 
 <script setup>
-import { ref } from 'vue'
+import { ref, toValue } from 'vue'
 import { usePaperSpring } from '@/composables/usePaperSpring'
 
 const props = defineProps({
-  // Velocità con cui ruota la copertina: fa ondeggiare i foglietti nella tasca.
-  drive: { type: Number, default: 0 },
+  // Velocità con cui ruota la copertina: fa ondeggiare i foglietti nella tasca. Numero, ref o funzione.
+  drive: { type: [Number, Object, Function], default: 0 },
 })
 
 const sheet = ref(null)
 const yellow = ref(null)
 const pink = ref(null)
-const drive = () => props.drive
+const drive = () => toValue(props.drive)
 const sheetSpring = usePaperSpring(sheet, { drive })
 const yellowSpring = usePaperSpring(yellow, { drive })
 const pinkSpring = usePaperSpring(pink, { drive })

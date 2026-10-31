@@ -26,8 +26,8 @@
             class="journey__salon-tools"
             src="@/assets/images/salon-tools-3d.webp"
             alt=""
-            width="1374"
-            height="1145"
+            width="560"
+            height="467"
             loading="lazy"
             decoding="async"
           />
@@ -217,8 +217,8 @@ defineProps({
   view-timeline-name: --journey;
 }
 
-/* La traccia è volutamente irregolare: il secondo passaggio, più largo e sfocato, simula
-   la grafite sfregata sul banco. */
+/* La traccia è volutamente irregolare: il secondo passaggio, più largo e tenue, simula la grafite
+   sfregata sul banco. */
 .journey__route {
   --route-length: 2287;
   position: absolute;
@@ -243,10 +243,10 @@ defineProps({
   vector-effect: non-scaling-stroke;
 }
 
+/* Niente sfocatura: un filtro su una traccia lunga e animata costerebbe a ogni fotogramma. */
 .journey__route-shadow {
-  stroke: rgb(47 48 47 / 18%);
-  stroke-width: 0.42rem;
-  filter: blur(0.14rem);
+  stroke: rgb(47 48 47 / 8%);
+  stroke-width: 0.5rem;
 }
 
 .journey__route-line {
@@ -269,6 +269,7 @@ defineProps({
   offset-distance: 100%;
   offset-rotate: 0deg;
   pointer-events: none;
+  will-change: transform;
 }
 
 .journey__pencil span {
@@ -535,7 +536,7 @@ defineProps({
   z-index: 7;
   width: clamp(8rem, 16vw, 11.5rem);
   height: auto;
-  aspect-ratio: 1374 / 1145;
+  aspect-ratio: 560 / 467;
   object-fit: contain;
   filter: drop-shadow(0.35rem 0.55rem 0.45rem rgb(48 38 27 / 24%));
   transform: rotate(-7deg);

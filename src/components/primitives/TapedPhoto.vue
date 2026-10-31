@@ -13,7 +13,7 @@
 </template>
 
 <script setup>
-import { ref } from 'vue'
+import { ref, toValue } from 'vue'
 import { usePaperSpring } from '@/composables/usePaperSpring'
 
 // Una foto fissata soltanto in alto con lo scotch: il lembo libero si solleva e la foto oscilla
@@ -24,15 +24,16 @@ const props = defineProps({
   // Posizione orizzontale dello scotch, in percentuale: è anche il punto attorno a cui la foto oscilla.
   tapeAt: { type: Number, default: 30 },
   tapeTilt: { type: Number, default: -8 },
-  // Velocità del supporto, con segno: più è alta, più il lembo si solleva.
-  drive: { type: Number, default: 0 },
+  // Velocità del supporto, con segno: più è alta, più il lembo si solleva. Può essere un ref o una
+  // funzione: chi la passa così non si ridisegna a ogni fotogramma per un valore che legge solo la foto.
+  drive: { type: [Number, Object, Function], default: 0 },
   // Colpetto iniziale, per far assestare la foto appena compare. 0 per lasciarla ferma.
   nudgeOnMount: { type: Number, default: 0 },
 })
 
 const root = ref(null)
 const { nudge, touch, release } = usePaperSpring(root, {
-  drive: () => props.drive,
+  drive: () => toValue(props.drive),
   nudgeOnMount: props.nudgeOnMount,
 })
 

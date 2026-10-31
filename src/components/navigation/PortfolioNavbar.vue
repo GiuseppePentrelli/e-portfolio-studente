@@ -44,11 +44,7 @@
       </div>
     </Transition>
 
-    <span
-      class="navbar__progress"
-      :style="{ transform: `scaleX(${readingProgress / 100})` }"
-      aria-hidden="true"
-    ></span>
+    <span ref="progressBar" class="navbar__progress" aria-hidden="true"></span>
   </nav>
 </template>
 
@@ -63,25 +59,53 @@ const props = defineProps({
 const navRoot = ref(null)
 const menuButton = ref(null)
 const drawer = ref(null)
+const progressBar = ref(null)
 const menuOpen = ref(false)
-const readingProgress = ref(0)
 const activeId = ref(null)
 let framePending = false
+let scrollTop = 0
+let maxScroll = 0
+let sectionTops = []
+let pageObserver = null
 
-function updatePosition() {
-  const maxScroll = document.documentElement.scrollHeight - window.innerHeight
-  readingProgress.value = maxScroll > 0 ? Math.min(100, Math.max(0, window.scrollY / maxScroll * 100)) : 0
-
-  let current = null
+// Le posizioni delle sezioni si misurano solo quando la pagina cambia dimensione: durante lo
+// scorrimento basta scrollY, e nessuna lettura costringe il browser a ricalcolare a metà fotogramma.
+function measurePage() {
+  scrollTop = window.scrollY
+  maxScroll = document.documentElement.scrollHeight - window.innerHeight
+  sectionTops = []
   for (const item of props.items) {
     const section = document.getElementById(item.id)
     if (!section) continue
     // Una sezione con margine di scorrimento è "raggiunta" dove la portano le ancore.
     const anchorOffset = Number.parseFloat(window.getComputedStyle(section).scrollMarginTop) || 0
-    if (section.getBoundingClientRect().top - anchorOffset < window.innerHeight * 0.4) current = item.id
+    sectionTops.push({ id: item.id, top: section.getBoundingClientRect().top + window.scrollY - anchorOffset })
+  }
+}
+
+// La barra si aggiorna scrivendo direttamente lo stile: la navbar non si ridisegna a ogni fotogramma.
+// scrollY è letto nell'evento di scorrimento: letto qui, dopo che altri hanno cambiato gli stili nello
+// stesso fotogramma, costringerebbe il browser a ricalcolarli subito.
+function updatePosition() {
+  const progress = maxScroll > 0 ? Math.min(1, Math.max(0, scrollTop / maxScroll)) : 0
+  if (progressBar.value) progressBar.value.style.transform = `scaleX(${progress})`
+
+  let current = null
+  for (const section of sectionTops) {
+    if (section.top - scrollTop < window.innerHeight * 0.4) current = section.id
   }
   activeId.value = current
   framePending = false
+}
+
+function remeasure() {
+  measurePage()
+  requestPositionUpdate()
+}
+
+function handleScroll() {
+  scrollTop = window.scrollY
+  requestPositionUpdate()
 }
 
 function requestPositionUpdate() {
@@ -116,22 +140,28 @@ watch(
   () => props.items,
   () => {
     closeMenu()
+    measurePage()
     updatePosition()
   },
   { flush: 'post' },
 )
 
 onMounted(() => {
+  measurePage()
+  scrollTop = window.scrollY
   updatePosition()
-  window.addEventListener('scroll', requestPositionUpdate, { passive: true })
-  window.addEventListener('resize', requestPositionUpdate, { passive: true })
+  window.addEventListener('scroll', handleScroll, { passive: true })
+  window.addEventListener('resize', remeasure, { passive: true })
+  pageObserver = new ResizeObserver(remeasure)
+  pageObserver.observe(document.body)
   document.addEventListener('keydown', handleKeydown)
   document.addEventListener('pointerdown', handlePointerDown)
 })
 
 onBeforeUnmount(() => {
-  window.removeEventListener('scroll', requestPositionUpdate)
-  window.removeEventListener('resize', requestPositionUpdate)
+  pageObserver?.disconnect()
+  window.removeEventListener('scroll', handleScroll)
+  window.removeEventListener('resize', remeasure)
   document.removeEventListener('keydown', handleKeydown)
   document.removeEventListener('pointerdown', handlePointerDown)
 })
@@ -222,6 +252,9 @@ onBeforeUnmount(() => {
   width: calc(100% - 0.35rem);
   height: 0.125rem;
   transform-origin: left center;
+
+  /* Cambia a ogni fotogramma di scorrimento: con un livello proprio non fa ridipingere la navbar. */
+  will-change: transform;
   background: linear-gradient(
     90deg,
     rgb(74 77 80 / 72%),

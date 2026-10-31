@@ -3,7 +3,7 @@
        oggetto 3D: il corpo è una pila di sagome uguali in profondità, così fianco e cima hanno
        spessore. La metà davanti è separata da quella dietro dalla cerniera: scorrendo si apre
        ruotando sul fondo e i libri salgono. -->
-  <div class="backpack" aria-hidden="true">
+  <div class="backpack" :style="{ '--layers': layers, '--pocket-layers': pocketLayers }" aria-hidden="true">
     <span class="backpack__shadow"></span>
     <div class="backpack__stage">
       <div class="backpack__model">
@@ -113,18 +113,19 @@
 </template>
 
 <script setup>
-// Sagome per ciascuna metà del corpo e per la tasca: più sono, più il fianco è liscio.
-const layers = 20
-const pocketLayers = 6
+// Sagome per ciascuna metà del corpo e per la tasca: più sono, più il fianco è liscio, ma ognuna è
+// un livello grafico in più da comporre a ogni fotogramma.
+const layers = 16
+const pocketLayers = 4
 </script>
 
 <style scoped>
 /* Tutte le misure sono in cqw: lo zaino resta in proporzione a qualsiasi larghezza. La luce arriva
    dall'alto a sinistra, come per gli altri oggetti del banco. */
 .backpack {
-  --step: 0.7cqw;
+  --step: calc(var(--half) / var(--layers));
   --half: 14cqw;
-  --open: -22deg;
+  --front-open: -22deg;
   --bag-radius: 46% 46% 17% 17% / 34% 34% 11% 11%;
   --fabric: #2d4867;
   --fabric-side: #1d3249;
@@ -138,6 +139,9 @@ const pocketLayers = 6
   container-type: inline-size;
   width: 100%;
   aspect-ratio: 100 / 122;
+
+  /* Le sagome sono livelli grafici: lontano dallo schermo il browser non le disegna affatto. */
+  content-visibility: auto;
 }
 
 /* L'ombra sul banco cade in basso a destra. */
@@ -175,7 +179,7 @@ const pocketLayers = 6
 
 /* La metà davanti si apre ruotando sul fondo, lungo la cerniera. */
 .backpack__half--front {
-  transform: rotateX(var(--open));
+  transform: rotateX(var(--front-open));
   transform-origin: 50% 100% calc(var(--half) * -1);
 }
 
@@ -251,7 +255,7 @@ const pocketLayers = 6
 }
 
 .backpack__pocket {
-  --z: -6.15;
+  --z: calc(var(--pocket-layers) * -1 - 0.15);
   background:
     var(--grain),
     var(--weave),
