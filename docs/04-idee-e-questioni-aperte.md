@@ -49,6 +49,7 @@ Lo Style Lab deve permettere confronti a parità di contenuto e includere almeno
 - Ritratto realistico a matita.
 - Ritratto stilizzato vicino a Excalidraw.
 - Elementi che si disegnano progressivamente durante lo scroll.
+- Nel Percorso è in prova una timeline sinuosa a grafite, attraversata da una sola matita, con le tappe trattate come reperti fisici sovrapposti al banco; la direzione visiva deve essere verificata e approvata prima di diventare una decisione confermata.
 
 ## Materiali non ancora disponibili
 
