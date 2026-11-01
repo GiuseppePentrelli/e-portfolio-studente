@@ -8,6 +8,8 @@
 // approfondimento esiste già), url (il progetto online), repo (il codice), image (anteprima importata
 // da src/assets), placeholder (true finché l'elemento è un segnaposto: le sale mostrano uno schizzo),
 // preview (lo schizzo del segnaposto: 'site', 'game' o 'app').
+import novenixPreview from '@/assets/images/novenix-v2.webp'
+
 export const projects = [
   {
     slug: 'capolavoro-principale',
@@ -22,6 +24,19 @@ export const projects = [
     page: false,
     placeholder: true,
     preview: 'site',
+  },
+  {
+    slug: 'novenix',
+    title: 'Novenix V.2.0',
+    schoolYear: '2026–2027',
+    context: 'personale',
+    techniques: ['React', 'Three.js', 'Tailwind CSS', 'Vite'],
+    summary:
+      'Il mio sito personale e la radice di tutto quello che pubblico: un viaggio nello spazio in 3D cartoon, che parte dalla cabina di una navicella.',
+    masterpiece: false,
+    url: 'https://giuseppepentrelli.github.io/',
+    repo: 'https://github.com/GiuseppePentrelli/GiuseppePentrelli.github.io',
+    image: novenixPreview,
   },
   {
     slug: 'sito-personale',
