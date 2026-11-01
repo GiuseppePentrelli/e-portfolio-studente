@@ -24,6 +24,7 @@
 
           <span class="den__hexes" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i></span>
           <WallShelf class="den__shelf" />
+          <WantedPoster class="den__wanted" />
 
           <p class="den__hidden" aria-live="polite">{{ announcement }}</p>
 
@@ -44,6 +45,7 @@
               legend="Scegli l'esperimento"
             />
             <DeskGear class="den__gear" />
+            <CardboardBox class="den__box-easter" />
           </div>
 
           <LabMonitor class="den__monitor" :title="windowTitle" :dark="current.kind === 'embed'">
@@ -96,6 +98,7 @@
 </template>
 
 <script setup>
+import CardboardBox from '@/components/foundations/CardboardBox.vue'
 import CartridgeRack from '@/components/foundations/CartridgeRack.vue'
 import DeskGear from '@/components/foundations/DeskGear.vue'
 import LabEmbed from '@/components/foundations/LabEmbed.vue'
@@ -103,6 +106,7 @@ import LabMonitor from '@/components/foundations/LabMonitor.vue'
 import LabNativeDemo from '@/components/foundations/LabNativeDemo.vue'
 import PcTower from '@/components/foundations/PcTower.vue'
 import WallShelf from '@/components/foundations/WallShelf.vue'
+import WantedPoster from '@/components/foundations/WantedPoster.vue'
 import HighlighterLink from '@/components/primitives/HighlighterLink.vue'
 import { components } from '@/content/components'
 import { computed, ref } from 'vue'
@@ -177,6 +181,8 @@ const announcement = computed(() => `Esperimento ${number(currentIndex.value)}: 
 .den__baseboard,
 .den__hexes,
 .den__shelf,
+.den__wanted,
+.den__box-easter,
 .den__leg,
 .den__tower,
 .den__gear,
@@ -573,7 +579,7 @@ const announcement = computed(() => `Esperimento ${number(currentIndex.value)}: 
   .den__hexes {
     position: absolute;
     bottom: calc(var(--den-u) * 76.5);
-    left: calc(var(--den-ux) * 12);
+    left: calc(var(--den-ux) * 8);
     z-index: 1;
     display: block;
     width: calc(var(--den-u) * 19.6);
@@ -598,6 +604,26 @@ const announcement = computed(() => `Esperimento ${number(currentIndex.value)}: 
   .den__hexes i:nth-child(3) { top: 0; left: 10.2em; --hex: #ff4fb8; opacity: 0.6; }
   .den__hexes i:nth-child(4) { top: 5.9em; left: 0; --hex: #36d6ff; opacity: 0.5; }
   .den__hexes i:nth-child(5) { top: 2.95em; left: 15.3em; --hex: #8b5cff; opacity: 0.7; }
+
+  /* Il manifesto Wanted, inchiodato fra i pannelli a esagono e il monitor. */
+  .den__wanted {
+    position: absolute;
+    bottom: calc(var(--den-u) * 72.5);
+    left: calc(var(--den-ux) * 34 - var(--den-u) * 4.8);
+    z-index: 1;
+    display: grid;
+    font-size: calc(var(--den-u) * 0.8);
+  }
+
+  /* La scatola di cartone sul pavimento, sotto la parte destra della scrivania. */
+  .den__box-easter {
+    position: absolute;
+    bottom: calc(var(--den-u) * 3.5);
+    left: calc(var(--den-ux) * 122 - var(--den-u) * 6);
+    z-index: 1;
+    display: block;
+    font-size: calc(var(--den-u) * 1);
+  }
 
   .den__shelf {
     position: absolute;

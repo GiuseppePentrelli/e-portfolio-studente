@@ -36,9 +36,9 @@ Lo Style Lab deve permettere confronti a parità di contenuto e includere almeno
 Il laboratorio si costruisce a fasi (DEC-082); la fase 1 (la postazione) e la fase 2 (la mensola) sono fatte; la sedia da gaming vista di spalle è stata provata e scartata. Sul telefono la mensola per ora non compare: da decidere se e come mostrarla.
 
 - Fase 3, gli omaggi ai videogiochi e agli anime preferiti, uno alla volta. Sono ridisegnati da zero, con contenuto di Giuseppe, senza loghi, mappe o grafiche ufficiali (i giochi sono marchi e opere protette, e il portfolio deve essere originale):
-  - western: un manifesto "WANTED" con il ritratto a matita di Giuseppe, per esempio "per crimini contro i div";
+  - western (fatto): un manifesto "WANTED" inchiodato fra i pannelli a esagono e il monitor, con il ritratto a matita di Giuseppe virato seppia, "Vivo o in videochiamata", "per crimini contro i <div>" e una taglia di 404 dollari;
   - mappa in stile videogioco open world: Modugno con le icone delle tappe del Percorso (salone, Marconi, Aulab);
-  - stealth: una scatola di cartone nell'angolo, con il punto esclamativo rosso al passaggio del mouse;
+  - stealth (fatto): una scatola di cartone "Fragile" sul pavimento, sotto la parte destra della scrivania; al passaggio del mouse sopra scatta il punto esclamativo rosso;
   - labirinto a puntini: una scia di puntini lungo la striscia LED, mangiata mentre si scorre, con un personaggio nostro e non quello ufficiale;
   - ninja: una felpa nera con le nuvole rosse, appesa nella stanza, e un corvo sulla mensola.
 - I componenti del repository `components` arrivano da internet: senza connessione, per esempio sul computer dell'esame, lo schermo resta vuoto. Da decidere se prevedere un'immagine di riserva.
