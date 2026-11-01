@@ -1,16 +1,19 @@
-// Collezione dei progetti: un elemento per progetto, letto da Capolavori e, in futuro, dall'indice dei
-// progetti e dal Percorso. Il formato è un'ipotesi da confermare (docs/04, "Formato definitivo dei dati
-// strutturati").
+// Collezione dei progetti: un elemento per progetto, letto da Capolavori, da Progetti e, in futuro,
+// dall'indice dei progetti. Il formato è un'ipotesi da confermare (docs/04, "Formato definitivo dei
+// dati strutturati"). L'ordine dell'elenco è l'ordine in cui i progetti compaiono nelle sale.
 //
-// Campi: slug (identificativo e indirizzo della pagina), title, schoolYear, techniques, role, summary,
-// masterpiece ('main' per il capolavoro principale, true per gli altri capolavori, false per i progetti),
-// page (se la pagina di approfondimento esiste già), image (anteprima importata da src/assets),
-// placeholder (true finché l'elemento è un segnaposto: la sezione mostra un'anteprima disegnata).
+// Campi: slug (identificativo e indirizzo della pagina), title, schoolYear, context ('scuola' o
+// 'personale'), techniques, role, summary, masterpiece ('main' per il capolavoro principale, true per
+// gli altri capolavori, false per i progetti della sala Progetti), page (se la pagina di
+// approfondimento esiste già), url (il progetto online), repo (il codice), image (anteprima importata
+// da src/assets), placeholder (true finché l'elemento è un segnaposto: le sale mostrano uno schizzo),
+// preview (lo schizzo del segnaposto: 'site', 'game' o 'app').
 export const projects = [
   {
     slug: 'capolavoro-principale',
     title: 'Titolo del capolavoro',
     schoolYear: '2026–2027',
+    context: 'scuola',
     techniques: ['Tecnologia 1', 'Tecnologia 2', 'Tecnologia 3'],
     role: 'Che cosa ho fatto io, in una riga',
     summary:
@@ -18,9 +21,100 @@ export const projects = [
     masterpiece: 'main',
     page: false,
     placeholder: true,
+    preview: 'site',
+  },
+  {
+    slug: 'sito-personale',
+    title: 'Titolo del sito',
+    schoolYear: '2025–2026',
+    context: 'personale',
+    techniques: ['Tecnologia 1', 'Tecnologia 2'],
+    summary: 'Una frase sul progetto: che cos’è e perché l’ho fatto. È un segnaposto.',
+    masterpiece: false,
+    placeholder: true,
+    preview: 'site',
+  },
+  {
+    slug: 'gioco-personale',
+    title: 'Titolo del gioco',
+    schoolYear: '2025–2026',
+    context: 'personale',
+    techniques: ['Tecnologia 1', 'Tecnologia 2'],
+    summary: 'Una frase sul gioco: come si gioca e che cosa ho imparato facendolo. È un segnaposto.',
+    masterpiece: false,
+    placeholder: true,
+    preview: 'game',
+  },
+  {
+    slug: 'app-personale',
+    title: "Titolo dell'app",
+    schoolYear: '2025–2026',
+    context: 'personale',
+    techniques: ['Tecnologia 1', 'Tecnologia 2'],
+    summary: "Una frase sull'app: a che cosa serve e chi la usa. È un segnaposto.",
+    masterpiece: false,
+    placeholder: true,
+    preview: 'app',
+  },
+  {
+    slug: 'esperimento-personale',
+    title: "Titolo dell'esperimento",
+    schoolYear: '2024–2025',
+    context: 'personale',
+    techniques: ['Tecnologia 1'],
+    summary: "Una frase sull'esperimento: che cosa volevo provare. È un segnaposto.",
+    masterpiece: false,
+    placeholder: true,
+    preview: 'site',
+  },
+  {
+    slug: 'strumento-personale',
+    title: 'Titolo dello strumento',
+    schoolYear: '2026–2027',
+    context: 'personale',
+    techniques: ['Tecnologia 1', 'Tecnologia 2'],
+    summary: 'Una frase sullo strumento: quale lavoro mi risparmia. È un segnaposto.',
+    masterpiece: false,
+    placeholder: true,
+    preview: 'app',
+  },
+  {
+    slug: 'progetto-di-scuola',
+    title: 'Titolo del progetto di scuola',
+    schoolYear: '2024–2025',
+    context: 'scuola',
+    techniques: ['Tecnologia 1', 'Tecnologia 2'],
+    summary: 'Una frase sul progetto di scuola: la consegna e la mia soluzione. È un segnaposto.',
+    masterpiece: false,
+    placeholder: true,
+    preview: 'app',
+  },
+  {
+    slug: 'sito-di-scuola',
+    title: 'Titolo del sito di scuola',
+    schoolYear: '2025–2026',
+    context: 'scuola',
+    techniques: ['Tecnologia 1', 'Tecnologia 2'],
+    summary: 'Una frase sul sito fatto a scuola: la consegna e la mia soluzione. È un segnaposto.',
+    masterpiece: false,
+    placeholder: true,
+    preview: 'site',
+  },
+  {
+    slug: 'primo-progetto-di-scuola',
+    title: 'Titolo del primo progetto di scuola',
+    schoolYear: '2023–2024',
+    context: 'scuola',
+    techniques: ['Tecnologia 1'],
+    summary: 'Una frase sul primo progetto del serale. È un segnaposto.',
+    masterpiece: false,
+    placeholder: true,
+    preview: 'game',
   },
 ]
 
 export const mainMasterpiece = projects.find(project => project.masterpiece === 'main')
 
 export const otherMasterpieces = projects.filter(project => project.masterpiece === true)
+
+export const otherProjects = projects.filter(project => !project.masterpiece)

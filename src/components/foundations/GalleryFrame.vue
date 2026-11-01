@@ -2,19 +2,23 @@
   <!-- Una cornice appesa alla parete della mostra: filo a V e chiodo, cornice di legno, passe-partout
        e l'opera, che arriva dallo slot. Mentre entra nello schermo si accende la luce che la illumina.
        Con `lamp` ha la sua lampada da quadro in ottone, come l'opera principale; con `covered` l'opera
-       è ancora imballata, con il cartello "Opera in allestimento". È decorativa: quello che dice
+       è ancora imballata, con il cartello "Opera in allestimento"; con `:hang="false"` non è appesa
+       ma appoggiata, per esempio su una mensola; `finish` sceglie il legno o la laccatura nera. Lo
+       spessore della cornice si cambia con --artwork-frame-size. È decorativa: quello che dice
        l'opera sta nel suo cartellino. -->
   <div
     class="artwork"
-    :class="{ 'artwork--lamp': lamp, 'artwork--covered': covered }"
+    :class="[`artwork--${finish}`, { 'artwork--lamp': lamp, 'artwork--covered': covered }]"
     :style="{ '--ratio': ratio }"
     aria-hidden="true"
   >
     <span class="artwork__light"></span>
-    <svg class="artwork__wire" viewBox="0 0 100 40" preserveAspectRatio="none">
-      <path d="M14 40 50 2 86 40" />
-    </svg>
-    <span class="artwork__nail"></span>
+    <template v-if="hang">
+      <svg class="artwork__wire" viewBox="0 0 100 40" preserveAspectRatio="none">
+        <path d="M14 40 50 2 86 40" />
+      </svg>
+      <span class="artwork__nail"></span>
+    </template>
 
     <div class="artwork__frame">
       <div class="artwork__mat">
@@ -35,19 +39,25 @@ defineProps({
   ratio: { type: String, default: '4 / 5' },
   lamp: { type: Boolean, default: false },
   covered: { type: Boolean, default: false },
+  hang: { type: Boolean, default: true },
+  finish: {
+    type: String,
+    default: 'wood',
+    validator: value => ['wood', 'black'].includes(value),
+  },
 })
 </script>
 
 <style scoped>
 .artwork {
-  --frame-size: 0.75rem;
+  --frame-size: var(--artwork-frame-size, 0.75rem);
   position: relative;
   isolation: isolate;
   container-type: inline-size;
 }
 
 .artwork--lamp {
-  --frame-size: 1rem;
+  --frame-size: var(--artwork-frame-size, 1rem);
 }
 
 /* La pozza di luce del faretto sulla parete, più forte in alto, dove arriva il fascio. La sfumatura
@@ -105,6 +115,13 @@ defineProps({
     inset 0.22rem 0.22rem 0.25rem rgb(255 236 200 / 28%),
     inset -0.22rem -0.22rem 0.3rem rgb(60 35 10 / 38%),
     0.6rem 1.3rem 1.6rem -0.4rem rgb(0 0 0 / 55%);
+}
+
+/* La laccatura nera, lucida sullo spigolo in alto. */
+.artwork--black .artwork__frame {
+  background:
+    linear-gradient(135deg, rgb(255 255 255 / 22%), transparent 22% 76%, rgb(0 0 0 / 35%)),
+    var(--gallery-frame-black);
 }
 
 /* Il passe-partout: margine in proporzione alla cornice e taglio a 45° chiaro attorno all'opera. */

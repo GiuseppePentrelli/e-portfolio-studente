@@ -10,7 +10,7 @@ Il vincolo già confermato è: home narrativa lunga più pagine di approfondimen
 
 ### Home: sezioni in ordine di lettura
 
-Elenco e ordine confermati (DEC-040).
+Elenco e ordine confermati (DEC-040, aggiornato da DEC-080).
 
 | # | Sezione | Che cosa racconta | Fonte dei contenuti |
 | --- | --- | --- | --- |
@@ -18,10 +18,11 @@ Elenco e ordine confermati (DEC-040).
 | 2 | Chi sono | Presentazione personale, ritratto, tono spontaneo. | testo breve |
 | 3 | Percorso | Le tappe di Giuseppe, dal lavoro precedente al quinto anno: racconta la persona, non i progetti (DEC-064). | testo breve |
 | 4 | Capolavori | Selezione dei lavori in evidenza, con Second Brain come primo candidato. | collezione progetti |
-| 5 | Componenti | Componenti custom provabili sul posto. | collezione componenti |
-| 6 | Competenze | Competenze per stato, ciascuna collegata alle prove. | collezione competenze |
-| 7 | Certificazioni | Attestati con certificato, badge o entrambi. | collezione certificazioni |
-| 8 | Documenti | SAD e CV, consultabili e scaricabili. | pagine dedicate |
+| 5 | Progetti | Tutti gli altri progetti, a scuola e per conto proprio. | collezione progetti |
+| 6 | Componenti | Componenti custom provabili sul posto. | collezione componenti |
+| 7 | Competenze | Competenze per stato, ciascuna collegata alle prove. | collezione competenze |
+| 8 | Certificazioni | Attestati con certificato, badge o entrambi. | collezione certificazioni |
+| 9 | Documenti | SAD e CV, consultabili e scaricabili. | pagine dedicate |
 | — | Contatti | Email, GitHub, LinkedIn. | footer già approvato |
 
 La progressione "da giocoso a maturo" segue l'ordine delle sezioni: le prime usano il linguaggio più spontaneo, le ultime quello più elegante.
@@ -125,7 +126,7 @@ Il sito è pronto per sostituire quello attuale quando:
 
 ## 5. Decisioni da prendere, in ordine
 
-1. ~~**Sezioni della home**~~: confermate con DEC-040.
+1. ~~**Sezioni della home**~~: confermate con DEC-040, poi portate a nove con DEC-080.
 2. ~~**Percorso e progetti**~~: confermato con DEC-041. Percorso mostra tutti i progetti per anno in forma compatta, Capolavori soltanto quelli in evidenza con card ricche; il dato è unico.
 3. **Linguette**: rinviata. Per ora la Copertina sta sul marchio e ogni nuova sezione porta la propria linguetta (DEC-043); quante mostrarne a regime, e a quale larghezza passare all'Indice, si decide quando le sezioni saranno abbastanza da porre il problema.
 4. **Pagine dedicate**: quali sezioni meritano una pagina propria oltre ai progetti?

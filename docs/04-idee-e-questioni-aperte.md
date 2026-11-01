@@ -31,6 +31,10 @@ Lo Style Lab deve permettere confronti a parità di contenuto e includere almeno
 
 ## Alternative visive da confrontare
 
+### Ambientazione dei Componenti
+
+Dopo le due sale della mostra, i Componenti potrebbero stare in un laboratorio: il covo del nerd, un laboratorio da scienziato dei cartoni animati, una stanza dai toni cyberpunk, con i componenti come esperimenti da provare sul banco. Idea di Giuseppe del 2026-11-01, da sviluppare quando si arriva alla sezione: l'atmosfera è l'ispirazione, senza riprendere personaggi o elementi di opere esistenti.
+
 ### Bottoni e CTA
 
 - Leva da banco resta l'unica proposta di bottone operativo ancora in valutazione nello Style Lab.
@@ -62,7 +66,6 @@ Dal 2026-11-01 il Percorso è una bacheca di sughero appesa al muro, sotto la sc
 
 - Fotografia personale da trasformare in ritratto.
 - Testi e ordine delle tappe del Percorso (`src/sections/JourneySection.vue`): bozza da confermare, in particolare se il corso HackAdemy viene prima o dopo l'iscrizione al serale e l'anno di inizio.
-- Dove elencare tutti i progetti, ora che non stanno più nel Percorso.
 - Testi di Chi sono: le frasi in `src/sections/AboutOpening.vue` sono una bozza scritta a partire dal profilo nella DevBase; Giuseppe deve confermare i fatti (Modugno, tirocinio, Istituto Marconi, quinto anno) e approvare o riscrivere le parole. Manca la versione inglese.
 - Su schermi molto grandi quaderno e fogli restano piccoli rispetto allo schermo, perché la scrivania è larga al massimo 80rem: valutare se allargarla.
 - Illustrazione "Dalle forbici al codice": i libri disegnati citano React e Next.js, mentre il portfolio è in Vue; le scritte sui biglietti sono dentro l'immagine e restano in italiano anche nella versione inglese.

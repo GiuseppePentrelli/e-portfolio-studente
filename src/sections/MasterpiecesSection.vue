@@ -2,11 +2,7 @@
   <!-- I Capolavori sono una mostra: dopo la bacheca del Percorso si entra in una sala con la parete
        scura, le opere appese e i cartellini da museo. Le opere vengono da src/content/projects.js; i
        posti ancora vuoti sono cornici imballate, "in allestimento". Testi della sala in bozza. -->
-  <div class="gallery">
-    <header class="gallery__heading">
-      <h2 :id="headingId" class="gallery__title">Capolavori</h2>
-      <p class="gallery__subtitle">Opere scelte · 2023–2027</p>
-    </header>
+  <GalleryRoom :heading-id="headingId" title="Capolavori" subtitle="Sala 1 · Opere scelte · 2023–2027">
 
     <article v-if="main" class="gallery__main">
       <GalleryFrame class="gallery__main-frame" ratio="16 / 10" lamp>
@@ -53,11 +49,12 @@
         </li>
       </ul>
     </div>
-  </div>
+  </GalleryRoom>
 </template>
 
 <script setup>
 import GalleryFrame from '@/components/foundations/GalleryFrame.vue'
+import GalleryRoom from '@/components/foundations/GalleryRoom.vue'
 import PlaceholderArtwork from '@/components/foundations/PlaceholderArtwork.vue'
 import FocusLensLink from '@/components/primitives/FocusLensLink.vue'
 import { mainMasterpiece, otherMasterpieces } from '@/content/projects'
@@ -79,69 +76,7 @@ const others = [
 </script>
 
 <style scoped>
-/* La sala: parete color petrolio a tutta larghezza, con la cornice del soffitto in alto, l'ombra
-   che scende da lì e il battiscopa in basso. Sulla parete scura i faretti si vedono. */
-.gallery {
-  position: relative;
-  margin-top: var(--space-8);
-  padding: clamp(4.5rem, 9vw, 7rem) var(--space-4) clamp(5.5rem, 10vw, 8rem);
-  color: var(--gallery-lettering);
-  background:
-    linear-gradient(rgb(0 0 0 / 30%), transparent 8rem),
-    linear-gradient(transparent calc(100% - 10rem), rgb(0 0 0 / 20%)),
-    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='220' height='220'%3E%3Cfilter id='p' x='0' y='0' color-interpolation-filters='sRGB'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.75' numOctaves='3' seed='4' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 1 0 0 0 0 1 0 0 0 0 1 0 0 0 .45 -.19'/%3E%3C/filter%3E%3Crect width='220' height='220' filter='url(%23p)'/%3E%3C/svg%3E"),
-    var(--gallery-wall);
-  background-size: auto, auto, 220px 220px, auto;
-  container-type: inline-size;
-}
-
-.gallery::before,
-.gallery::after {
-  content: "";
-  position: absolute;
-  inset-inline: 0;
-}
-
-.gallery::before {
-  top: 0;
-  height: 1rem;
-  background: linear-gradient(#f4efe4, #ddd5c5 55%, #b3aa98);
-  box-shadow: 0 0.35rem 0.7rem rgb(0 0 0 / 38%);
-}
-
-.gallery::after {
-  bottom: 0;
-  height: 1.5rem;
-  background: linear-gradient(#f1ebdf 0 12%, #d9d1c1 13% 100%);
-  box-shadow: 0 -0.2rem 0.5rem rgb(0 0 0 / 28%);
-}
-
-/* Il titolo della mostra, in lettere sulla parete. */
-.gallery__heading {
-  margin-bottom: clamp(4rem, 9cqw, 6.5rem);
-  text-align: center;
-}
-
-.gallery__title {
-  margin: 0;
-  font-family: var(--font-body);
-  font-size: clamp(2.25rem, 6.5cqw, 4.5rem);
-  font-weight: 800;
-  line-height: 1;
-  letter-spacing: 0.26em;
-  text-transform: uppercase;
-
-  /* La spaziatura aggiunge spazio anche dopo l'ultima lettera: questo lo compensa. */
-  margin-right: -0.26em;
-}
-
-.gallery__subtitle {
-  margin: var(--space-3) 0 0;
-  color: rgb(239 232 216 / 78%);
-  font-size: 0.9rem;
-  letter-spacing: 0.18em;
-  text-transform: uppercase;
-}
+/* La sala è GalleryRoom, con la parete color petrolio di default. */
 
 /* L'opera principale e il suo cartellino, accanto all'altezza degli occhi. */
 .gallery__main {

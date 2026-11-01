@@ -56,6 +56,10 @@
   --gallery-label: #fbfaf5;
   --gallery-brass: #c9a35a;
   --gallery-light: 255 232 190;
+  --gallery-wall-second: #5b2b27;
+  --gallery-frame-black: #26292b;
+  --gallery-shelf: #a8784a;
+  --gallery-shelf-dark: #6b4524;
 
   /* Superfici e profondità condivise dello Style Lab. */
   --surface-canvas: #f1ece3;
