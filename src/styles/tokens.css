@@ -57,10 +57,22 @@
   --gallery-label: #fbfaf5;
   --gallery-brass: #c9a35a;
   --gallery-light: 255 232 190;
-  --gallery-wall-second: #5b2b27;
   --gallery-frame-black: #26292b;
-  --gallery-shelf: #a8784a;
-  --gallery-shelf-dark: #6b4524;
+
+  /* La mappa dei Progetti: la città vista dall'alto, come la minimappa di un videogioco. */
+  --map-night: #0f151b;
+  --map-land: #25303a;
+  --map-block: #2d3945;
+  --map-block-alt: #313e4b;
+  --map-park: #2f4d3a;
+  --map-water: #1f4f6e;
+  --map-road: #8d99a3;
+  --map-highway: #c9a24a;
+  --map-route: #d64cd8;
+  --map-pin: #11161b;
+  --map-mark: #f4f1ea;
+  --map-home: #6ccf7a;
+  --map-focus: #a9dcf5;
 
   /* Il laboratorio dei Componenti, la stanzetta di sera: parete scura, neon, acciaio, led e il
      giallo del cartello. */

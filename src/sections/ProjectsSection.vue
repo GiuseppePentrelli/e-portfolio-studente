@@ -1,90 +1,76 @@
 <template>
-  <!-- La seconda sala della mostra: più raccolta, con la parete rossa. Qui stanno tutti i progetti che
-       non sono capolavori, fatti a scuola o per conto mio: le opere non sono appese ma appoggiate su
-       mensole, in cornici sottili e un po' storte, come in uno studio. La sala ne mostra tre alla
-       volta, su una mensola sola, con un filtro e i comandi per passare alle altre: l'indice completo, con i filtri
-       per anno e tecnologia, sarà la pagina /progetti. I dati sono in src/content/projects.js. Testi
-       della sala in bozza. -->
-  <GalleryRoom
-    :heading-id="headingId"
-    title="Progetti"
-    subtitle="Sala 2 · A scuola e per conto mio"
-    wall="var(--gallery-wall-second)"
-  >
-    <fieldset class="plaques">
-      <legend class="projects__hidden">Mostra i progetti</legend>
-      <label v-for="option in FILTERS" :key="option.id" class="plaque">
-        <input v-model="filter" type="radio" name="projects-filter" :value="option.id" />
-        <span>{{ option.label }} <small>{{ counts[option.id] }}</small></span>
+  <!-- I Progetti sono un mondo aperto: la mappa di una città da videogioco, in cui ogni progetto che
+       non è un capolavoro è un luogo. Scegliendolo, il navigatore traccia la strada da casa e la
+       scheda della missione lo racconta: obiettivi (le tecniche) e ricompensa (i link). Gli strati
+       della legenda filtrano fra quelli fatti a scuola e quelli per conto mio. I progetti ancora da
+       scegliere sono missioni da sbloccare. La versione con le mensole è nel branch progetti-mensole.
+       Testi in bozza. -->
+  <div class="world">
+    <header class="world__heading">
+      <p class="world__kicker">Mappa del mondo</p>
+      <h2 :id="headingId" class="world__title">Progetti</h2>
+      <p class="world__subtitle">Ogni progetto è un luogo: sceglilo e il navigatore ti ci porta.</p>
+    </header>
+
+    <fieldset class="world__layers">
+      <legend class="world__hidden">Mostra i progetti</legend>
+      <label v-for="option in LAYERS" :key="option.id" class="layer">
+        <input v-model="layer" type="radio" name="projects-layer" :value="option.id" />
+        <span>
+          <i class="layer__ring" :class="`layer__ring--${option.id}`" aria-hidden="true"></i>
+          {{ option.label }}
+          <small>{{ counts[option.id] }}</small>
+        </span>
       </label>
     </fieldset>
 
-    <div ref="stage" class="shelves-stage">
-      <Transition name="shelves-fade" mode="out-in" @before-leave="holdHeight" @after-enter="releaseHeight">
-        <ul v-if="visible.length" :key="`${filter}-${page}`" class="shelves">
-          <li
-            v-for="project in visible"
-            :key="project.slug"
-            class="shelves__item"
-            :style="frameStyle(project)"
-          >
-            <div class="shelves__stand">
-              <GalleryFrame
-                class="shelves__frame"
-                :ratio="RATIOS[position(project) % RATIOS.length]"
-                :finish="position(project) % 2 ? 'black' : 'wood'"
-                :hang="false"
-              >
-                <PlaceholderArtwork v-if="project.placeholder" :kind="project.preview" />
-                <img v-else :src="project.image" alt="" loading="lazy" decoding="async" />
-              </GalleryFrame>
-            </div>
+    <p class="world__hidden" aria-live="polite">{{ announcement }}</p>
 
-            <span class="shelves__ledge" aria-hidden="true"></span>
+    <div class="world__board">
+      <OpenWorldMap v-model="selected" class="world__map" :places="places" @trip="trip = $event" />
 
-            <article class="shelves__label">
-              <p class="shelves__kicker">
-                {{ CONTEXTS[project.context] }} · <span class="shelves__year">{{ project.schoolYear }}</span>
-              </p>
-              <h3 class="shelves__name">{{ project.title }}</h3>
-              <p class="shelves__summary">{{ project.summary }}</p>
-              <p class="shelves__techniques">{{ project.techniques.join(' · ') }}</p>
-              <p v-if="project.url || project.repo" class="shelves__links">
-                <HighlighterLink v-if="project.url" :href="project.url">
-                  Visita il sito<span class="projects__hidden"> di {{ project.title }}</span>
-                </HighlighterLink>
-                <HighlighterLink v-if="project.repo" :href="project.repo">
-                  Il codice<span class="projects__hidden"> di {{ project.title }}</span>
-                </HighlighterLink>
-              </p>
-              <p v-else class="shelves__soon">Link in arrivo</p>
-            </article>
-          </li>
-        </ul>
-        <p v-else key="empty" class="shelves__empty">Qui non ci sono ancora opere.</p>
+      <Transition name="mission-swap" mode="out-in">
+        <article v-if="current" :key="current.slug" class="mission">
+          <p class="mission__kicker">
+            Missione {{ number(current) }} ·
+            <template v-if="current.placeholder">In arrivo</template>
+            <template v-else>
+              {{ CONTEXTS[current.context] }} · <span class="mission__year">{{ current.schoolYear }}</span>
+            </template>
+          </p>
+          <h3 class="mission__name">{{ current.placeholder ? 'Missione da sbloccare' : current.title }}</h3>
+          <p class="mission__distance"><span aria-hidden="true">◆</span> {{ tripText }}</p>
+          <p class="mission__summary">{{ current.summary }}</p>
+
+          <h4 class="mission__heading">Obiettivi</h4>
+          <ul class="mission__goals">
+            <li v-for="technique in current.techniques" :key="technique">{{ technique }}</li>
+          </ul>
+
+          <h4 class="mission__heading">Ricompensa</h4>
+          <p v-if="current.url || current.repo" class="mission__rewards">
+            <a v-if="current.url" class="mission__reward" :href="current.url">
+              Visita il sito<span class="world__hidden"> di {{ current.title }}</span>
+              <span aria-hidden="true">↗</span>
+            </a>
+            <a v-if="current.repo" class="mission__reward" :href="current.repo">
+              Il codice<span class="world__hidden"> di {{ current.title }}</span>
+              <span aria-hidden="true">↗</span>
+            </a>
+          </p>
+          <p v-else class="mission__locked">
+            {{ current.placeholder ? 'Questa missione si sblocca presto.' : 'Ricompensa in arrivo.' }}
+          </p>
+        </article>
+        <p v-else key="empty" class="mission mission--empty">In questo strato non ci sono ancora luoghi.</p>
       </Transition>
     </div>
-
-    <div class="pager">
-      <p class="pager__status" aria-live="polite">{{ status }}</p>
-      <nav v-if="pageCount > 1" class="pager__nav" aria-label="Pagine dei progetti">
-        <button type="button" class="plaque plaque--button" :disabled="page === 0" @click="goTo(page - 1)">
-          <span><span aria-hidden="true">←</span> Precedenti</span>
-        </button>
-        <span class="pager__count">{{ page + 1 }} / {{ pageCount }}</span>
-        <button type="button" class="plaque plaque--button" :disabled="page === pageCount - 1" @click="goTo(page + 1)">
-          <span>Successivi <span aria-hidden="true">→</span></span>
-        </button>
-      </nav>
-    </div>
-  </GalleryRoom>
+  </div>
 </template>
 
 <script setup>
-import GalleryFrame from '@/components/foundations/GalleryFrame.vue'
-import GalleryRoom from '@/components/foundations/GalleryRoom.vue'
-import PlaceholderArtwork from '@/components/foundations/PlaceholderArtwork.vue'
-import HighlighterLink from '@/components/primitives/HighlighterLink.vue'
+import OpenWorldMap from '@/components/foundations/OpenWorldMap.vue'
+import { LOTS } from '@/components/foundations/openWorldMap.js'
 import { otherProjects } from '@/content/projects'
 import { computed, ref, watch } from 'vue'
 
@@ -93,96 +79,129 @@ defineProps({
 })
 
 const CONTEXTS = { scuola: 'A scuola', personale: 'Per conto mio' }
-const FILTERS = [
+const LAYERS = [
   { id: 'tutti', label: 'Tutti' },
   { id: 'personale', label: 'Per conto mio' },
   { id: 'scuola', label: 'A scuola' },
 ]
 
-// Le cornici non sono tutte uguali: proporzioni, larghezza e inclinazione cambiano a turno, così le
-// mensole sembrano sistemate a mano. Il turno segue la posizione del progetto nella collezione, non
-// nella pagina: un progetto ha sempre la stessa cornice.
-const RATIOS = ['4 / 3', '1 / 1', '5 / 4']
-const WIDTHS = ['88%', '72%', '80%']
-const LEANS = [-1.5, 1, -0.6, 1.4]
-const positions = new Map(otherProjects.map((project, index) => [project.slug, index]))
-const position = project => positions.get(project.slug)
-const frameStyle = project => ({
-  '--lean': `${LEANS[position(project) % LEANS.length]}deg`,
-  '--frame-width': WIDTHS[position(project) % WIDTHS.length],
-})
+// Un'unità della mappa vale sei metri: la distanza che mostra il navigatore.
+const METERS_PER_UNIT = 6
 
-// La sala mostra tre opere alla volta: una mensola sola.
-const PAGE_SIZE = 3
+// Ogni progetto ha il suo incrocio, nell'ordine della collezione, e il suo numero di missione: non
+// cambiano con il filtro.
+const lots = new Map(otherProjects.map((project, index) => [project.slug, LOTS[index % LOTS.length]]))
+const number = project => String(otherProjects.indexOf(project) + 1).padStart(2, '0')
 
-const filter = ref('tutti')
-const page = ref(0)
-
-const filtered = computed(() =>
-  filter.value === 'tutti' ? otherProjects : otherProjects.filter(project => project.context === filter.value),
+const layer = ref('tutti')
+const visible = computed(() =>
+  layer.value === 'tutti' ? otherProjects : otherProjects.filter(project => project.context === layer.value),
 )
 const counts = computed(() => ({
   tutti: otherProjects.length,
   personale: otherProjects.filter(project => project.context === 'personale').length,
   scuola: otherProjects.filter(project => project.context === 'scuola').length,
 }))
-const pageCount = computed(() => Math.max(1, Math.ceil(filtered.value.length / PAGE_SIZE)))
-const visible = computed(() => filtered.value.slice(page.value * PAGE_SIZE, (page.value + 1) * PAGE_SIZE))
 
-const status = computed(() => {
-  if (!filtered.value.length) return 'Nessuna opera'
-  const from = page.value * PAGE_SIZE + 1
-  const to = from + visible.value.length - 1
-  return `Opere ${from}–${to} di ${filtered.value.length}`
+const places = computed(() =>
+  visible.value.map(project => ({
+    id: project.slug,
+    node: lots.get(project.slug),
+    kind: project.placeholder ? 'locked' : (project.kind ?? 'site'),
+    label: project.placeholder ? 'Missione da sbloccare' : project.title,
+    tone: project.context,
+  })),
+)
+
+// All'inizio la destinazione è il primo progetto vero; cambiando strato, se la destinazione non c'è
+// più, diventa il primo luogo visibile.
+const selected = ref((otherProjects.find(project => !project.placeholder) ?? otherProjects[0])?.slug ?? null)
+watch(visible, (projects) => {
+  if (!projects.some(project => project.slug === selected.value)) selected.value = projects[0]?.slug ?? null
 })
 
-watch(filter, () => {
-  page.value = 0
+const current = computed(() => visible.value.find(project => project.slug === selected.value) ?? null)
+
+// La lunghezza del percorso, in unità della mappa, la dice la mappa: dipende da dove si trova la
+// freccia quando si sceglie il luogo.
+const trip = ref(0)
+const tripText = computed(() => {
+  if (trip.value <= 13) return 'Sei già qui'
+  return `Percorso di ${Math.round((trip.value * METERS_PER_UNIT) / 10) * 10} m`
 })
 
-const stage = ref(null)
-
-// Cambiando pagina dal fondo della sala, le opere nuove cominciano più in alto: la sala torna
-// all'inizio delle mensole, senza animazione se il movimento è ridotto.
-function goTo(next) {
-  page.value = next
-  const top = stage.value.getBoundingClientRect().top
-  if (top < 0) {
-    const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches
-    stage.value.scrollIntoView({ block: 'start', behavior: reduce ? 'auto' : 'smooth' })
-  }
-}
-
-// Fra l'uscita delle opere e l'arrivo delle nuove la sala resta della sua altezza, altrimenti
-// quello che sta sotto salirebbe per un attimo.
-function holdHeight() {
-  stage.value.style.minHeight = `${stage.value.offsetHeight}px`
-}
-
-function releaseHeight() {
-  stage.value.style.minHeight = ''
-}
+const announcement = computed(() => {
+  if (!current.value) return 'Nessun luogo in questo strato'
+  const name = current.value.placeholder ? 'missione da sbloccare' : current.value.title
+  return `Destinazione: ${name}. ${tripText.value}`
+})
 </script>
 
 <style scoped>
-/* I comandi della sala sono targhette sulla parete: lettere chiare e bordo sottile, e quella scelta
-   diventa un cartellino. Il contorno del focus è chiaro, perché quello blu del sito sulla parete
-   rossa non si vedrebbe. */
-.plaques {
+/* Il mondo di notte: un fondo blu scuro con la luce viola del navigatore e una griglia appena
+   visibile, come lo schermo di un gioco. */
+.world {
+  position: relative;
+  margin-top: var(--space-8);
+  padding: clamp(4rem, 8vw, 6rem) var(--space-4) clamp(4.5rem, 9vw, 7rem);
+  overflow-x: clip;
+  color: var(--map-mark);
+  background:
+    radial-gradient(ellipse 60% 40% at 30% 55%, rgb(214 76 216 / 12%), transparent 70%),
+    linear-gradient(rgb(255 255 255 / 3%) 1px, transparent 1px) 0 0 / 2rem 2rem,
+    linear-gradient(90deg, rgb(255 255 255 / 3%) 1px, transparent 1px) 0 0 / 2rem 2rem,
+    var(--map-night);
+  container-type: inline-size;
+}
+
+.world__heading {
+  margin-bottom: var(--space-5);
+  text-align: center;
+}
+
+.world__kicker {
+  margin: 0 0 var(--space-2);
+  color: var(--map-route);
+  font-family: var(--font-body);
+  font-size: 0.8rem;
+  font-weight: 800;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+}
+
+.world__title {
+  margin: 0 -0.2em 0 0;
+  font-family: var(--font-body);
+  font-size: clamp(2.25rem, 6.5cqw, 4.5rem);
+  font-weight: 800;
+  line-height: 1;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  text-shadow: 0 0.12em 0 rgb(0 0 0 / 45%);
+}
+
+.world__subtitle {
+  margin: var(--space-3) 0 0;
+  color: rgb(244 241 234 / 75%);
+  font-size: 0.95rem;
+}
+
+/* Gli strati della legenda: radio veri, con l'anello del colore dei luoghi. */
+.world__layers {
   display: flex;
   flex-wrap: wrap;
   gap: 0.6rem;
   justify-content: center;
-  margin: calc(clamp(4rem, 9cqw, 6.5rem) * -0.45) auto clamp(3.5rem, 7cqw, 5rem);
+  margin: 0 auto clamp(2.5rem, 5cqw, 3.5rem);
   padding: 0;
   border: 0;
 }
 
-.plaque {
+.layer {
   position: relative;
 }
 
-.plaque input {
+.layer input {
   position: absolute;
   width: 1px;
   height: 1px;
@@ -191,269 +210,232 @@ function releaseHeight() {
   white-space: nowrap;
 }
 
-.plaque > span {
+.layer > span {
   display: inline-flex;
-  gap: 0.55em;
+  gap: 0.5em;
   align-items: center;
   min-height: 2.75rem;
-  padding: 0.55rem 1rem;
-  color: var(--gallery-lettering);
+  padding: 0.5rem 1rem;
   font-family: var(--font-body);
-  font-size: 0.78rem;
+  font-size: 0.82rem;
   font-weight: 800;
-  letter-spacing: 0.14em;
+  letter-spacing: 0.1em;
   text-transform: uppercase;
-  background: rgb(0 0 0 / 14%);
-  border: 1px solid rgb(239 232 216 / 42%);
-  border-radius: 0.15rem;
+  background: rgb(17 22 27 / 88%);
+  border: 0.12rem solid rgb(255 255 255 / 30%);
+  border-radius: 999px;
   cursor: pointer;
-  transition: background-color var(--duration-fast) var(--ease-out), border-color var(--duration-fast) var(--ease-out);
 }
 
-.plaque small {
+.layer small {
   font-size: 0.9em;
   font-weight: 600;
   opacity: 0.7;
 }
 
-.plaque input:checked + span {
-  color: var(--ink-strong);
-  background: var(--gallery-label);
-  border-color: var(--gallery-label);
+.layer__ring {
+  width: 0.8rem;
+  height: 0.8rem;
+  border: 0.15rem solid var(--map-mark);
+  border-radius: 50%;
 }
 
-.plaque input:focus-visible + span,
-.plaque--button:focus-visible > span {
-  outline: 0.2rem solid var(--gallery-lettering);
+.layer__ring--tutti {
+  border-color: var(--map-mark) var(--map-highway) var(--map-highway) var(--map-mark);
+}
+
+.layer__ring--scuola {
+  border-color: var(--map-highway);
+}
+
+.layer input:checked + span {
+  border-color: var(--map-route);
+  box-shadow: 0 0 0.7rem rgb(214 76 216 / 45%);
+}
+
+.layer input:focus-visible + span {
+  outline: 0.2rem solid var(--map-focus);
   outline-offset: 0.2rem;
 }
 
-@media (hover: hover) and (pointer: fine) {
-  .plaque:hover > span,
-  .plaque--button:not(:disabled):hover > span {
-    border-color: var(--gallery-lettering);
-  }
-}
-
-.plaque--button {
-  padding: 0;
-  background: none;
-  border: 0;
-}
-
-.plaque--button:focus-visible {
-  outline: none;
-}
-
-.plaque--button:disabled > span {
-  cursor: default;
-  opacity: 0.35;
-}
-
-.shelves-stage {
-  scroll-margin-top: 6rem;
-}
-
-/* Cambiando filtro o pagina, le opere svaniscono e le nuove salgono appena mentre compaiono. */
-.shelves-fade-leave-active {
-  transition: opacity var(--duration-fast) var(--ease-in);
-}
-
-.shelves-fade-enter-active {
-  transition: opacity 320ms var(--ease-out), translate 320ms var(--ease-out);
-}
-
-.shelves-fade-leave-to,
-.shelves-fade-enter-from {
-  opacity: 0;
-}
-
-.shelves-fade-enter-from {
-  translate: 0 0.75rem;
-}
-
-@media (prefers-reduced-motion: reduce) {
-  .shelves-fade-leave-active,
-  .shelves-fade-enter-active {
-    transition: none;
-  }
-}
-
-.shelves__empty {
-  margin: 0 0 clamp(4rem, 8cqw, 5.5rem);
-  color: rgb(239 232 216 / 78%);
-  font-style: italic;
-  text-align: center;
-}
-
-/* Sotto le mensole: quante opere si vedono e i comandi per le altre. */
-.pager {
+.world__board {
   display: grid;
-  gap: 1rem;
-  justify-items: center;
-  margin-top: calc(clamp(4rem, 8cqw, 5.5rem) * -0.4);
-}
-
-.pager__status {
-  margin: 0;
-  color: rgb(239 232 216 / 78%);
-  font-size: 0.78rem;
-  letter-spacing: 0.14em;
-  text-transform: uppercase;
-}
-
-.pager__nav {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 0.8rem 1.2rem;
+  grid-template-columns: minmax(0, 1.2fr) minmax(16rem, 1fr);
+  gap: clamp(1.5rem, 4cqw, 3rem);
   align-items: center;
-  justify-content: center;
-}
-
-.pager__count {
-  color: var(--gallery-lettering);
-  font-size: 0.9rem;
-  font-weight: 800;
-  font-variant-numeric: tabular-nums;
-}
-
-/* Le mensole: una griglia di posti, e ogni posto ha tre righe allineate a quelle dei vicini grazie a
-   subgrid. Sopra la cornice, poggiata sul fondo; poi il tratto di mensola; sotto, sulla parete, il
-   cartellino. Il tratto di mensola di ogni posto sporge di metà spazio per lato, così i tratti di una
-   riga si toccano e diventano una mensola sola. Le opere di una pagina stanno su una mensola: tre
-   colonne quando la sala è larga almeno 40rem, una sotto l'altra sul telefono. Lo spazio fra una
-   mensola e l'altra è il margine sotto i cartellini: un row-gap verrebbe applicato anche fra le tre
-   righe di ogni posto. */
-.shelves {
-  --shelf-gap: clamp(2rem, 5cqw, 4.5rem);
-  display: grid;
-  grid-template-columns: minmax(0, 1fr);
-  column-gap: var(--shelf-gap);
-  row-gap: 0;
-  width: min(100%, var(--content-width));
+  width: min(100%, 64rem);
   margin: 0 auto;
-  padding: 0;
-  list-style: none;
 }
 
-@container (width >= 40rem) {
-  .shelves {
-    grid-template-columns: repeat(3, minmax(0, 1fr));
-  }
-}
-
-.shelves__item {
-  display: grid;
-  grid-row: span 3;
-  grid-template-rows: subgrid;
-  row-gap: 0;
-}
-
-.shelves__stand {
-  display: grid;
-  align-self: end;
-  justify-items: center;
-}
-
-/* La cornice è appoggiata sul ripiano, un po' storta: ruota attorno al punto in cui lo tocca. */
-.shelves__frame {
-  --artwork-frame-size: 0.55rem;
-  width: var(--frame-width);
-  margin-bottom: -0.3rem;
-  transform-origin: 50% 100%;
-  rotate: var(--lean);
-}
-
-/* Il ripiano di legno: il piano chiaro in alto, il bordo davanti più scuro e l'ombra sulla parete.
-   Copre il fondo della cornice, che sta dietro il bordo. */
-.shelves__ledge {
-  position: relative;
-  z-index: 1;
-  height: 0.95rem;
-  margin-inline: calc(var(--shelf-gap) / -2);
-  background:
-    linear-gradient(#d2a676 0 22%, var(--gallery-shelf) 24% 70%, var(--gallery-shelf-dark));
-  border-radius: 0.1rem;
-  box-shadow:
-    inset 0 -0.08rem 0 rgb(0 0 0 / 25%),
-    0 0.9rem 1rem -0.4rem rgb(0 0 0 / 55%);
-}
-
-/* Il cartellino sotto la mensola. */
-.shelves__label {
-  align-self: start;
-  width: min(100%, 17rem);
-  margin: 1.6rem auto clamp(4rem, 8cqw, 5.5rem);
-  padding: 1rem 1.1rem 0.9rem;
-  color: var(--ink-strong);
+/* La scheda della missione, come nei menu dei giochi: fondo scuro, cornice chiara, il titolo in
+   grande e due elenchi. */
+.mission {
+  margin: 0;
+  padding: 1.5rem 1.4rem 1.4rem;
   font-family: var(--font-body);
-  background: var(--gallery-label);
-  box-shadow:
-    0 0 0 1px rgb(0 0 0 / 6%),
-    0.4rem 0.7rem 1rem -0.3rem rgb(0 0 0 / 45%);
+  background: rgb(17 22 27 / 92%);
+  border: 0.15rem solid rgb(255 255 255 / 85%);
+  border-radius: 1rem;
+  box-shadow: 0 1rem 2rem rgb(0 0 0 / 45%);
 }
 
-.shelves__kicker {
-  margin: 0 0 0.4rem;
-  color: var(--ink-kicker);
-  font-size: 0.68rem;
+.mission--empty {
+  color: rgb(244 241 234 / 75%);
+  font-style: italic;
+}
+
+.mission__kicker {
+  margin: 0 0 0.5rem;
+  color: var(--map-route);
+  font-size: 0.75rem;
   font-weight: 800;
   letter-spacing: 0.14em;
   text-transform: uppercase;
 }
 
-.shelves__year {
+.mission__year {
   white-space: nowrap;
 }
 
-.shelves__name {
-  margin: 0 0 0.4rem;
-  font-size: 1.1rem;
-  font-weight: 800;
-  line-height: 1.2;
-}
-
-.shelves__summary {
+.mission__name {
   margin: 0;
-  color: var(--ink);
-  font-size: 0.88rem;
-  line-height: 1.5;
+  font-size: 1.7rem;
+  font-weight: 800;
+  line-height: 1.15;
 }
 
-.shelves__techniques {
-  margin: 0.6rem 0 0;
-  padding-top: 0.5rem;
-  color: var(--ink-soft);
-  font-size: 0.78rem;
-  border-top: 1px solid var(--paper-edge);
+.mission__distance {
+  margin: 0.4rem 0 0.9rem;
+  color: var(--map-highway);
+  font-size: 0.85rem;
+  font-weight: 700;
 }
 
-.shelves__links {
+.mission__summary {
+  margin: 0;
+  color: rgb(244 241 234 / 85%);
+  font-size: 0.95rem;
+  line-height: 1.55;
+}
+
+.mission__heading {
+  margin: 1.1rem 0 0.45rem;
+  padding-top: 0.8rem;
+  color: rgb(244 241 234 / 60%);
+  font-size: 0.72rem;
+  font-weight: 800;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  border-top: 1px solid rgb(255 255 255 / 14%);
+}
+
+/* Gli obiettivi hanno la casella da spuntare, come la lista di una missione. */
+.mission__goals {
+  display: grid;
+  gap: 0.35rem;
+  margin: 0;
+  padding: 0;
+  font-size: 0.9rem;
+  list-style: none;
+}
+
+.mission__goals li {
+  display: flex;
+  gap: 0.6rem;
+  align-items: center;
+}
+
+.mission__goals li::before {
+  content: "";
+  flex: none;
+  width: 0.8rem;
+  height: 0.8rem;
+  border: 0.13rem solid rgb(244 241 234 / 70%);
+  border-radius: 0.15rem;
+}
+
+.mission__rewards {
   display: flex;
   flex-wrap: wrap;
-  column-gap: 1rem;
-  margin: 0.2rem 0 0;
+  gap: 0.6rem;
+  margin: 0;
 }
 
-.shelves__links .highlighter-link {
-  font-size: 1.15rem;
+.mission__reward {
+  display: inline-flex;
+  gap: 0.4rem;
+  align-items: center;
+  min-height: 2.75rem;
+  padding: 0.5rem 1rem;
+  color: var(--map-pin);
+  font-size: 0.9rem;
+  font-weight: 800;
+  text-decoration: none;
+  background: var(--map-mark);
+  border-radius: 999px;
 }
 
-.shelves__soon {
-  margin: 0.5rem 0 0;
-  color: var(--ink-soft);
-  font-size: 0.8rem;
+.mission__reward:focus-visible {
+  outline: 0.2rem solid var(--map-focus);
+  outline-offset: 0.2rem;
+}
+
+.mission__locked {
+  margin: 0;
+  color: rgb(244 241 234 / 70%);
+  font-size: 0.9rem;
   font-style: italic;
 }
 
-/* Testi solo per i lettori di schermo: il titolo del progetto che completa i link e il nome del
-   filtro. */
-.projects__hidden {
+.world__hidden {
   position: absolute;
   width: 1px;
   height: 1px;
   overflow: hidden;
   clip-path: inset(50%);
   white-space: nowrap;
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .layer:hover > span {
+    border-color: rgb(255 255 255 / 70%);
+  }
+
+  .mission__reward:hover {
+    background: #fff;
+  }
+}
+
+@container (width < 52rem) {
+  .world__board {
+    grid-template-columns: minmax(0, 1fr);
+    width: min(100%, 34rem);
+  }
+}
+
+/* Cambiando destinazione la scheda svanisce e la nuova compare salendo appena; con movimento
+   ridotto cambia e basta. */
+.mission-swap-leave-active {
+  transition: opacity var(--duration-fast) var(--ease-in);
+}
+
+.mission-swap-enter-active {
+  transition: opacity 280ms var(--ease-out), translate 280ms var(--ease-out);
+}
+
+.mission-swap-leave-to,
+.mission-swap-enter-from {
+  opacity: 0;
+}
+
+.mission-swap-enter-from {
+  translate: 0 0.5rem;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .mission-swap-leave-active,
+  .mission-swap-enter-active {
+    transition: none;
+  }
 }
 </style>

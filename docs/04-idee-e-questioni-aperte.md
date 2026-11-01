@@ -33,6 +33,8 @@ Lo Style Lab deve permettere confronti a parità di contenuto e includere almeno
 
 ### Laboratorio dei Componenti
 
+La scena unica in uno schermo non convince del tutto Giuseppe. Lo zoom verso la scrivania è stato provato e scartato il 2026-11-01: è conservato con `git stash` ("Laboratorio: prova dello zoom verso la scrivania"). Da provare una stanza più alta dello schermo, che si scorre, con lo sguardo che scende dalla parete al pavimento. La versione attuale è anche nel branch `laboratorio-scena-unica`.
+
 Il laboratorio si costruisce a fasi (DEC-082); la fase 1 (la postazione) e la fase 2 (la mensola) sono fatte; la sedia da gaming vista di spalle è stata provata e scartata. Sul telefono la mensola per ora non compare: da decidere se e come mostrarla.
 
 - Fase 3, gli omaggi ai videogiochi e agli anime preferiti, uno alla volta. Sono ridisegnati da zero, con contenuto di Giuseppe, senza loghi, mappe o grafiche ufficiali (i giochi sono marchi e opere protette, e il portfolio deve essere originale):
@@ -99,6 +101,7 @@ Dal 2026-11-01 il Percorso è una bacheca di sughero appesa al muro, sotto la sc
 - Strategia affidabile per URL puliti su GitHub Pages in una SPA.
 - Formato definitivo dei dati strutturati. Per i progetti è in uso un'ipotesi, `src/content/projects.js`, con i campi descritti in testa al file.
 - Quali progetti entrano nei Capolavori: il principale è un segnaposto fittizio e le altre opere sono cornici "in allestimento" (DEC-078).
+- Mappa dei Progetti (DEC-084): ogni progetto prende un incrocio nell'ordine della collezione, quindi aggiungerne uno in mezzo sposta quelli dopo; con più di 24 progetti gli incroci finiscono e servirà una città più grande o una mappa che si sposta. Da valutare lo zoom e il trascinamento, che il componente Open World Map ha già.
 - Organizzazione dei file Markdown bilingui.
 - Strategia di caricamento delle demo interattive.
 - Demo attiva nella card oppure apertura in uno spazio più grande.

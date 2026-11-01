@@ -2,7 +2,7 @@
   <!-- I Capolavori sono una mostra: dopo la bacheca del Percorso si entra in una sala con la parete
        scura, le opere appese e i cartellini da museo. Le opere vengono da src/content/projects.js; i
        posti ancora vuoti sono cornici imballate, "in allestimento". Testi della sala in bozza. -->
-  <GalleryRoom :heading-id="headingId" title="Capolavori" subtitle="Sala 1 · Opere scelte · 2023–2027">
+  <GalleryRoom :heading-id="headingId" title="Capolavori" subtitle="Opere scelte · 2023–2027">
 
     <article v-if="main" class="gallery__main">
       <GalleryFrame class="gallery__main-frame" ratio="16 / 10" lamp>

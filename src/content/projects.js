@@ -6,8 +6,12 @@
 // 'personale'), techniques, role, summary, masterpiece ('main' per il capolavoro principale, true per
 // gli altri capolavori, false per i progetti della sala Progetti), page (se la pagina di
 // approfondimento esiste già), url (il progetto online), repo (il codice), image (anteprima importata
-// da src/assets), placeholder (true finché l'elemento è un segnaposto: le sale mostrano uno schizzo),
-// preview (lo schizzo del segnaposto: 'site', 'game' o 'app').
+// da src/assets), placeholder (true finché l'elemento è un segnaposto), preview (lo schizzo del
+// segnaposto nei Capolavori: 'site', 'game' o 'app'), kind (l'icona del luogo sulla mappa dei
+// Progetti: 'site', 'game' o 'app').
+//
+// Nei Progetti ogni progetto ha un incrocio della mappa, nell'ordine dell'elenco: aggiungere un
+// progetto in mezzo sposta quelli dopo.
 import novenixPreview from '@/assets/images/novenix-v2.webp'
 
 export const projects = [
@@ -34,6 +38,7 @@ export const projects = [
     summary:
       'Il mio sito personale e la radice di tutto quello che pubblico: un viaggio nello spazio in 3D cartoon, che parte dalla cabina di una navicella.',
     masterpiece: false,
+    kind: 'site',
     url: 'https://giuseppepentrelli.github.io/',
     repo: 'https://github.com/GiuseppePentrelli/GiuseppePentrelli.github.io',
     image: novenixPreview,
