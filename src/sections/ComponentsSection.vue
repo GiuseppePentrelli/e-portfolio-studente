@@ -23,7 +23,7 @@
           </header>
 
           <span class="den__hexes" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i></span>
-          <WallShelf class="den__shelf" />
+          <WallShelf class="den__shelf"><ShelfRaven /></WallShelf>
           <WantedPoster class="den__wanted" />
 
           <p class="den__hidden" aria-live="polite">{{ announcement }}</p>
@@ -46,6 +46,8 @@
             />
             <DeskGear class="den__gear" />
             <CardboardBox class="den__box-easter" />
+            <DrapedHoodie class="den__hoodie" />
+            <PixelDuckTrail class="den__trail" />
           </div>
 
           <LabMonitor class="den__monitor" :title="windowTitle" :dark="current.kind === 'embed'">
@@ -67,6 +69,8 @@
               </div>
             </Transition>
           </LabMonitor>
+
+          <OpenWorldMinimap class="den__minimap" />
 
           <div class="den__clipboard">
             <span class="den__nail" aria-hidden="true"></span>
@@ -101,10 +105,14 @@
 import CardboardBox from '@/components/foundations/CardboardBox.vue'
 import CartridgeRack from '@/components/foundations/CartridgeRack.vue'
 import DeskGear from '@/components/foundations/DeskGear.vue'
+import DrapedHoodie from '@/components/foundations/DrapedHoodie.vue'
 import LabEmbed from '@/components/foundations/LabEmbed.vue'
 import LabMonitor from '@/components/foundations/LabMonitor.vue'
 import LabNativeDemo from '@/components/foundations/LabNativeDemo.vue'
+import OpenWorldMinimap from '@/components/foundations/OpenWorldMinimap.vue'
 import PcTower from '@/components/foundations/PcTower.vue'
+import PixelDuckTrail from '@/components/foundations/PixelDuckTrail.vue'
+import ShelfRaven from '@/components/foundations/ShelfRaven.vue'
 import WallShelf from '@/components/foundations/WallShelf.vue'
 import WantedPoster from '@/components/foundations/WantedPoster.vue'
 import HighlighterLink from '@/components/primitives/HighlighterLink.vue'
@@ -183,6 +191,9 @@ const announcement = computed(() => `Esperimento ${number(currentIndex.value)}: 
 .den__shelf,
 .den__wanted,
 .den__box-easter,
+.den__hoodie,
+.den__trail,
+.den__minimap,
 .den__leg,
 .den__tower,
 .den__gear,
@@ -625,6 +636,42 @@ const announcement = computed(() => `Esperimento ${number(currentIndex.value)}: 
     font-size: calc(var(--den-u) * 1);
   }
 
+  /* La felpa buttata sull'angolo destro della scrivania. Il suo disegno è 160 × 135 con il bordo
+     del piano a 30: alta 17,7 unità, il bordo cade a 3,9 unità dalla cima, quindi sul bordo vero
+     della scrivania, a 27, quando il fondo è a 13,2. */
+  .den__hoodie {
+    position: absolute;
+    bottom: calc(var(--den-u) * 13.2);
+    left: calc(var(--den-ux) * 152 - var(--den-u) * 22);
+    z-index: 5;
+    display: block;
+    width: calc(var(--den-u) * 21);
+    height: calc(var(--den-u) * 17.7);
+  }
+
+  /* La scia di puntini lungo la striscia LED, sotto il bordo della scrivania: finisce prima della
+     felpa, dove la paperella si ferma. */
+  .den__trail {
+    position: absolute;
+    bottom: calc(var(--den-u) * 22.2);
+    left: calc(var(--den-ux) * 8 + var(--den-u) * 5);
+    z-index: 3;
+    display: block;
+    width: calc(var(--den-ux) * 142 - var(--den-u) * 28);
+    font-size: calc(var(--den-u) * 1.15);
+  }
+
+  /* La minimappa nell'angolo in basso a sinistra, sopra la scena, come l'interfaccia di un gioco. */
+  .den__minimap {
+    position: absolute;
+    bottom: calc(var(--den-u) * 2.5);
+    left: calc(var(--den-ux) * 2.5);
+    z-index: 8;
+    display: grid;
+    font-size: calc(var(--den-u) * 1.1);
+    pointer-events: none;
+  }
+
   .den__shelf {
     position: absolute;
     bottom: calc(var(--den-u) * 47.5);
@@ -815,15 +862,37 @@ const announcement = computed(() => `Esperimento ${number(currentIndex.value)}: 
   opacity: 0;
 }
 
-/* L'insegna si accende, con qualche incertezza, mentre sale nello schermo; con movimento ridotto,
-   o dove il browser non lo supporta, è già accesa. */
+/* L'insegna si accende, con qualche incertezza, mentre sale nello schermo; la paperella mangia la
+   scia nell'ultimo tratto dell'ingresso della stanza, quando la scia, che sta in basso, è entrata
+   nello schermo, e finisce quando la stanza è tutta in vista. Con movimento ridotto, o
+   dove il browser non lo supporta, l'insegna è già accesa e la paperella resta all'inizio. */
 @supports (animation-timeline: view()) {
   @media (prefers-reduced-motion: no-preference) {
+    .den {
+      view-timeline: --den-view block;
+    }
+
     .den__title {
       animation: den-neon linear both;
       animation-timeline: view();
       animation-range: cover 8vh cover 32vh;
     }
+
+    .den__trail {
+      animation: den-trail linear both;
+      animation-timeline: --den-view;
+      animation-range: entry 72% entry 100%;
+    }
+  }
+}
+
+@keyframes den-trail {
+  from {
+    --trail-eat: 0;
+  }
+
+  to {
+    --trail-eat: 1;
   }
 }
 

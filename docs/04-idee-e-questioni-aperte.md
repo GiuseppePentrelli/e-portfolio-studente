@@ -37,10 +37,10 @@ Il laboratorio si costruisce a fasi (DEC-082); la fase 1 (la postazione) e la fa
 
 - Fase 3, gli omaggi ai videogiochi e agli anime preferiti, uno alla volta. Sono ridisegnati da zero, con contenuto di Giuseppe, senza loghi, mappe o grafiche ufficiali (i giochi sono marchi e opere protette, e il portfolio deve essere originale):
   - western (fatto): un manifesto "WANTED" inchiodato fra i pannelli a esagono e il monitor, con il ritratto a matita di Giuseppe virato seppia, "Vivo o in videochiamata", "per crimini contro i <div>" e una taglia di 404 dollari;
-  - mappa in stile videogioco open world: Modugno con le icone delle tappe del Percorso (salone, Marconi, Aulab);
+  - open world (fatto): la minimappa nell'angolo in basso a sinistra della stanza, come l'interfaccia di un gioco, su una Modugno stilizzata (strade e distanze inventate), con le icone del salone, del Marconi e di Aulab, la freccia a casa, la linea del navigatore fino ad Aulab e tre stelle su cinque del livello di ricerca;
   - stealth (fatto): una scatola di cartone "Fragile" sul pavimento, sotto la parte destra della scrivania; al passaggio del mouse sopra scatta il punto esclamativo rosso;
-  - labirinto a puntini: una scia di puntini lungo la striscia LED, mangiata mentre si scorre, con un personaggio nostro e non quello ufficiale;
-  - ninja: una felpa nera con le nuvole rosse, appesa nella stanza, e un corvo sulla mensola.
+  - labirinto a puntini (fatto): una scia di puntini lungo la striscia LED sotto la scrivania, mangiata dalla paperella della mensola in pixel art nell'ultimo tratto dell'ingresso della stanza;
+  - ninja (fatto): un corvo con l'occhio rosso sulla mensola, accanto alla piantina, e una felpa nera con le nuvole rosse bordate di bianco buttata sull'angolo destro della scrivania, con il cappuccio rovesciato, i lacci, la tasca e la manica che pendono dal bordo.
 - I componenti del repository `components` arrivano da internet: senza connessione, per esempio sul computer dell'esame, lo schermo resta vuoto. Da decidere se prevedere un'immagine di riserva.
 - Nome, descrizione e caratteristiche dei componenti del repository sono ripetuti in `src/content/components.js`: da valutare se leggerli direttamente da `components.js` del repository.
 - Con molti esperimenti la rastrelliera va divisa per categoria; sul telefono intanto scorre di lato.

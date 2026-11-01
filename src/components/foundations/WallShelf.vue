@@ -1,7 +1,7 @@
 <template>
   <!-- La mensola sulla parete, vista un po' dall'alto: libri di programmazione, una paperella di
-       gomma (quella a cui si spiega il codice per trovare l'errore) e una piantina grassa. A destra
-       resta un posto libero. Decorativa. Le misure sono in em. -->
+       gomma (quella a cui si spiega il codice per trovare l'errore) e una piantina grassa. Quello che
+       arriva dallo slot sta a destra della piantina. Decorativa. Le misure sono in em. -->
   <div class="shelf" aria-hidden="true">
     <div class="shelf__items">
       <span class="shelf__books">
@@ -13,6 +13,7 @@
       </span>
       <span class="shelf__duck"><i></i></span>
       <span class="shelf__plant"><i></i><i></i><i></i></span>
+      <slot />
     </div>
     <span class="shelf__plank"></span>
     <span class="shelf__bracket"></span>
@@ -29,7 +30,7 @@
 
 .shelf__items {
   display: flex;
-  gap: 2.2em;
+  gap: 1.8em;
   align-items: flex-end;
   padding: 0 2em 0 1.6em;
 }
