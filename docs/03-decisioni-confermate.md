@@ -118,12 +118,10 @@ Questo documento raccoglie soltanto decisioni già approvate. Le alternative non
 ## Processo
 
 - Scrumban leggero con sprint settimanali.
-- Lavoro inizialmente solo locale.
 - Documentazione tecnica in italiano e in Markdown.
-- Nessun `git init` durante l'attuale fase di analisi.
-- L'inizializzazione Git viene rimandata al passaggio su Windows, insieme alla configurazione dell'identità personale.
-- Nessun utilizzo delle chiavi SSH lavorative per il profilo personale.
-- Pubblicazione futura da Git Bash su Windows, dopo configurazione dell'identità personale.
+- Il repository `GiuseppePentrelli/e-portfolio-studente` ha una cronologia pulita a nome di Giuseppe ed è gestito dalla cartella di lavoro in WSL con l'account personale, senza chiavi SSH lavorative.
+- Il push su `main` pubblica il sito: GitHub Actions esegue la build e la pubblica su GitHub Pages, con `404.html` copia di `index.html` per le rotte aperte direttamente.
+- Il nuovo portfolio ha già sostituito il vecchio allo stesso indirizzo, anche se è in costruzione; il vecchio è archiviato in locale.
 
 ## Stato di implementazione
 

@@ -37,6 +37,6 @@ Il backlog è ordinato per riduzione del rischio e chiarezza, non per desiderio 
 2. Audit performance mobile e desktop.
 3. Test browser e dispositivi.
 4. Revisione editoriale bilingue.
-5. Archivio del vecchio portfolio.
+5. Archivio del vecchio portfolio (fatto il 2026-10-22).
 6. Backup da esame su chiavetta.
-7. Migrazione controllata all'URL definitivo.
+7. Migrazione controllata all'URL definitivo (fatta il 2026-10-22, DEC-074).

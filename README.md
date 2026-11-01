@@ -36,4 +36,4 @@ npm run build
 2. Prima si definiscono obiettivi, contenuti e design; il codice viene dopo.
 3. Le alternative visive si confrontano nello Style Lab prima di adottarle.
 4. Accessibilità e performance sono requisiti di progetto, non rifiniture finali.
-5. Nessun repository remoto, deploy o contenuto del vecchio portfolio viene modificato durante questa fase.
+5. Il push su `main` pubblica il sito: il nuovo portfolio, ancora in costruzione, è già online all'indirizzo definitivo, e il vecchio è archiviato in locale.

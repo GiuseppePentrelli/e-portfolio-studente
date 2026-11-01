@@ -74,10 +74,7 @@ La roadmap descrive l'ordine delle fasi, non una sequenza rigida di date. Ogni f
 
 ## Fase 8: migrazione e consegna
 
-- Creare archivio locale verificato del vecchio portfolio.
-- Preparare la nuova cronologia Git pulita.
-- Configurare account personale e SSH su Windows.
-- Pubblicare senza cambiare l'URL definitivo.
+- Fatto il 2026-10-22 (DEC-074): archivio locale del vecchio portfolio, nuova cronologia Git pulita, account personale configurato in WSL, pubblicazione allo stesso URL definitivo.
 - Verificare il sito pubblico e i link diretti.
 - Preparare e provare il backup su chiavetta.
 - Eliminare il vecchio materiale remoto soltanto dopo approvazione finale.

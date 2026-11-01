@@ -22,7 +22,7 @@ Il registro riassume le decisioni che cambiano la direzione del prodotto. Le fut
 | DEC-016 | 2026-10-09 | Processo Scrumban leggero con sprint settimanali. | Confermata |
 | DEC-017 | 2026-10-09 | Documentazione tecnica in italiano e Markdown. | Confermata |
 | DEC-018 | 2026-10-09 | Lo Style Lab procede da fondazioni e contenuto base verso primitive, componenti, strutture e stati. | Confermata |
-| DEC-019 | 2026-10-09 | Git verrà inizializzato su Windows insieme all'identità personale, non nell'attuale workspace. | Confermata |
+| DEC-019 | 2026-10-09 | Git verrà inizializzato su Windows insieme all'identità personale, non nell'attuale workspace. | Sostituita da DEC-074 |
 | DEC-020 | 2026-10-09 | Lo Style Lab viene integrato nell'applicazione principale e promuove nei componenti condivisi soltanto le varianti approvate. | Confermata |
 | DEC-021 | 2026-10-09 | La prima implementazione dello Style Lab è limitata a superfici, sfondi e forma del foglio. | Confermata |
 | DEC-022 | 2026-10-09 | Si usano inizialmente soltanto script npm; il Makefile verrà valutato se nasceranno workflow complessi. | Confermata |
@@ -77,6 +77,7 @@ Il registro riassume le decisioni che cambiano la direzione del prodotto. Le fut
 | DEC-071 | 2026-10-31 | Sotto gli 80rem (telefono e tablet) il Percorso usa la colonna del telefono, perché la composizione larga non entra nella scrivania e la matita si staccava dalla traccia. | Confermata |
 | DEC-072 | 2026-10-31 | Il ritorno a scuola è uno zaino 3D in HTML e CSS, in piedi e di tre quarti, che allo scorrimento si apre e fa salire i libri di Informatica (copertina con mano umana e robotica alla Michelangelo) e Sistemi e reti. Il racconto passa su un foglio a quadretti con le spunte sugli anni conclusi; accanto una borraccia. Sostituisce la pagina di quaderno strappata. | Confermata; testi in bozza |
 | DEC-073 | 2026-10-31 | Nella tappa di oggi si aggiunge il badge del tirocinio con il viso dal ritratto a matita, senza nome o logo dell'azienda. Su desktop le tappe 3 e 4 sono sfalsate e il Percorso si allunga. | Confermata |
+| DEC-074 | 2026-11-01 | Il portfolio è un repository Git gestito da WSL con l'account personale, senza chiavi SSH lavorative; il push su `main` lo pubblica su GitHub Pages con GitHub Actions. Il nuovo portfolio ha sostituito il vecchio allo stesso URL il 2026-10-22, senza aspettare che fosse completo (sostituisce DEC-019). | Confermata |
 
 ## Modello per una nuova decisione
 
