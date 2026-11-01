@@ -31,9 +31,20 @@ Lo Style Lab deve permettere confronti a parità di contenuto e includere almeno
 
 ## Alternative visive da confrontare
 
-### Ambientazione dei Componenti
+### Laboratorio dei Componenti
 
-Dopo le due sale della mostra, i Componenti potrebbero stare in un laboratorio: il covo del nerd, un laboratorio da scienziato dei cartoni animati, una stanza dai toni cyberpunk, con i componenti come esperimenti da provare sul banco. Idea di Giuseppe del 2026-11-01, da sviluppare quando si arriva alla sezione: l'atmosfera è l'ispirazione, senza riprendere personaggi o elementi di opere esistenti.
+Il laboratorio si costruisce a fasi (DEC-082); la fase 1, la postazione, è fatta.
+
+- Fase 2, la stanza: una mensola con qualche oggetto e, in primo piano, lo schienale della sedia da gaming visto di spalle, come se Giuseppe si fosse appena alzato.
+- Fase 3, gli omaggi ai videogiochi e agli anime preferiti, uno alla volta. Sono ridisegnati da zero, con contenuto di Giuseppe, senza loghi, mappe o grafiche ufficiali (i giochi sono marchi e opere protette, e il portfolio deve essere originale):
+  - western: un manifesto "WANTED" con il ritratto a matita di Giuseppe, per esempio "per crimini contro i div";
+  - mappa in stile videogioco open world: Modugno con le icone delle tappe del Percorso (salone, Marconi, Aulab);
+  - stealth: una scatola di cartone nell'angolo, con il punto esclamativo rosso al passaggio del mouse;
+  - labirinto a puntini: una scia di puntini lungo la striscia LED, mangiata mentre si scorre, con un personaggio nostro e non quello ufficiale;
+  - ninja: una felpa nera con le nuvole rosse appoggiata allo schienale della sedia e un corvo sulla mensola.
+- I componenti del repository `components` arrivano da internet: senza connessione, per esempio sul computer dell'esame, lo schermo resta vuoto. Da decidere se prevedere un'immagine di riserva.
+- Nome, descrizione e caratteristiche dei componenti del repository sono ripetuti in `src/content/components.js`: da valutare se leggerli direttamente da `components.js` del repository.
+- Con molti esperimenti la rastrelliera va divisa per categoria; sul telefono intanto scorre di lato.
 
 ### Bottoni e CTA
 

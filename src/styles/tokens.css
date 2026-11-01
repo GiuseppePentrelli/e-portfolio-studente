@@ -27,6 +27,7 @@
   --tab-blue: #a9d6ef;
   --tab-pink: #ebb6c8;
   --tab-green: #cfe8c9;
+  --tab-lilac: #d8cdf0;
 
   /* Copertina e retro del quaderno. */
   --cover-board: #c9b48f;
@@ -60,6 +61,14 @@
   --gallery-frame-black: #26292b;
   --gallery-shelf: #a8784a;
   --gallery-shelf-dark: #6b4524;
+
+  /* Il laboratorio dei Componenti, la stanzetta di sera: parete scura, neon, acciaio, led e il
+     giallo del cartello. */
+  --lab-wall: #11162a;
+  --lab-neon: #36d6ff;
+  --lab-neon-core: #dcfcff;
+  --lab-led: #5dff9b;
+  --lab-hazard: #f2c230;
 
   /* Superfici e profondità condivise dello Style Lab. */
   --surface-canvas: #f1ece3;

@@ -1,4 +1,5 @@
 import AboutSection from './AboutSection.vue'
+import ComponentsSection from './ComponentsSection.vue'
 import CoverSection from './CoverSection.vue'
 import JourneySection from './JourneySection.vue'
 import MasterpiecesSection from './MasterpiecesSection.vue'
@@ -19,4 +20,5 @@ export const sections = [
   { id: 'percorso', label: 'Percorso', component: JourneySection, tabColor: 'var(--tab-blue)' },
   { id: 'capolavori', label: 'Capolavori', component: MasterpiecesSection, tabColor: 'var(--tab-pink)' },
   { id: 'progetti', label: 'Progetti', component: ProjectsSection, tabColor: 'var(--tab-green)' },
+  { id: 'componenti', label: 'Componenti', component: ComponentsSection, tabColor: 'var(--tab-lilac)' },
 ]
