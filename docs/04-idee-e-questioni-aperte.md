@@ -33,15 +33,14 @@ Lo Style Lab deve permettere confronti a parità di contenuto e includere almeno
 
 ### Laboratorio dei Componenti
 
-Il laboratorio si costruisce a fasi (DEC-082); la fase 1, la postazione, è fatta.
+Il laboratorio si costruisce a fasi (DEC-082); la fase 1 (la postazione) e la fase 2 (la mensola) sono fatte; la sedia da gaming vista di spalle è stata provata e scartata. Sul telefono la mensola per ora non compare: da decidere se e come mostrarla.
 
-- Fase 2, la stanza: una mensola con qualche oggetto e, in primo piano, lo schienale della sedia da gaming visto di spalle, come se Giuseppe si fosse appena alzato.
 - Fase 3, gli omaggi ai videogiochi e agli anime preferiti, uno alla volta. Sono ridisegnati da zero, con contenuto di Giuseppe, senza loghi, mappe o grafiche ufficiali (i giochi sono marchi e opere protette, e il portfolio deve essere originale):
   - western: un manifesto "WANTED" con il ritratto a matita di Giuseppe, per esempio "per crimini contro i div";
   - mappa in stile videogioco open world: Modugno con le icone delle tappe del Percorso (salone, Marconi, Aulab);
   - stealth: una scatola di cartone nell'angolo, con il punto esclamativo rosso al passaggio del mouse;
   - labirinto a puntini: una scia di puntini lungo la striscia LED, mangiata mentre si scorre, con un personaggio nostro e non quello ufficiale;
-  - ninja: una felpa nera con le nuvole rosse appoggiata allo schienale della sedia e un corvo sulla mensola.
+  - ninja: una felpa nera con le nuvole rosse, appesa nella stanza, e un corvo sulla mensola.
 - I componenti del repository `components` arrivano da internet: senza connessione, per esempio sul computer dell'esame, lo schermo resta vuoto. Da decidere se prevedere un'immagine di riserva.
 - Nome, descrizione e caratteristiche dei componenti del repository sono ripetuti in `src/content/components.js`: da valutare se leggerli direttamente da `components.js` del repository.
 - Con molti esperimenti la rastrelliera va divisa per categoria; sul telefono intanto scorre di lato.

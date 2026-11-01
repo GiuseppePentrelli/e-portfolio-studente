@@ -3,8 +3,8 @@
        mostra, dove le opere si guardano, qui si toccano. Si sceglie un esperimento sollevando la sua
        cartuccia; il monitor lo mostra dal vivo e la scheda sul fermaglio lo descrive. Su computer la
        stanza è una scena unica alta quanto lo schermo, in prospettiva. I componenti vengono da
-       src/content/components.js. È la prima fase: il resto della stanza e gli omaggi arrivano dopo
-       (docs/04). Testi in bozza. -->
+       src/content/components.js. Fasi 1 e 2 (postazione e mensola) fatte; gli omaggi arrivano uno
+       alla volta (docs/04). Testi in bozza. -->
   <div class="den">
     <div class="den__box">
       <div class="den__room">
@@ -23,6 +23,7 @@
           </header>
 
           <span class="den__hexes" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i></span>
+          <WallShelf class="den__shelf" />
 
           <p class="den__hidden" aria-live="polite">{{ announcement }}</p>
 
@@ -101,6 +102,7 @@ import LabEmbed from '@/components/foundations/LabEmbed.vue'
 import LabMonitor from '@/components/foundations/LabMonitor.vue'
 import LabNativeDemo from '@/components/foundations/LabNativeDemo.vue'
 import PcTower from '@/components/foundations/PcTower.vue'
+import WallShelf from '@/components/foundations/WallShelf.vue'
 import HighlighterLink from '@/components/primitives/HighlighterLink.vue'
 import { components } from '@/content/components'
 import { computed, ref } from 'vue'
@@ -174,6 +176,7 @@ const announcement = computed(() => `Esperimento ${number(currentIndex.value)}: 
 .den__floor,
 .den__baseboard,
 .den__hexes,
+.den__shelf,
 .den__leg,
 .den__tower,
 .den__gear,
@@ -503,7 +506,8 @@ const announcement = computed(() => `Esperimento ${number(currentIndex.value)}: 
     inset: 0 0 calc(var(--den-u) * 16);
     background:
       radial-gradient(circle at calc(var(--den-ux) * 79) calc(100% - var(--den-u) * 46), rgb(110 210 255 / 22%), transparent calc(var(--den-u) * 42)),
-      radial-gradient(circle at calc(var(--den-ux) * 22) calc(100% - var(--den-u) * 62), rgb(139 92 255 / 16%), transparent calc(var(--den-u) * 26)),
+      radial-gradient(circle at calc(var(--den-ux) * 22) calc(100% - var(--den-u) * 72), rgb(139 92 255 / 16%), transparent calc(var(--den-u) * 26)),
+      radial-gradient(circle at calc(var(--den-ux) * 34) 100%, rgb(139 92 255 / 22%), transparent calc(var(--den-u) * 20)),
       url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='220' height='220'%3E%3Cfilter id='p' x='0' y='0' color-interpolation-filters='sRGB'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.75' numOctaves='3' seed='9' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 1 0 0 0 0 1 0 0 0 0 1 0 0 0 .3 -.13'/%3E%3C/filter%3E%3Crect width='220' height='220' filter='url(%23p)'/%3E%3C/svg%3E"),
       linear-gradient(#141a33, var(--lab-wall));
     background-size: auto, auto, 220px 220px, auto;
@@ -546,10 +550,11 @@ const announcement = computed(() => `Esperimento ${number(currentIndex.value)}: 
     height: calc(var(--den-u) * 90);
   }
 
-  /* L'insegna al neon sulla parete, a sinistra del monitor. */
+  /* La parete a sinistra del monitor, dall'alto: i pannelli a esagono, l'insegna al neon e la
+     mensola. */
   .den__heading {
     position: absolute;
-    bottom: calc(var(--den-u) * 56);
+    bottom: calc(var(--den-u) * 63.5);
     left: calc(var(--den-ux) * 9);
     z-index: 1;
     margin: 0;
@@ -565,16 +570,15 @@ const announcement = computed(() => `Esperimento ${number(currentIndex.value)}: 
     font-size: max(0.6rem, calc(var(--den-u) * 1.15));
   }
 
-  /* Pannelli luminosi a esagono sulla parete, sopra l'insegna. */
   .den__hexes {
     position: absolute;
-    bottom: calc(var(--den-u) * 70);
+    bottom: calc(var(--den-u) * 76.5);
     left: calc(var(--den-ux) * 12);
     z-index: 1;
     display: block;
-    width: calc(var(--den-u) * 24);
-    height: calc(var(--den-u) * 14);
-    font-size: var(--den-u);
+    width: calc(var(--den-u) * 19.6);
+    height: calc(var(--den-u) * 11.2);
+    font-size: calc(var(--den-u) * 0.8);
     filter: drop-shadow(0 0 1em rgb(54 214 255 / 45%));
   }
 
@@ -594,6 +598,16 @@ const announcement = computed(() => `Esperimento ${number(currentIndex.value)}: 
   .den__hexes i:nth-child(3) { top: 0; left: 10.2em; --hex: #ff4fb8; opacity: 0.6; }
   .den__hexes i:nth-child(4) { top: 5.9em; left: 0; --hex: #36d6ff; opacity: 0.5; }
   .den__hexes i:nth-child(5) { top: 2.95em; left: 15.3em; --hex: #8b5cff; opacity: 0.7; }
+
+  .den__shelf {
+    position: absolute;
+    bottom: calc(var(--den-u) * 47.5);
+    left: calc(var(--den-ux) * 9);
+    z-index: 1;
+    display: block;
+    font-size: var(--den-u);
+  }
+
 
   /* La scrivania e quello che c'è sopra e sotto. Il piano si restringe verso la parete di 8 unità
      per lato. */
@@ -667,13 +681,16 @@ const announcement = computed(() => `Esperimento ${number(currentIndex.value)}: 
     left: calc(var(--den-ux) * 152 - var(--den-u) * 10);
   }
 
+  /* Il PC sotto la parte sinistra della scrivania: è a sinistra del centro, quindi se ne vede il
+     fianco destro, e il disegno è specchiato. */
   .den__tower {
     position: absolute;
     bottom: calc(var(--den-u) * 3.2);
-    left: calc(var(--den-ux) * 124 - var(--den-u) * 6.5);
+    left: calc(var(--den-ux) * 34 - var(--den-u) * 6.5);
     z-index: 1;
     display: flex;
     font-size: calc(var(--den-u) * 1.1);
+    scale: -1 1;
   }
 
   /* Le cartucce sul piano, a sinistra; tappetino, tastiera, mouse e lattina al centro. */
