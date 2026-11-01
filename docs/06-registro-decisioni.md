@@ -78,6 +78,8 @@ Il registro riassume le decisioni che cambiano la direzione del prodotto. Le fut
 | DEC-072 | 2026-10-31 | Il ritorno a scuola è uno zaino 3D in HTML e CSS, in piedi e di tre quarti, che allo scorrimento si apre e fa salire i libri di Informatica (copertina con mano umana e robotica alla Michelangelo) e Sistemi e reti. Il racconto passa su un foglio a quadretti con le spunte sugli anni conclusi; accanto una borraccia. Sostituisce la pagina di quaderno strappata. | Confermata; testi in bozza |
 | DEC-073 | 2026-10-31 | Nella tappa di oggi si aggiunge il badge del tirocinio con il viso dal ritratto a matita, senza nome o logo dell'azienda. Su desktop le tappe 3 e 4 sono sfalsate e il Percorso si allunga. | Confermata |
 | DEC-074 | 2026-11-01 | Il portfolio è un repository Git gestito da WSL con l'account personale, senza chiavi SSH lavorative; il push su `main` lo pubblica su GitHub Pages con GitHub Actions. Il nuovo portfolio ha sostituito il vecchio allo stesso URL il 2026-10-22, senza aspettare che fosse completo (sostituisce DEC-019). | Confermata |
+| DEC-075 | 2026-11-01 | Nell'agenda del salone gli anelli scavalcano il bordo ed entrano nei fori. Dove la doppia pagina non entra resta intera la pagina di sinistra, con il titolo completo, invece di una doppia pagina tagliata; sul telefono il post-it scende quanto basta per mostrare i giorni. | Confermata |
+| DEC-076 | 2026-11-01 | I testi delle tappe del Percorso si scrivono in ordine di lettura, una riga dopo l'altra, invece di comparire tutte le righe insieme; le spunte sugli anni arrivano a testo finito. | Confermata |
 
 ## Modello per una nuova decisione
 

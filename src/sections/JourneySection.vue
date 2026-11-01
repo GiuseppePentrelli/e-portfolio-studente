@@ -8,7 +8,7 @@
       <!-- Titolo su adesivo fustellato: la sola matita in movimento resta quella del percorso. -->
       <h2 :id="headingId" class="journey__title">Il mio percorso</h2>
 
-      <ol class="journey__steps">
+      <ol ref="steps" class="journey__steps">
         <svg class="journey__route journey__route--wide" viewBox="0 0 1000 2240" preserveAspectRatio="none" aria-hidden="true">
           <path class="journey__route-shadow" d="M500 20C510 100 560 110 550 168S400 420 480 600 700 980 580 1200 420 1756 430 1856 520 2080 498 2206" />
           <path class="journey__route-line" d="M500 20C510 100 560 110 550 168S400 420 480 600 700 980 580 1200 420 1756 430 1856 520 2080 498 2206" />
@@ -55,7 +55,7 @@
                 </div>
               </div>
             </div>
-            <div class="journey__salon-note">
+            <div class="journey__salon-note journey__writing">
               <span class="journey__paperclip" aria-hidden="true"></span>
               <p class="journey__when">Prima</p>
               <h3 class="journey__name">Il salone</h3>
@@ -76,7 +76,7 @@
               </svg>
             </span>
             <InteractiveLaptop class="journey__laptop">
-              <div class="journey__code-note">
+              <div class="journey__code-note journey__writing">
                 <p class="journey__when">La svolta</p>
                 <h3 class="journey__name">Il primo codice</h3>
                 <p class="journey__text">
@@ -97,7 +97,7 @@
             <SchoolBackpack class="journey__backpack" />
             <span class="journey__bottle" aria-hidden="true"></span>
             <div class="journey__school-note">
-              <div class="journey__binder-sheet">
+              <div class="journey__binder-sheet journey__writing">
                 <p class="journey__when">Dal 2023</p>
                 <h3 class="journey__name">Di nuovo a scuola</h3>
                 <p class="journey__text">
@@ -134,7 +134,7 @@
                 decoding="async"
               />
             </TapedPhoto>
-            <div>
+            <div class="journey__writing">
               <p class="journey__when">Oggi · 2026–2027</p>
               <h3 class="journey__name"><mark>Quinto anno</mark></h3>
               <p class="journey__text">
@@ -158,10 +158,38 @@ import InteractiveLaptop from '@/components/foundations/InteractiveLaptop.vue'
 import InternBadge from '@/components/foundations/InternBadge.vue'
 import SchoolBackpack from '@/components/foundations/SchoolBackpack.vue'
 import TapedPhoto from '@/components/primitives/TapedPhoto.vue'
+import { onBeforeUnmount, onMounted, ref } from 'vue'
 
 defineProps({
   headingId: { type: String, required: true },
 })
+
+const steps = ref(null)
+let resizeObserver
+
+// La penna scrive un biglietto una riga dopo l'altra: per ogni elemento serve sapere da quale riga
+// del biglietto parte e quante ne occupa, e il biglietto quante ne ha in tutto. Le righe cambiano
+// con la larghezza e con l'arrivo dei font, quindi si ricontano.
+function measureWriting(note) {
+  let from = 0
+  for (const element of note.querySelectorAll('.journey__when, .journey__name, .journey__text')) {
+    const lineHeight = parseFloat(getComputedStyle(element).lineHeight)
+    const lines = Math.max(1, Math.round(element.clientHeight / lineHeight))
+    element.style.setProperty('--ink-from', from)
+    element.style.setProperty('--ink-lines', lines)
+    from += lines
+  }
+  note.style.setProperty('--ink-total', from)
+}
+
+onMounted(() => {
+  const notes = steps.value.querySelectorAll('.journey__writing')
+  resizeObserver = new ResizeObserver((entries) => entries.forEach((entry) => measureWriting(entry.target)))
+  notes.forEach((note) => resizeObserver.observe(note))
+  document.fonts.ready.then(() => notes.forEach(measureWriting))
+})
+
+onBeforeUnmount(() => resizeObserver?.disconnect())
 </script>
 
 <style scoped>
@@ -419,26 +447,29 @@ defineProps({
   transform: perspective(50rem) rotateX(2deg) rotateY(3deg) rotateZ(-2deg);
 }
 
+/* L'agenda misura lo spazio che ha: dove la doppia pagina non entra resta quella di sinistra,
+   intera, invece di una doppia pagina tagliata. */
 .journey__planner-window {
   width: 100%;
-  overflow: hidden;
+  container-type: inline-size;
   border-radius: 0.25rem 0.25rem 0.55rem 0.4rem;
   box-shadow: 0.55rem 0.9rem 1.1rem -0.42rem rgb(47 36 24 / 42%);
 }
 
 .journey__planner {
   position: relative;
-  min-width: 28rem;
   min-height: 16.5rem;
   padding: 2rem 1rem 1rem;
   background:
     linear-gradient(90deg, transparent 0 49.85%, rgb(92 72 48 / 13%) 50%, transparent 50.15%),
     var(--paper-warm);
+  border-radius: inherit;
 }
 
+/* Gli anelli scavalcano il bordo in alto ed entrano nei fori della carta. */
 .journey__planner-rings {
   position: absolute;
-  top: -0.75rem;
+  top: -0.95rem;
   right: 1rem;
   left: 1rem;
   z-index: 4;
@@ -447,12 +478,26 @@ defineProps({
 }
 
 .journey__planner-rings i {
+  position: relative;
   width: 0.62rem;
-  height: 2.15rem;
+  height: 1.95rem;
   border: 0.14rem solid #68777c;
   border-radius: 50%;
   box-shadow: 0.12rem 0.2rem 0.18rem rgb(48 38 27 / 28%);
   rotate: 3deg;
+}
+
+.journey__planner-rings i::after {
+  content: "";
+  position: absolute;
+  bottom: -0.2rem;
+  left: 50%;
+  z-index: -1;
+  width: 0.46rem;
+  height: 0.46rem;
+  background: rgb(58 45 30 / 58%);
+  border-radius: 50%;
+  translate: -50% 0;
 }
 
 .journey__planner-rings i:nth-child(even) {
@@ -515,6 +560,29 @@ defineProps({
 
 .journey__planner-week > div:nth-child(even) span {
   rotate: 1deg;
+}
+
+@container (width < 27rem) {
+  .journey__planner {
+    background: var(--paper-warm);
+  }
+
+  .journey__planner-heading {
+    flex-wrap: wrap;
+    column-gap: 0.75rem;
+  }
+
+  .journey__planner-week {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+
+  .journey__planner-week > div:nth-child(3) {
+    border-right: 0;
+  }
+
+  .journey__planner-week > div:nth-child(n + 4) {
+    display: none;
+  }
 }
 
 .journey__salon-note {
@@ -769,7 +837,9 @@ defineProps({
   rotate: -6deg;
 }
 
-/* Gli anni conclusi hanno la spunta, a penna verde come le conferme. */
+/* Gli anni conclusi hanno la spunta, a penna verde come le conferme. Lo spazio fra i trattini è
+   più lungo della traccia, e all'inizio il trattino sta appena prima di essa: un trattino lungo
+   zero, con la punta arrotondata, verrebbe disegnato come un puntino. */
 .journey__tick {
   position: absolute;
   top: -0.7rem;
@@ -779,7 +849,7 @@ defineProps({
   overflow: visible;
   fill: none;
   stroke: var(--pen-green);
-  stroke-dasharray: 1;
+  stroke-dasharray: 1 2;
   stroke-dashoffset: 0;
   stroke-linecap: round;
   stroke-linejoin: round;
@@ -906,12 +976,8 @@ defineProps({
     min-height: 19rem;
   }
 
-  .journey__planner {
-    translate: -5.25rem 0;
-  }
-
   .journey__salon-note {
-    top: 6.4rem;
+    top: 7.6rem;
     right: 0.7rem;
     width: min(14rem, calc(100% - 1.4rem));
     padding: 1rem 0.9rem 0.85rem;
@@ -1039,18 +1105,53 @@ defineProps({
       animation-range: cover 28vh cover 36vh;
     }
 
-    .journey__when,
-    .journey__name,
-    .journey__text {
-      animation: journey-write linear both;
-      animation-timeline: view();
-      animation-range: cover 30vh cover 48vh;
-    }
-
     .journey__tick {
       animation: journey-tick linear both;
       animation-timeline: view();
       animation-range: cover 34vh cover 46vh;
+    }
+  }
+}
+
+/* Ogni biglietto si scrive come a mano: la data, il titolo, poi il testo una riga dopo l'altra.
+   --journey-ink va da 0 a 1 mentre il biglietto sale nello schermo; con le righe contate dallo
+   script diventa la posizione della penna (--ink-pos, in righe). Le righe già scritte si vedono
+   intere, quella in corso fino alla penna. Il margine di 0.4em lascia uscire le lettere a mano, ma
+   solo sopra la prima riga e sotto l'ultima: fra due righe è di 0.1em, perché non spuntino le
+   lettere della riga dopo. */
+@property --journey-ink { syntax: "<number>"; inherits: false; initial-value: 1; }
+
+@supports (animation-timeline: view()) and (top: round(up, 1.5px, 1px)) {
+  @media (prefers-reduced-motion: no-preference) {
+    .journey__writing {
+      view-timeline: --journey-note block;
+    }
+
+    .journey__writing :is(.journey__when, .journey__name, .journey__text) {
+      --ink-pos: clamp(0, var(--journey-ink) * var(--ink-total, 1) - var(--ink-from, 0), var(--ink-lines, 1));
+      --ink-row: max(0, round(up, var(--ink-pos), 1) - 1);
+      --ink-x: calc((var(--ink-pos) - var(--ink-row)) * (100% + 0.8em) - 0.4em);
+      --ink-top: calc(var(--ink-row) * 1lh + min(var(--ink-row), 1) * 0.5em - 0.4em);
+      --ink-bottom: calc(
+        (var(--ink-row) + 1) * 1lh + 0.1em + clamp(0, var(--ink-row) + 2 - var(--ink-lines, 1), 1) * 0.3em
+      );
+      clip-path: polygon(
+        -0.4em -0.4em,
+        calc(100% + 0.4em) -0.4em,
+        calc(100% + 0.4em) var(--ink-top),
+        var(--ink-x) var(--ink-top),
+        var(--ink-x) var(--ink-bottom),
+        -0.4em var(--ink-bottom)
+      );
+      animation: journey-ink linear both;
+      animation-timeline: --journey-note;
+      animation-range: cover 28vh cover 60vh;
+    }
+
+    /* Le spunte sugli anni arrivano quando il testo è finito. */
+    .journey__writing .journey__tick {
+      animation-timeline: --journey-note;
+      animation-range: cover 60vh cover 68vh;
     }
   }
 }
@@ -1075,7 +1176,7 @@ defineProps({
 
 @keyframes journey-tick {
   from {
-    stroke-dashoffset: 1;
+    stroke-dashoffset: 1.02;
   }
 }
 
@@ -1085,13 +1186,13 @@ defineProps({
   }
 }
 
-@keyframes journey-write {
+@keyframes journey-ink {
   from {
-    clip-path: inset(-0.3em 100% -0.3em -0.4em);
+    --journey-ink: 0;
   }
 
   to {
-    clip-path: inset(-0.3em -0.4em);
+    --journey-ink: 1;
   }
 }
 
