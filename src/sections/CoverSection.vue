@@ -843,6 +843,12 @@ h1,
     padding-bottom: var(--space-7);
   }
 
+  /* Lo script non gira e --desk-in resta a 0: senza questa regola la scrivania resterebbe spostata
+     in basso di uno schermo, fuori da sotto il quaderno. */
+  .cover__surface {
+    translate: none;
+  }
+
   .cover__props,
   .notebook__sheet {
     display: none;
