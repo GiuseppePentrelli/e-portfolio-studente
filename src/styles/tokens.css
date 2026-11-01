@@ -36,6 +36,17 @@
   --cover-label-rule: #c9c1b0;
   --cover-inside: #e4dac5;
 
+  /* Bacheca del Percorso: sughero, cornice, puntine e filo. */
+  --cork: #c4925d;
+  --cork-frame: #b88a55;
+  --cork-frame-dark: #8c6236;
+  --pin-red: #c8433b;
+  --pin-blue: #3b7cb4;
+  --pin-green: #3f8a52;
+  --pin-yellow: #e2b322;
+  --thread-red: #b02f29;
+  --polaroid: #fbfaf4;
+
   /* Superfici e profondità condivise dello Style Lab. */
   --surface-canvas: #f1ece3;
   --surface-control: #fffdf5;

@@ -49,7 +49,14 @@ Lo Style Lab deve permettere confronti a parità di contenuto e includere almeno
 - Ritratto realistico a matita.
 - Ritratto stilizzato vicino a Excalidraw.
 - Elementi che si disegnano progressivamente durante lo scroll.
-- Nel Percorso è in prova una timeline sinuosa a grafite, attraversata da una sola matita, con le tappe trattate come reperti fisici sovrapposti al banco; la direzione visiva deve essere verificata e approvata prima di diventare una decisione confermata.
+### Superficie del Percorso
+
+Dal 2026-11-01 il Percorso è una bacheca di sughero appesa al muro, sotto la scrivania della Copertina (DEC-077). Prima era la scrivania che proseguiva, con una matita che tracciava il filo: quella versione è conservata nel branch locale `percorso-banco`.
+
+- Alternative valutate e scartate: bacheca di legno (provata nello Style Lab, sembra un armadio e si confonde col banco), lavagna di scuola (cambierebbe gli inchiostri di DEC-028 e non ospita oggetti), rotolo di carta sul banco (resta una scrivania), banco accorciato (il problema torna nelle sezioni successive).
+- Il portatile interattivo (`InteractiveLaptop`) è il candidato per i Capolavori, con i progetti sullo schermo.
+- `DeskDoodles`, i disegni a matita del vecchio tratto di banco, non è più usato nella home: da decidere se tenerlo.
+- Se ogni sezione successiva ha un proprio materiale, il sito non diventa un'unica scrivania: da valutare sezione per sezione.
 
 ## Materiali non ancora disponibili
 

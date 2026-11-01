@@ -69,6 +69,7 @@
     <PaletteShowcase />
     <TypographyShowcase />
     <ComponentShowcase />
+    <CorkBoardShowcase />
   </main>
 </template>
 
@@ -79,6 +80,7 @@ import PaperSurface from '@/components/foundations/PaperSurface.vue'
 import PaletteShowcase from '@/components/foundations/PaletteShowcase.vue'
 import TypographyShowcase from '@/components/foundations/TypographyShowcase.vue'
 import ComponentShowcase from '@/components/foundations/ComponentShowcase.vue'
+import CorkBoardShowcase from '@/components/foundations/CorkBoardShowcase.vue'
 
 const backgroundOptions = [
   { id: 'desk', label: 'Scrivania', description: 'Fisica, vissuta, piena di strumenti.' },

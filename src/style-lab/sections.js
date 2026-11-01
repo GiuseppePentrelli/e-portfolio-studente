@@ -4,4 +4,5 @@ export const styleLabSections = [
   { id: 'palette-title', label: 'Colori', tabColor: 'var(--tab-pink)' },
   { id: 'type-lab-title', label: 'Tipografia', tabColor: 'var(--tab-green)' },
   { id: 'components-title', label: 'Componenti', tabColor: 'var(--tab-yellow)' },
+  { id: 'board-title', label: 'Bacheca', tabColor: 'var(--tab-green)' },
 ]
