@@ -84,7 +84,8 @@ Dal 2026-11-01 il Percorso è una bacheca di sughero appesa al muro, sotto la sc
 
 - JavaScript o TypeScript dopo una prova concreta.
 - Strategia affidabile per URL puliti su GitHub Pages in una SPA.
-- Formato definitivo dei dati strutturati.
+- Formato definitivo dei dati strutturati. Per i progetti è in uso un'ipotesi, `src/content/projects.js`, con i campi descritti in testa al file.
+- Quali progetti entrano nei Capolavori: il principale è un segnaposto fittizio e le altre opere sono cornici "in allestimento" (DEC-078).
 - Organizzazione dei file Markdown bilingui.
 - Strategia di caricamento delle demo interattive.
 - Demo attiva nella card oppure apertura in uno spazio più grande.

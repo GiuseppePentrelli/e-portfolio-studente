@@ -34,6 +34,6 @@ npm run build
 
 1. Una decisione alla volta.
 2. Prima si definiscono obiettivi, contenuti e design; il codice viene dopo.
-3. Le alternative visive si confrontano nello Style Lab prima di adottarle.
+3. Le alternative di componenti e primitive si confrontano nello Style Lab prima di adottarle; le sezioni della home si progettano direttamente nel sito.
 4. Accessibilità e performance sono requisiti di progetto, non rifiniture finali.
 5. Il push su `main` pubblica il sito: il nuovo portfolio, ancora in costruzione, è già online all'indirizzo definitivo, e il vecchio è archiviato in locale.

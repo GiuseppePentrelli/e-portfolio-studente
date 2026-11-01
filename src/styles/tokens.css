@@ -47,6 +47,16 @@
   --thread-red: #b02f29;
   --polaroid: #fbfaf4;
 
+  /* La sala dei Capolavori: parete, cornici, passe-partout, cartellini e luce dei faretti. */
+  --gallery-wall: #2f423d;
+  --gallery-lettering: #efe8d8;
+  --gallery-frame: #b48b57;
+  --gallery-frame-dark: #6e4d29;
+  --gallery-mat: #f8f6ef;
+  --gallery-label: #fbfaf5;
+  --gallery-brass: #c9a35a;
+  --gallery-light: 255 232 190;
+
   /* Superfici e profondità condivise dello Style Lab. */
   --surface-canvas: #f1ece3;
   --surface-control: #fffdf5;
