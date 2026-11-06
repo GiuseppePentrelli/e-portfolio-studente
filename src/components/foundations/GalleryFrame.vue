@@ -1,7 +1,7 @@
 <template>
   <!-- Una cornice appesa alla parete della mostra: filo a V e chiodo, cornice di legno, passe-partout
        e l'opera, che arriva dallo slot. Mentre entra nello schermo si accende la luce che la illumina.
-       Con `lamp` ha la sua lampada da quadro in ottone, come l'opera principale; con `covered` l'opera
+       Con `lamp` ha la sua lampada da quadro in ottone, con il pulviscolo nel fascio, come l'opera principale; con `covered` l'opera
        è ancora imballata, con il cartello "Opera in allestimento"; con `:hang="false"` non è appesa
        ma appoggiata, per esempio su una mensola; `finish` sceglie il legno o la laccatura nera. Lo
        spessore della cornice si cambia con --artwork-frame-size. È decorativa: quello che dice
@@ -31,10 +31,39 @@
     </div>
 
     <span v-if="lamp" class="artwork__lamp"></span>
+    <span v-if="lamp" class="artwork__dust">
+      <i
+        v-for="(mote, index) in MOTES"
+        :key="index"
+        :style="{
+          left: `${mote[0]}%`,
+          top: `${mote[1]}%`,
+          '--mote-size': `${mote[2]}px`,
+          '--mote-drift': `${mote[3]}rem`,
+          animationDuration: `${mote[4]}s`,
+          animationDelay: `-${mote[5]}s`,
+        }"
+      ></i>
+    </span>
   </div>
 </template>
 
 <script setup>
+// Il pulviscolo nel fascio della lampada: posizione (percentuali del fascio), diametro, deriva
+// laterale, durata e sfasamento di ogni granello.
+const MOTES = [
+  [44, 6, 2, 0.8, 9, 0],
+  [52, 14, 1.5, -0.6, 11, 3],
+  [38, 24, 2.5, 1, 13, 7],
+  [60, 30, 1.5, -1.2, 10, 2],
+  [47, 40, 2, 0.5, 12, 9],
+  [30, 50, 1.5, 1.4, 14, 5],
+  [66, 46, 2, -0.8, 9.5, 6],
+  [55, 62, 2.5, 0.9, 12.5, 1],
+  [24, 70, 1.5, -0.4, 10.5, 8],
+  [72, 72, 2, -1, 13.5, 4],
+]
+
 defineProps({
   ratio: { type: String, default: '4 / 5' },
   lamp: { type: Boolean, default: false },
@@ -242,8 +271,58 @@ defineProps({
   pointer-events: none;
 }
 
+/* Il pulviscolo che galleggia nel fascio: granelli chiari che scendono piano e svaniscono, visibili
+   dove il fondo è scuro. Sta sopra l'opera, come l'aria davanti a lei. */
+.artwork__dust {
+  position: absolute;
+  top: -1.9rem;
+  left: 50%;
+  z-index: 1;
+  width: 65%;
+  height: 11rem;
+  clip-path: polygon(36% 0, 64% 0, 100% 100%, 0 100%);
+  pointer-events: none;
+  translate: -50% 0;
+}
+
+.artwork__dust i {
+  position: absolute;
+  width: var(--mote-size);
+  height: var(--mote-size);
+  background: rgb(var(--gallery-light) / 85%);
+  border-radius: 50%;
+  box-shadow: 0 0 0.25rem rgb(var(--gallery-light) / 60%);
+  opacity: 0;
+  animation: artwork-mote linear infinite;
+}
+
+@keyframes artwork-mote {
+  0% {
+    opacity: 0;
+    translate: 0 0;
+  }
+
+  25%,
+  70% {
+    opacity: 0.75;
+  }
+
+  100% {
+    opacity: 0;
+    translate: var(--mote-drift) 2.5rem;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .artwork__dust {
+    display: none;
+  }
+}
+
 /* Dove il browser lo permette e il movimento non è ridotto, la luce si accende mentre l'opera sale
-   nello schermo; altrove è già accesa. */
+   nello schermo; altrove è già accesa. Chi appende la cornice può legare l'accensione a un'altra
+   linea temporale con --artwork-timeline e --artwork-range: la sala che si percorre a piedi la
+   accende quando ci si arriva davanti. */
 @supports (animation-timeline: view()) {
   @media (prefers-reduced-motion: no-preference) {
     .artwork {
@@ -251,16 +330,17 @@ defineProps({
     }
 
     .artwork__light,
-    .artwork__lamp::after {
+    .artwork__lamp::after,
+    .artwork__dust {
       animation: artwork-light linear both;
-      animation-timeline: --artwork;
-      animation-range: cover 12vh cover 42vh;
+      animation-timeline: var(--artwork-timeline, --artwork);
+      animation-range: var(--artwork-range, cover 12vh cover 42vh);
     }
 
     .artwork__shade {
       animation: artwork-shade linear both;
-      animation-timeline: --artwork;
-      animation-range: cover 12vh cover 42vh;
+      animation-timeline: var(--artwork-timeline, --artwork);
+      animation-range: var(--artwork-range, cover 12vh cover 42vh);
     }
   }
 }

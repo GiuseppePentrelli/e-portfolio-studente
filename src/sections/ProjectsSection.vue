@@ -139,19 +139,31 @@ const announcement = computed(() => {
 
 <style scoped>
 /* Il mondo di notte: un fondo blu scuro con la luce viola del navigatore e una griglia appena
-   visibile, come lo schermo di un gioco. */
+   visibile, come lo schermo di un gioco. Comincia subito sotto i Capolavori, dalla cui porta
+   d'uscita si esce nella notte. */
 .world {
   position: relative;
-  margin-top: var(--space-8);
+  isolation: isolate;
   padding: clamp(4rem, 8vw, 6rem) var(--space-4) clamp(4.5rem, 9vw, 7rem);
   overflow-x: clip;
   color: var(--map-mark);
   background:
     radial-gradient(ellipse 60% 40% at 30% 55%, rgb(214 76 216 / 12%), transparent 70%),
-    linear-gradient(rgb(255 255 255 / 3%) 1px, transparent 1px) 0 0 / 2rem 2rem,
-    linear-gradient(90deg, rgb(255 255 255 / 3%) 1px, transparent 1px) 0 0 / 2rem 2rem,
     var(--map-night);
   container-type: inline-size;
+}
+
+/* La griglia compare piano dall'alto, così la notte fuori dal museo diventa lo schermo del gioco. */
+.world::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background:
+    linear-gradient(rgb(255 255 255 / 3%) 1px, transparent 1px) 0 0 / 2rem 2rem,
+    linear-gradient(90deg, rgb(255 255 255 / 3%) 1px, transparent 1px) 0 0 / 2rem 2rem;
+  z-index: -1;
+  mask-image: linear-gradient(transparent, #000 14rem);
+  pointer-events: none;
 }
 
 .world__heading {

@@ -105,7 +105,7 @@ Dal 2026-11-01 il Percorso è una bacheca di sughero appesa al muro, sotto la sc
 - Organizzazione dei file Markdown bilingui.
 - Strategia di caricamento delle demo interattive.
 - Demo attiva nella card oppure apertura in uno spazio più grande.
-- Libreria di animazione oppure CSS e Web Animations API. L'apertura del quaderno in Copertina usa soltanto CSS guidato dalla posizione di scorrimento, senza librerie.
+- Libreria di animazione oppure CSS e Web Animations API. L'apertura del quaderno in Copertina usa soltanto CSS guidato dalla posizione di scorrimento, senza librerie. Anche la sala dei Capolavori percorsa a piedi (DEC-085) è soltanto CSS legato allo scorrimento. Rive è stato valutato e scartato per ora: il runtime pesa più dell'intero budget dei font, disegna su un canvas muto per le tecnologie assistive e non legge i token.
 - Confine tra SVG inline, componenti Icon e asset statici.
 - Strategia per rendere Second Brain accessibile dal browser.
 - Numero di linguette della navbar a regime e larghezza a cui passare all'Indice, da verificare con le etichette reali in italiano e in inglese.
